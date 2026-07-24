@@ -10,6 +10,7 @@
 #include <CWorld.h>
 
 #include "PersistentState.h"
+#include "TagTracker.h"
 #include "SubmissionTracker.h"
 #include "ParamedicTracker.h"
 #include "FirefighterTracker.h"
@@ -46,10 +47,9 @@ public:
 
 	static bool isStoryMission(int missionId);
 
-	int getPendingTagIndex();
-	void confirmTagSent();
-
-	const std::array<bool, 100>& getClaimedTags() const;
+	int getPendingTagIndex() { return m_tagTracker.getPendingIndex(); }
+	void confirmTagSent() { m_tagTracker.confirmSent(); }
+	const std::array<bool, 100>& getClaimedTags() const { return m_tagTracker.getClaimed(); }
 
 	// TEMPORARY
 	std::string missionDebugLine() const;
@@ -79,14 +79,12 @@ private:
 	int const NO_MISSION = -1;
 	std::vector<std::unique_ptr<SubmissionTracker>> submissionTrackers;
 
-	float m_lastTagCount = 0.0f;
-	bool m_tagCountInitialized = false;
 	bool m_baselinesInitialized = false;
-	std::array<bool, 100> m_tagClaimed{};
+
+	TagTracker m_tagTracker;
 
 	PendingChecks<int> m_pendingPickUps;
 	PendingChecks<std::string> m_pendingMissions;
-	PendingChecks<int> m_pendingTags;
 	PendingChecks<int> m_pendingSubmissions;
 	PendingChecks<int> m_pendingSubmissionLevels;
 
@@ -96,12 +94,10 @@ private:
 	void resyncBaselines();
 
 	SubmissionTracker* findTracker(int t_submissionID);
-	bool tagChecker();
 	bool pickUpChecker();
 	bool missionChecker();
 	bool submissionLevelChecker();
 	void initializeMissionList();
 	void enforceSubmissionRewards();
-	void findClosestTag(CPlayerPed* player, int delta);
 };
 

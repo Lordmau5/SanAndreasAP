@@ -1,14 +1,8 @@
 #include "CheckListener.h"
-#include "TagPositions.h"
 #include "EntityIDs.h"
 #include "SaveDataManager.h"
 #include "common.h"
 #include <algorithm>
-
-namespace
-{
-	constexpr char TAGS_CLAIMED_KEY[] = "tags_claimed";
-}
 
 CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 {
@@ -26,48 +20,6 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 }
 
-
-bool CheckListener::tagChecker()
-{
-	float currentTagCount = static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
-
-	if (!m_tagCountInitialized)
-	{
-		m_lastTagCount = currentTagCount;
-		m_tagCountInitialized = true;
-		return m_pendingTags.hasPending();
-	}
-
-	int delta = static_cast<int>(currentTagCount) - static_cast<int>(m_lastTagCount);
-	if (delta > 0)
-	{
-		m_lastTagCount = currentTagCount;
-
-		CPlayerPed* player = FindPlayerPed();
-		if (player)
-		{
-			findClosestTag(player, delta);
-		}
-	}
-
-	return m_pendingTags.hasPending();
-}
-
-int CheckListener::getPendingTagIndex()
-{
-	if (!m_pendingTags.hasPending()) return -1;
-	return m_pendingTags.front();
-}
-
-void CheckListener::confirmTagSent()
-{
-	m_pendingTags.confirm();
-}
-
-const std::array<bool, 100>& CheckListener::getClaimedTags() const
-{
-	return m_tagClaimed;
-}
 
 // TEMPORARY
 std::string CheckListener::missionDebugLine() const
@@ -89,12 +41,7 @@ std::string CheckListener::missionDebugLine() const
 
 void CheckListener::save(SaveDataManager& t_saveData)
 {
-	std::string tagBits(m_tagClaimed.size(), '0');
-	for (size_t i = 0; i < m_tagClaimed.size(); ++i)
-	{
-		if (m_tagClaimed[i]) tagBits[i] = '1';
-	}
-	t_saveData.setValue(TAGS_CLAIMED_KEY, tagBits);
+	m_tagTracker.save(t_saveData);
 
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -109,13 +56,7 @@ void CheckListener::load(const SaveDataManager& t_saveData)
 	// the old session's values to the loaded save's being read as fresh progress.
 	resyncBaselines();
 
-	// A save written before this key existed (or a shorter string from an older build) leaves the
-	// remaining tags unclaimed rather than reading past the end.
-	std::string tagBits = t_saveData.getValue(TAGS_CLAIMED_KEY, std::string(100, '0'));
-	for (size_t i = 0; i < m_tagClaimed.size(); ++i)
-	{
-		m_tagClaimed[i] = i < tagBits.size() && tagBits[i] == '1';
-	}
+	m_tagTracker.load(t_saveData);
 
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -331,27 +272,6 @@ void CheckListener::enforceSubmissionRewards()
 	}
 }
 
-void CheckListener::findClosestTag(CPlayerPed* player, int delta)
-{
-	CVector playerPos = player->GetPosition();
-
-	std::vector<std::pair<float, int>> distances;
-	for (int i = 0; i < static_cast<int>(tagPositions.size()); ++i)
-	{
-		if (m_tagClaimed[i]) continue;
-		distances.push_back({ CVector::Distance(playerPos, tagPositions[i]), i });
-	}
-	std::sort(distances.begin(), distances.end(),
-		[](const auto& a, const auto& b) { return a.first < b.first; });
-
-	for (int i = 0; i < delta && i < static_cast<int>(distances.size()); ++i)
-	{
-		int tagIndex = distances[i].second;
-		m_tagClaimed[tagIndex] = true;
-		m_pendingTags.push(tagIndex);
-	}
-}
-
 CheckEvent CheckListener::update()
 {
 	enforceSubmissionRewards();
@@ -378,7 +298,7 @@ CheckEvent CheckListener::update()
 	{
 		event = CheckEvent::Mission;
 	}
-	if (tagChecker())
+	if (m_tagTracker.update())
 	{
 		event = CheckEvent::Tag;
 	}
@@ -501,5 +421,5 @@ void CheckListener::resyncBaselines()
 
 	m_lastValuePickUpCounter = *m_pickUpCounter;
 
-	m_lastTagCount = static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
+	m_tagTracker.resyncBaseline();
 }
