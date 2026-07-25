@@ -37,10 +37,14 @@
     <ClInclude Include="header\SaveDataManager.h" />
     <ClInclude Include="header\ScreenScale.h" />
     <ClInclude Include="header\SubmissionTracker.h" />
-    <ClInclude Include="header\TagBlipManager.h" />
+    <ClInclude Include="header\CollectibleBlipsManager.h" />
+    <ClInclude Include="header\BlipTarget.h" />
     <ClInclude Include="header\TrapHandler.h" />
     <ClInclude Include="header\TagPositions.h" />
+    <ClInclude Include="header\Collectible.h" />
     <ClInclude Include="header\TagTracker.h" />
+    <ClInclude Include="header\SnapshotTracker.h" />
+    <ClInclude Include="header\SnapshotPositions.h" />
     <ClInclude Include="header\TaxiTracker.h" />
     <ClInclude Include="header\VigilanteTracker.h" />
     <ClInclude Include="header\WeaponData.h" />
@@ -69,8 +73,10 @@
     <ClCompile Include="source\ReceivedItemLog.cpp" />
     <ClCompile Include="source\SaveDataManager.cpp" />
     <ClCompile Include="source\SubmissionTracker.cpp" />
-    <ClCompile Include="source\TagBlipManager.cpp" />
+    <ClCompile Include="source\CollectibleBlipsManager.cpp" />
+    <ClCompile Include="source\BlipTarget.cpp" />
     <ClCompile Include="source\TagTracker.cpp" />
+    <ClCompile Include="source\SnapshotTracker.cpp" />
     <ClCompile Include="source\TrapHandler.cpp" />
     <ClCompile Include="source\TaxiTracker.cpp" />
     <ClCompile Include="source\VigilanteTracker.cpp" />

@@ -16,7 +16,8 @@
 #include "AutoSaveManager.h"
 #include "NotificationOverlay.h"
 #include "ScreenScale.h"
-#include "TagBlipManager.h"
+#include "CollectibleBlipsManager.h"
+#include "BlipTarget.h"
 #include "AmmuNationShop.h"
 #include "TrapHandler.h"
 
@@ -47,6 +48,12 @@ private:
 	const CVector SPRAYCAN_PICKUP_POS{ 2493.5f, -1671.0f, 13.3f };
 	static constexpr unsigned int SPRAYCAN_PICKUP_AMMO = 5000;
 
+	// The same idea for snapshots: a camera at the Doherty Garage, the first place the player
+	// reaches in San Fierro. Offset from the two mission markers there so it can't be mistaken
+	// for one or sit inside a blocker.
+	const CVector CAMERA_PICKUP_POS{ -2026.0f, 164.0f, 28.6f };
+	static constexpr unsigned int CAMERA_PICKUP_AMMO = 5000;
+
 	CheckListener m_checkListener;
 	CheckGiver m_checkGiver;
 	APSocket m_apSocket;
@@ -56,7 +63,7 @@ private:
 	SaveDataManager m_saveDataManager;
 	AutoSaveManager m_autoSaveManager;
 	NotificationOverlay m_notificationOverlay;
-	TagBlipManager m_tagBlipManager;
+	CollectibleBlipsManager m_blipManager;
 	AmmuNationShop m_ammuNationShop;
 	TrapHandler m_trapHandler;
 	ReceivedItemLog m_receivedItemLog;
@@ -88,10 +95,14 @@ private:
 	// One tick, in order - see start() for why the sequence matters.
 	void pollDeathLink();
 	bool updateWorldState();
+	// Gathers every collectible's blip targets and ranks them by distance, for the blip manager.
+	std::vector<BlipTarget> collectBlipTargets();
 	void applyRespawnHealthTopUp();
 	void updateGameplaySystems();
 	void updateMissionBlockers();
-	void spawnSprayCanPickup();
+	void spawnCollectiblePickups();
+	// Spawns one respawning weapon pickup, unless an identical one is already in the world.
+	void spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo);
 	void spawnMissionBlockers();
 	void removeMissionBlockers();
 	void sendChecksToAP(CheckEvent t_event);

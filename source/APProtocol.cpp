@@ -101,9 +101,9 @@ std::string APProtocol::pickUpCheck()
 	return "CHECK:PICKUP:0\n";
 }
 
-std::string APProtocol::tagCheck(int t_tagIndex)
+std::string APProtocol::collectibleCheck(const char* t_type, int t_index)
 {
-	return "CHECK:TAG:" + std::to_string(t_tagIndex) + "\n";
+	return "CHECK:" + std::string(t_type) + ":" + std::to_string(t_index) + "\n";
 }
 
 std::string APProtocol::submissionLevelCheck(int t_slot)

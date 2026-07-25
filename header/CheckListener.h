@@ -11,6 +11,7 @@
 
 #include "PersistentState.h"
 #include "TagTracker.h"
+#include "SnapshotTracker.h"
 #include "SubmissionTracker.h"
 #include "ParamedicTracker.h"
 #include "FirefighterTracker.h"
@@ -25,7 +26,6 @@ enum class CheckEvent
 	None,
 	Mission,
 	PickUp,
-	Tag,
 	Submission
 };
 
@@ -47,12 +47,16 @@ public:
 
 	static bool isStoryMission(int missionId);
 
-	int getPendingTagIndex() { return m_tagTracker.getPendingIndex(); }
-	void confirmTagSent() { m_tagTracker.confirmSent(); }
-	const std::array<bool, 100>& getClaimedTags() const { return m_tagTracker.getClaimed(); }
+	// Every collectible check flows through here - Mod drains this instead of a getPending/confirm
+	// pair per kind. Mod also gathers the blip targets off this list.
+	const std::array<CollectibleTracker*, 2>& getCollectibles() const { return m_collectibles; }
+
+	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
+	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
 
 	// TEMPORARY
 	std::string missionDebugLine() const;
+	std::string snapshotDebugLine() const;
 
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();
@@ -82,6 +86,9 @@ private:
 	bool m_baselinesInitialized = false;
 
 	TagTracker m_tagTracker;
+	SnapshotTracker m_snapshotTracker;
+	// Both, driven uniformly through the interface - declared after the members it points at.
+	std::array<CollectibleTracker*, 2> m_collectibles{ &m_tagTracker, &m_snapshotTracker };
 
 	PendingChecks<int> m_pendingPickUps;
 	PendingChecks<std::string> m_pendingMissions;

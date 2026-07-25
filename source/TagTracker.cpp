@@ -1,87 +1,45 @@
 #include "TagTracker.h"
 #include "TagPositions.h"
-#include "SaveDataManager.h"
 #include "common.h"
-#include <algorithm>
-#include <vector>
+#include <CRadar.h>
+#include <cstdint>
 
-namespace
+TagTracker::TagTracker()
+	: Collectible<100>(tagPositions, RADAR_SPRITE_SPRAY, "tags_claimed", "TAG")
 {
-	constexpr char TAGS_CLAIMED_KEY[] = "tags_claimed";
 }
 
-bool TagTracker::update()
+void TagTracker::setLocated(int t_index)
 {
-	float currentCount = static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
-
-	if (!m_countInitialized)
-	{
-		m_lastCount = currentCount;
-		m_countInitialized = true;
-		return hasPending();
-	}
-
-	int delta = static_cast<int>(currentCount) - static_cast<int>(m_lastCount);
-	if (delta > 0)
-	{
-		m_lastCount = currentCount;
-
-		if (CPlayerPed* player = FindPlayerPed())
-		{
-			claimNearest(player->GetPosition(), delta);
-		}
-	}
-
-	return hasPending();
+	m_located = (t_index >= 0 && t_index < 100) ? t_index : -1;
 }
 
-void TagTracker::resyncBaseline()
+float TagTracker::readCount() const
 {
-	m_lastCount = static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
+	// Read raw rather than through CStats: STAT_TAGS_SPRAYED never updated during real gameplay
+	// See TagPositions.h.
+	return static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
 }
 
-int TagTracker::getPendingIndex() const
+int TagTracker::identifyCollected() const
 {
-	if (!m_pending.hasPending()) return -1;
-	return m_pending.front();
-}
+	CPlayerPed* player = FindPlayerPed();
+	if (!player) return -1;
 
-void TagTracker::claimNearest(const CVector& t_playerPos, int t_count)
-{
-	std::vector<std::pair<float, int>> distances;
+	CVector playerPos = player->GetPosition();
+
+	int best = -1;
+	float bestDistance = 0.0f;
 	for (int i = 0; i < static_cast<int>(tagPositions.size()); ++i)
 	{
-		if (m_claimed[i]) continue;
-		distances.push_back({ CVector::Distance(t_playerPos, tagPositions[i]), i });
-	}
-	std::sort(distances.begin(), distances.end(),
-		[](const auto& a, const auto& b) { return a.first < b.first; });
+		if (isClaimed(i)) continue;
 
-	for (int i = 0; i < t_count && i < static_cast<int>(distances.size()); ++i)
-	{
-		int tagIndex = distances[i].second;
-		m_claimed[tagIndex] = true;
-		m_pending.push(tagIndex);
+		float distance = CVector::Distance(playerPos, tagPositions[i]);
+		if (best == -1 || distance < bestDistance)
+		{
+			best = i;
+			bestDistance = distance;
+		}
 	}
-}
-
-void TagTracker::save(SaveDataManager& t_saveData) const
-{
-	std::string bits(m_claimed.size(), '0');
-	for (size_t i = 0; i < m_claimed.size(); ++i)
-	{
-		if (m_claimed[i]) bits[i] = '1';
-	}
-	t_saveData.setValue(TAGS_CLAIMED_KEY, bits);
-}
-
-void TagTracker::load(const SaveDataManager& t_saveData)
-{
-	// A save written before this key existed (or a shorter string from an older build) leaves the
-	// remaining tags unclaimed rather than reading past the end.
-	std::string bits = t_saveData.getValue(TAGS_CLAIMED_KEY, std::string(100, '0'));
-	for (size_t i = 0; i < m_claimed.size(); ++i)
-	{
-		m_claimed[i] = i < bits.size() && bits[i] == '1';
-	}
+	return best;
 }

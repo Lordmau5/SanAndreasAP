@@ -9,7 +9,7 @@ Mod::Mod()
 {
 	m_apSocket.connectToServer("127.0.0.1", 12345);
 
-	m_persistentSubsystems = { &m_checkListener, &m_checkGiver, &m_tagBlipManager, &m_receivedItemLog, &m_trapHandler };
+	m_persistentSubsystems = { &m_checkListener, &m_checkGiver, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
 }
 
 void Mod::start()
@@ -52,10 +52,24 @@ bool Mod::updateWorldState()
     bool objectWiped = detectWorldWipe();
     if (objectWiped)
     {
-        m_tagBlipManager.onWorldWiped();
+        m_blipManager.onWorldWiped();
     }
-    bool blipWiped = m_tagBlipManager.update(m_checkListener.getClaimedTags());
+    bool blipWiped = m_blipManager.render(collectBlipTargets());
     return blipWiped || objectWiped;
+}
+
+std::vector<BlipTarget> Mod::collectBlipTargets()
+{
+    std::vector<BlipTarget> targets;
+    for (CollectibleTracker* collectible : m_checkListener.getCollectibles())
+    {
+        collectible->appendBlipTargets(targets);
+    }
+    if (CPlayerPed* player = FindPlayerPed())
+    {
+        rankByDistance(targets, player->GetPosition());
+    }
+    return targets;
 }
 
 // The hospital/police respawn refill recomputes max health from the game's internal stat,
@@ -247,12 +261,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
             m_notificationOverlay.show("Picked up an item");
         }
         break;
-    case CheckEvent::Tag:
-        if (m_apSocket.sendToServer(APProtocol::tagCheck(m_checkListener.getPendingTagIndex())))
-        {
-            m_checkListener.confirmTagSent();
-        }
-        break;
     case CheckEvent::Submission:
         if (m_apSocket.sendToServer(APProtocol::missionCheck(m_checkListener.getPendingSubmissionId())))
         {
@@ -262,6 +270,17 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         break;
     case CheckEvent::None:
         break;
+    }
+
+    // Collectibles (tags, snapshots) each know their own wire format, so one loop drains every
+    // kind - adding another needs no change here.
+    for (CollectibleTracker* collectible : m_checkListener.getCollectibles())
+    {
+        if (collectible->hasPending()
+            && m_apSocket.sendToServer(collectible->buildCheckMessage(collectible->getPendingIndex())))
+        {
+            collectible->confirmSent();
+        }
     }
 
     // Per-level submission checks (Paramedic/Firefighter/Vigilante levels 1-12) live outside
@@ -303,7 +322,7 @@ void Mod::parseIncomingMessages()
             break;
 
         case APProtocol::MessageKind::LocateTag:
-            m_tagBlipManager.setLocatedTag(message.index);
+            m_checkListener.locateTag(message.index);
             if (message.index >= 0)
             {
                 m_notificationOverlay.show("Locating LS Tag #" + std::to_string(message.index + 1));
@@ -408,7 +427,7 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
 void Mod::drawOverlay()
 {
     m_notificationOverlay.draw();
-    m_tagBlipManager.drawTagNumbers(m_checkListener.getClaimedTags());
+    m_blipManager.drawNumbers();
     m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
 
@@ -423,8 +442,10 @@ void Mod::drawOverlay()
         CFont::SetDropShadowPosition(1);
         CFont::SetBackground(false, false);
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
-        CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
-            m_checkListener.missionDebugLine().c_str());
+        // Single PrintString with ~n~ - two calls in one frame don't stack (known CFont gotcha).
+        std::string debugText = m_checkListener.missionDebugLine()
+            + "~n~" + m_checkListener.snapshotDebugLine();
+        CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f), debugText.c_str());
     }
 }
 
@@ -434,7 +455,7 @@ void Mod::drawMenuOverlay()
     // since this only runs while a menu is open.
     if (m_tagBlipToggleKey.justPressed())
     {
-        m_tagBlipManager.toggleBlips();
+        m_blipManager.toggleBlips();
     }
 
     bool connected = m_apSocket.isConnected();
@@ -461,10 +482,17 @@ void Mod::drawMenuOverlay()
     CFont::SetBackground(false, false);
 
     CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(55.0f),
-        m_tagBlipManager.areBlipsEnabled() ? "F8 - Tag blips on map: ON" : "F8 - Tag blips on map: OFF");
+        m_blipManager.areBlipsEnabled() ? "F8 - Collectible blips on map: ON" : "F8 - Collectible blips on map: OFF");
 }
 
-void Mod::spawnSprayCanPickup()
+void Mod::spawnCollectiblePickups()
+{
+	// One per collectible that needs a tool: paint for the tags, a camera for the snapshots.
+	spawnPickupOnce(SPRAYCAN_PICKUP_POS, MODEL_SPRAYCAN, SPRAYCAN_PICKUP_AMMO);
+	spawnPickupOnce(CAMERA_PICKUP_POS, MODEL_CAMERA, CAMERA_PICKUP_AMMO);
+}
+
+void Mod::spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo)
 {
 	// Pickups created this way are stored in the game save's pickup pool, so spawning blindly
 	// every session would stack duplicates - skip if ours (or the regeneration placeholder of
@@ -473,16 +501,16 @@ void Mod::spawnSprayCanPickup()
 	{
 		const CPickup& pickup = CPickups::aPickUps[i];
 		if (pickup.m_nPickupType == PICKUP_NONE) continue;
-		if (pickup.m_nModelIndex != MODEL_SPRAYCAN) continue;
+		if (pickup.m_nModelIndex != t_modelId) continue;
 
 		CVector pos = const_cast<CPickup&>(pickup).GetPosn();
-		if (std::fabs(pos.x - SPRAYCAN_PICKUP_POS.x) < 2.0f && std::fabs(pos.y - SPRAYCAN_PICKUP_POS.y) < 2.0f)
+		if (std::fabs(pos.x - t_position.x) < 2.0f && std::fabs(pos.y - t_position.y) < 2.0f)
 		{
 			return;
 		}
 	}
 
-	CPickups::GenerateNewOne(SPRAYCAN_PICKUP_POS, MODEL_SPRAYCAN, PICKUP_ON_STREET, SPRAYCAN_PICKUP_AMMO, 0, false, nullptr);
+	CPickups::GenerateNewOne(t_position, t_modelId, PICKUP_ON_STREET, t_ammo, 0, false, nullptr);
 }
 
 void Mod::persistAndRestoreState(bool t_worldWiped)
@@ -507,10 +535,9 @@ void Mod::persistAndRestoreState(bool t_worldWiped)
 		restoreNeeded = m_saveDataManager.restoreFromCurrentLoadName();
 	}
 
-	// Any fresh world (session start, load, or new game) may be missing the spray can pickup.
 	if (firstInGameTick || t_worldWiped)
 	{
-		spawnSprayCanPickup();
+		spawnCollectiblePickups();
 
 		// A wiped world destroyed every object we cached, blockers included - drop the dangling
 		// pointers without CWorld::Remove/delete (the objects are already gone; touching them

@@ -39,9 +39,28 @@ std::string CheckListener::missionDebugLine() const
 	return "DBG LastMission: [" + key + "] id=" + std::to_string(id);
 }
 
+// TEMPORARY - the snapshot counter, and what the camera ray would pick right now. Point at a
+// snapshot and `aim` should name it before the shutter is pressed.
+std::string CheckListener::snapshotDebugLine() const
+{
+	int claimedCount = 0;
+	for (bool claimed : m_snapshotTracker.getClaimed())
+	{
+		if (claimed) claimedCount++;
+	}
+
+	int aimed = m_snapshotTracker.getAimedIndex();
+	return "DBG snapCounter=" + std::to_string(static_cast<int>(CStats::GetStatValue(STAT_SNAPSHOTS_TAKEN)))
+		+ " claimed=" + std::to_string(claimedCount)
+		+ " aim=" + (aimed < 0 ? std::string("none") : "#" + std::to_string(aimed + 1));
+}
+
 void CheckListener::save(SaveDataManager& t_saveData)
 {
-	m_tagTracker.save(t_saveData);
+	for (const CollectibleTracker* collectible : m_collectibles)
+	{
+		collectible->save(t_saveData);
+	}
 
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -56,7 +75,10 @@ void CheckListener::load(const SaveDataManager& t_saveData)
 	// the old session's values to the loaded save's being read as fresh progress.
 	resyncBaselines();
 
-	m_tagTracker.load(t_saveData);
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		collectible->load(t_saveData);
+	}
 
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -298,9 +320,11 @@ CheckEvent CheckListener::update()
 	{
 		event = CheckEvent::Mission;
 	}
-	if (m_tagTracker.update())
+	// Collectibles queue their own checks; Mod drains them off getCollectibles(), so they don't
+	// need a CheckEvent of their own.
+	for (CollectibleTracker* collectible : m_collectibles)
 	{
-		event = CheckEvent::Tag;
+		collectible->update();
 	}
 	if (submissionLevelChecker())
 	{
@@ -421,5 +445,8 @@ void CheckListener::resyncBaselines()
 
 	m_lastValuePickUpCounter = *m_pickUpCounter;
 
-	m_tagTracker.resyncBaseline();
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		collectible->resyncBaseline();
+	}
 }

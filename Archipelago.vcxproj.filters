@@ -114,13 +114,25 @@
     <ClInclude Include="header\DeathLinkHandler.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="header\TagBlipManager.h">
+    <ClInclude Include="header\CollectibleBlipsManager.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="header\BlipTarget.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
     <ClInclude Include="header\TagPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
+    <ClInclude Include="header\Collectible.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
     <ClInclude Include="header\TagTracker.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="header\SnapshotTracker.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="header\SnapshotPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
     <ClInclude Include="header\PersistentState.h">
@@ -221,10 +233,16 @@
     <ClCompile Include="source\DeathLinkHandler.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="source\TagBlipManager.cpp">
+    <ClCompile Include="source\CollectibleBlipsManager.cpp">
+      <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BlipTarget.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\TagTracker.cpp">
+      <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SnapshotTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SaveDataManager.cpp">

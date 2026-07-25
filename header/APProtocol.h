@@ -48,7 +48,8 @@ namespace APProtocol
 	std::string missionCheck(const std::string& t_missionId);
 	std::string missionCheck(int t_missionId);
 	std::string pickUpCheck();
-	std::string tagCheck(int t_tagIndex);
+	// "CHECK:<type>:<index>\n" for any scattered collectible - t_type is "TAG", "SNAPSHOT", ...
+	std::string collectibleCheck(const char* t_type, int t_index);
 	std::string submissionLevelCheck(int t_slot);
 	std::string shopCheck(int t_slot);
 	std::string playerDied();
