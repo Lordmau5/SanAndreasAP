@@ -9,7 +9,7 @@ void TieredSubmissionTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 {
 	// Progress only ever climbs, so emit every tier crossed since the last poll - normally one,
 	// but loading a save (or a single lucrative burglary run) can cross several at once.
-	int tier = static_cast<int>(getProgress() / SPEC.progressPerTier);
+	int tier = currentTier();
 	if (tier > SPEC.tierCount) tier = SPEC.tierCount;
 
 	for (int reached = m_sentTier + 1; reached <= tier; ++reached)
@@ -27,6 +27,11 @@ void TieredSubmissionTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 	{
 		submissionWasCompleted();
 	}
+}
+
+int TieredSubmissionTracker::currentTier() const
+{
+	return static_cast<int>(getProgress() / SPEC.progressPerTier);
 }
 
 int TieredSubmissionTracker::getSentTier() const

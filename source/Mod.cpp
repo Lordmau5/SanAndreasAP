@@ -445,7 +445,8 @@ void Mod::drawOverlay()
         // Single PrintString with ~n~ - two calls in one frame don't stack (known CFont gotcha).
         std::string debugText = m_checkListener.missionDebugLine()
             + "~n~" + m_checkListener.snapshotDebugLine()
-            + "~n~" + m_checkListener.gymDebugLine();
+            + "~n~" + m_checkListener.gymDebugLine()
+            + "~n~" + m_checkListener.valetDebugLine();
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f), debugText.c_str());
     }
 }

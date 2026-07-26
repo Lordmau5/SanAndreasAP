@@ -23,6 +23,9 @@ protected:
 	// Current raw progress: levels reached, fares driven, dollars stolen...
 	virtual float getProgress() const = 0;
 
+	// Tiers reached; defaults to the uniform progressPerTier model, overridden by unevenly spaced ones.
+	virtual int currentTier() const;
+
 private:
 	const SubmissionTierSpec SPEC;
 	int m_sentTier = 0;

@@ -22,6 +22,7 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<GymTracker>(LOS_SANTOS_GYM_ID, STYLE_BOXING, "gymls", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<GymTracker>(SAN_FIERRO_GYM_ID, STYLE_KUNG_FU, "gymsf", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
+	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
 }
 
 
@@ -94,6 +95,12 @@ std::string CheckListener::gymDebugLine() const
 	}
 
 	return "DBG style=" + std::to_string(style) + " gymish=[" + names + "]" + gymStates;
+}
+
+// TEMPORARY - watch how the valet stat moves while playing valet parking (per level / cumulative).
+std::string CheckListener::valetDebugLine() const
+{
+	return "DBG valetCars=" + std::to_string(static_cast<int>(CStats::GetStatValue(STAT_MOST_CARS_PARKED_ON_VALET_PARKING)));
 }
 
 void CheckListener::save(SaveDataManager& t_saveData)

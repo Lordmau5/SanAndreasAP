@@ -20,6 +20,7 @@
 #include "TaxiTracker.h"
 #include "GymTracker.h"
 #include "TruckingTracker.h"
+#include "ValetTracker.h"
 
 enum class CheckEvent
 {
@@ -58,6 +59,7 @@ public:
 	std::string missionDebugLine() const;
 	std::string snapshotDebugLine() const;
 	std::string gymDebugLine() const;
+	std::string valetDebugLine() const;
 
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();

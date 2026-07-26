@@ -2,9 +2,9 @@
 #include <vector>
 #include "Position.h"
 
-// AP mission/location IDs of the six side-activity submissions (indices into CheckListener's
-// missions table). Shared between check detection (CheckListener) and item receipt (Mod), which
-// must always agree on them.
+// AP mission/location IDs of the side-activity submissions (indices into CheckListener's missions
+// table). Shared between check detection (CheckListener) and item receipt (Mod), which must always
+// agree on them.
 inline constexpr int LOS_SANTOS_GYM_ID = 114;
 inline constexpr int SAN_FIERRO_GYM_ID = 115;
 inline constexpr int TAXI_ID = 121;
@@ -13,6 +13,9 @@ inline constexpr int FIREFIGHTER_ID = 123;
 inline constexpr int VIGILANTE_ID = 124;
 inline constexpr int BURGLARY_ID = 125;
 inline constexpr int TRUCKING_ID = 117;
+// Valet has no row in the missions table, so it reserves the first index past its end - a mission
+// appended to that table has to start at 137.
+inline constexpr int VALET_ID = 136;
 
 // Missions that sit inside the story ID range but are optional side content: they send their
 // check like anything else, but spend no Progressive Mission, so running out never locks the
@@ -28,8 +31,8 @@ inline constexpr int OPTIONAL_MISSION_IDS[] = {
 
 // Submissions that pay out in tiers rather than once on completion. The check slot sent to the
 // client is baseSlot + (tier - 1), and a tier is reached at progressPerTier * tier of whatever
-// the tracker measures (levels, fares, dollars). Append new entries at the end - inserting in
-// the middle renumbers every slot after it.
+// the tracker measures (levels, fares, dollars) unless the tracker overrides currentTier().
+// Append new entries at the end - inserting in the middle renumbers every slot after it.
 //
 // MUST match worlds/gta_sa/submission_tier_list.py exactly.
 struct SubmissionTierSpec
@@ -45,8 +48,10 @@ inline constexpr SubmissionTierSpec VIGILANTE_TIERS   { 24, 12, 1.0f };
 inline constexpr SubmissionTierSpec TAXI_TIERS        { 36, 10, 5.0f };
 inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 46, 10, 1000.0f };
 inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 56,  8, 1.0f };
+// progressPerTier unused - ValetTracker walks its own threshold table in currentTier().
+inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 64;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 69;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },
