@@ -105,6 +105,12 @@
     <ClInclude Include="header\ValetTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\DrivingSchoolTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ScriptGlobals.h">
+      <Filter>Header\Common</Filter>
+    </ClInclude>
     <ClInclude Include="header\GymTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -228,6 +234,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\ValetTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DrivingSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\GymTracker.cpp">

@@ -9,10 +9,6 @@ class SnapshotTracker : public Collectible<50>
 public:
 	SnapshotTracker();
 
-	// TEMPORARY: which entry the camera ray would pick right now, for the debug overlay. Points at a
-	// snapshot and this names it before the shutter is even pressed.
-	int getAimedIndex() const { return identifyCollected(); }
-
 protected:
 	float readCount() const override;
 	int identifyCollected() const override;

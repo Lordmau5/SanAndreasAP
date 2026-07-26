@@ -13,9 +13,10 @@ inline constexpr int FIREFIGHTER_ID = 123;
 inline constexpr int VIGILANTE_ID = 124;
 inline constexpr int BURGLARY_ID = 125;
 inline constexpr int TRUCKING_ID = 117;
-// Valet has no row in the missions table, so it reserves the first index past its end - a mission
-// appended to that table has to start at 137.
+// Valet and Driving School have no row in the missions table, so they reserve the first indices
+// past its end - a mission appended to that table has to start at 138.
 inline constexpr int VALET_ID = 136;
+inline constexpr int DRIVING_SCHOOL_ID = 137;
 
 // Missions that sit inside the story ID range but are optional side content: they send their
 // check like anything else, but spend no Progressive Mission, so running out never locks the
@@ -50,8 +51,9 @@ inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 46, 10, 1000.0f };
 inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 56,  8, 1.0f };
 // progressPerTier unused - ValetTracker walks its own threshold table in currentTier().
 inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
+inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 69, 12, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 69;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 81;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

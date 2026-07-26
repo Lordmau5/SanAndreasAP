@@ -15,7 +15,6 @@ public:
 
 	void enforceSubmissionReward() override;
 	bool pollCompletion() override;
-	std::string debugState() const override; // TEMPORARY
 
 private:
 	bool isGymScriptActive() const;

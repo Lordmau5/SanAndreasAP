@@ -25,6 +25,8 @@
     <ClInclude Include="header\TieredSubmissionTracker.h" />
     <ClInclude Include="header\TruckingTracker.h" />
     <ClInclude Include="header\ValetTracker.h" />
+    <ClInclude Include="header\DrivingSchoolTracker.h" />
+    <ClInclude Include="header\ScriptGlobals.h" />
     <ClInclude Include="header\Mod.h" />
     <ClInclude Include="header\NotificationOverlay.h" />
     <ClInclude Include="header\ParamedicTracker.h" />
@@ -65,6 +67,7 @@
     <ClCompile Include="source\TieredSubmissionTracker.cpp" />
     <ClCompile Include="source\TruckingTracker.cpp" />
     <ClCompile Include="source\ValetTracker.cpp" />
+    <ClCompile Include="source\DrivingSchoolTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Mod.cpp" />
     <ClCompile Include="source\NotificationOverlay.cpp" />

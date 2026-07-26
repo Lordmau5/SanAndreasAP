@@ -81,16 +81,6 @@ void GymTracker::enforceSubmissionReward()
 	}
 }
 
-// TEMPORARY
-std::string GymTracker::debugState() const
-{
-	std::string state = std::string(m_scriptName) + "(teach=" + std::to_string(static_cast<int>(m_taughtStyle)) + ")";
-	if (isGymScriptActive()) state += " IN";
-	if (m_detectionArmed) state += " armed";
-	if (submissionCompleted) state += " done";
-	return state;
-}
-
 bool GymTracker::pollCompletion()
 {
 	if (submissionCompleted || !m_detectionArmed) return false;

@@ -21,6 +21,7 @@
 #include "GymTracker.h"
 #include "TruckingTracker.h"
 #include "ValetTracker.h"
+#include "DrivingSchoolTracker.h"
 
 enum class CheckEvent
 {
@@ -54,12 +55,6 @@ public:
 
 	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
 	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
-
-	// TEMPORARY
-	std::string missionDebugLine() const;
-	std::string snapshotDebugLine() const;
-	std::string gymDebugLine() const;
-	std::string valetDebugLine() const;
 
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();

@@ -25,9 +25,6 @@ public:
 	// true on the tick they're beaten. Everything else never completes this way.
 	virtual bool pollCompletion() { return false; }
 
-	// TEMPORARY: a short state string for the F7 overlay, empty for trackers with nothing to show.
-	virtual std::string debugState() const { return ""; }
-
 	// Highest tier already sent, persisted per submission. Meaningless for non-tiered ones.
 	virtual int getSentTier() const { return 0; }
 	virtual void restoreSentTier(int t_tier) {}

@@ -23,85 +23,9 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<GymTracker>(SAN_FIERRO_GYM_ID, STYLE_KUNG_FU, "gymsf", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
+	submissionTrackers.push_back(std::make_unique<DrivingSchoolTracker>(DRIVING_SCHOOL_ID));
 }
 
-
-// TEMPORARY
-std::string CheckListener::missionDebugLine() const
-{
-	std::string key(CStats::LastMissionPassedName);
-
-	int id = -1;
-	for (int i = 0; i < static_cast<int>(missions.size()); ++i)
-	{
-		if (missions[i] == key)
-		{
-			id = i;
-			break;
-		}
-	}
-
-	return "DBG LastMission: [" + key + "] id=" + std::to_string(id);
-}
-
-// TEMPORARY - the snapshot counter, and what the camera ray would pick right now. Point at a
-// snapshot and `aim` should name it before the shutter is pressed.
-std::string CheckListener::snapshotDebugLine() const
-{
-	int claimedCount = 0;
-	for (bool claimed : m_snapshotTracker.getClaimed())
-	{
-		if (claimed) claimedCount++;
-	}
-
-	int aimed = m_snapshotTracker.getAimedIndex();
-	return "DBG snapCounter=" + std::to_string(static_cast<int>(CStats::GetStatValue(STAT_SNAPSHOTS_TAKEN)))
-		+ " claimed=" + std::to_string(claimedCount)
-		+ " aim=" + (aimed < 0 ? std::string("none") : "#" + std::to_string(aimed + 1));
-}
-
-// TEMPORARY - the player's fighting style value and every currently-active script name, so the
-// real gym script name (and the style the game grants on winning) can be read in-game.
-std::string CheckListener::gymDebugLine() const
-{
-	CPlayerPed* player = FindPlayerPed();
-	int style = player ? static_cast<int>(player->m_nFightingStyle) : -1;
-
-	std::string names;
-	int count = 0;
-	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
-	{
-		char buf[9] = {};
-		std::memcpy(buf, script->m_szName, 8);
-
-		std::string lower(buf);
-		for (char& c : lower) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-
-		// Only list the interesting ones - a full dump is dozens of scripts.
-		if (lower.find("gym") != std::string::npos || lower.find("box") != std::string::npos)
-		{
-			if (!names.empty()) names += ",";
-			names += buf;
-		}
-		count++;
-	}
-	if (names.empty()) names = "none";
-
-	std::string gymStates;
-	for (const auto& tracker : submissionTrackers)
-	{
-		std::string state = tracker->debugState();
-		if (!state.empty()) gymStates += "~n~  " + state;
-	}
-
-	return "DBG style=" + std::to_string(style) + " gymish=[" + names + "]" + gymStates;
-}
-
-// TEMPORARY - watch how the valet stat moves while playing valet parking (per level / cumulative).
-std::string CheckListener::valetDebugLine() const
-{
-	return "DBG valetCars=" + std::to_string(static_cast<int>(CStats::GetStatValue(STAT_MOST_CARS_PARKED_ON_VALET_PARKING)));
-}
 
 void CheckListener::save(SaveDataManager& t_saveData)
 {
