@@ -2,7 +2,10 @@
 #include "EntityIDs.h"
 #include "SaveDataManager.h"
 #include "common.h"
+#include "CTheScripts.h"
 #include <algorithm>
+#include <cctype>
+#include <cstring>
 
 CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 {
@@ -16,7 +19,8 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<FirefighterTracker>(FIREFIGHTER_ID));
 	submissionTrackers.push_back(std::make_unique<BurglaryTracker>(BURGLARY_ID));
 	submissionTrackers.push_back(std::make_unique<TaxiTracker>(TAXI_ID));
-	submissionTrackers.push_back(std::make_unique<LosSantosGymTracker>(LOS_SANTOS_GYM_ID));
+	submissionTrackers.push_back(std::make_unique<GymTracker>(LOS_SANTOS_GYM_ID, STYLE_BOXING, "gymls", m_styleArbiter));
+	submissionTrackers.push_back(std::make_unique<GymTracker>(SAN_FIERRO_GYM_ID, STYLE_KUNG_FU, "gymsf", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 }
 
@@ -53,6 +57,43 @@ std::string CheckListener::snapshotDebugLine() const
 	return "DBG snapCounter=" + std::to_string(static_cast<int>(CStats::GetStatValue(STAT_SNAPSHOTS_TAKEN)))
 		+ " claimed=" + std::to_string(claimedCount)
 		+ " aim=" + (aimed < 0 ? std::string("none") : "#" + std::to_string(aimed + 1));
+}
+
+// TEMPORARY - the player's fighting style value and every currently-active script name, so the
+// real gym script name (and the style the game grants on winning) can be read in-game.
+std::string CheckListener::gymDebugLine() const
+{
+	CPlayerPed* player = FindPlayerPed();
+	int style = player ? static_cast<int>(player->m_nFightingStyle) : -1;
+
+	std::string names;
+	int count = 0;
+	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
+	{
+		char buf[9] = {};
+		std::memcpy(buf, script->m_szName, 8);
+
+		std::string lower(buf);
+		for (char& c : lower) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+
+		// Only list the interesting ones - a full dump is dozens of scripts.
+		if (lower.find("gym") != std::string::npos || lower.find("box") != std::string::npos)
+		{
+			if (!names.empty()) names += ",";
+			names += buf;
+		}
+		count++;
+	}
+	if (names.empty()) names = "none";
+
+	std::string gymStates;
+	for (const auto& tracker : submissionTrackers)
+	{
+		std::string state = tracker->debugState();
+		if (!state.empty()) gymStates += "~n~  " + state;
+	}
+
+	return "DBG style=" + std::to_string(style) + " gymish=[" + names + "]" + gymStates;
 }
 
 void CheckListener::save(SaveDataManager& t_saveData)
@@ -349,12 +390,13 @@ bool CheckListener::submissionLevelChecker()
 
 
 
-	if (SubmissionTracker* st = findTracker(LOS_SANTOS_GYM_ID))
+	// One-shot submissions that watch live game state for their own completion (the gyms).
+	for (const auto& tracker : submissionTrackers)
 	{
-		if (!st->getSubmissionCompleted() && static_cast<LosSantosGymTracker*>(st)->pollCompletion())
+		if (!tracker->getSubmissionCompleted() && tracker->pollCompletion())
 		{
-			st->submissionWasCompleted();
-			m_pendingSubmissions.push(LOS_SANTOS_GYM_ID);
+			tracker->submissionWasCompleted();
+			m_pendingSubmissions.push(tracker->getSubmissionID());
 		}
 	}
 

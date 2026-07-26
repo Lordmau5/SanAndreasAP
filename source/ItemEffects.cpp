@@ -16,6 +16,7 @@ namespace
 		{ "stamina_upgrade",     ItemEffect::SubmissionCheck,    BURGLARY_ID,         nullptr,     "Archipelago: Received Infinite Sprint",     NotificationIcon::Stamina },
 		{ "taxi_nitro",          ItemEffect::SubmissionCheck,    TAXI_ID,             nullptr,     "Archipelago: Received Taxi Nitro",          NotificationIcon::Taxi },
 		{ "boxing_style",        ItemEffect::SubmissionCheck,    LOS_SANTOS_GYM_ID,   nullptr,     "Archipelago: Received Boxing Style",        NotificationIcon::Boxing },
+		{ "kung_fu_style",       ItemEffect::SubmissionCheck,    SAN_FIERRO_GYM_ID,   nullptr,     "Archipelago: Received Kung Fu Style",       NotificationIcon::Boxing },
 
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },

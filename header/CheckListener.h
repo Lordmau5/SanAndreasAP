@@ -18,7 +18,7 @@
 #include "VigilanteTracker.h"
 #include "BurglaryTracker.h"
 #include "TaxiTracker.h"
-#include "LosSantosGymTracker.h"
+#include "GymTracker.h"
 #include "TruckingTracker.h"
 
 enum class CheckEvent
@@ -57,6 +57,7 @@ public:
 	// TEMPORARY
 	std::string missionDebugLine() const;
 	std::string snapshotDebugLine() const;
+	std::string gymDebugLine() const;
 
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();
@@ -81,6 +82,8 @@ private:
 	std::string currentMission;
 	std::string lastMission;
 	int const NO_MISSION = -1;
+	// Declared before the trackers so it outlives them - the gym trackers hold a reference to it.
+	FightingStyleArbiter m_styleArbiter;
 	std::vector<std::unique_ptr<SubmissionTracker>> submissionTrackers;
 
 	bool m_baselinesInitialized = false;

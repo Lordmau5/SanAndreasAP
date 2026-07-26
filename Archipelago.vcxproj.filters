@@ -102,7 +102,10 @@
     <ClInclude Include="header\TruckingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\LosSantosGymTracker.h">
+    <ClInclude Include="header\GymTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
+    <ClInclude Include="header\FightingStyleArbiter.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
     <ClInclude Include="header\AmmuNationShop.h">
@@ -221,7 +224,7 @@
     <ClCompile Include="source\TruckingTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\LosSantosGymTracker.cpp">
+    <ClCompile Include="source\GymTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\AmmuNationShop.cpp">

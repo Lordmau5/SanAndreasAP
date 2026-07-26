@@ -20,7 +20,8 @@
     <ClInclude Include="header\DeathLinkHandler.h" />
     <ClInclude Include="header\EntityIDs.h" />
     <ClInclude Include="header\FirefighterTracker.h" />
-    <ClInclude Include="header\LosSantosGymTracker.h" />
+    <ClInclude Include="header\GymTracker.h" />
+    <ClInclude Include="header\FightingStyleArbiter.h" />
     <ClInclude Include="header\TieredSubmissionTracker.h" />
     <ClInclude Include="header\TruckingTracker.h" />
     <ClInclude Include="header\Mod.h" />
@@ -59,7 +60,7 @@
     <ClCompile Include="source\CheckListener.cpp" />
     <ClCompile Include="source\DeathLinkHandler.cpp" />
     <ClCompile Include="source\FirefighterTracker.cpp" />
-    <ClCompile Include="source\LosSantosGymTracker.cpp" />
+    <ClCompile Include="source\GymTracker.cpp" />
     <ClCompile Include="source\TieredSubmissionTracker.cpp" />
     <ClCompile Include="source\TruckingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
