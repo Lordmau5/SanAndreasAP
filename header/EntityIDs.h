@@ -14,6 +14,8 @@ inline constexpr int VIGILANTE_ID = 124;
 inline constexpr int BURGLARY_ID = 125;
 inline constexpr int TRUCKING_ID = 117;
 inline constexpr int PIMPING_ID = 127;
+inline constexpr int BOAT_SCHOOL_ID = 119;
+inline constexpr int BIKE_SCHOOL_ID = 120;
 inline constexpr int VALET_ID = 136;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
@@ -23,6 +25,9 @@ inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
 };
 inline constexpr int FLYING_SCHOOL_SCORE_GLOBALS[] = {
 	1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951,
+};
+inline constexpr int BIKE_SCHOOL_SCORE_GLOBALS[] = {
+	2164, 2165, 2166, 2167, 2168, 2169,
 };
 
 // Missions that sit inside the story ID range but are optional side content: they send their
@@ -65,8 +70,10 @@ inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
 inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 69, 12, 1.0f };
 inline constexpr SubmissionTierSpec PIMPING_TIERS     { 81, 10, 1.0f };
 inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 91, 10, 1.0f };
+inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 101, 5, 1.0f };
+inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 106, 6, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 101;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 112;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

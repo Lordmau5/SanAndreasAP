@@ -88,6 +88,9 @@ private:
 	// TEMPORARY: F7 toggles the mission-key readout used to verify the missions table.
 	EdgeTriggeredKey m_missionDebugToggleKey{ VK_F7 };
 	bool m_showMissionDebug = false;
+	// TEMPORARY: F6 drops CJ at a fixed spot, for repeated trips to whatever is being tested.
+	EdgeTriggeredKey m_teleportKey{ VK_F6 };
+	void teleportToTestSpot();
 	void updateDebugHotkeys();
 
 	void parseIncomingMessages();

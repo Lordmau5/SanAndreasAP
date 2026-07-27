@@ -1,4 +1,5 @@
 #include "Mod.h"
+#include "PlayerControl.h"
 #include "ScriptGlobals.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
@@ -129,12 +130,12 @@ void Mod::updateMissionBlockers()
     }
 }
 
-// TEMPORARY: lesson 1's score is $1945, so the other nine sit near it. Lists everything in the
-// window holding a plausible percentage - do the lessons and read the slots off.
-static std::string flyingSchoolScoreLine()
+// TEMPORARY: lists every global in a window holding a plausible percentage, for finding a school's
+// per-test score slots. Pass a test and the slot it wrote appears in the line.
+static std::string scoreWindowLine(const char* t_label, int t_first, int t_last)
 {
-    std::string line = "DBG flyScores:";
-    for (int index = 1930; index <= 1990; ++index)
+    std::string line = t_label;
+    for (int index = t_first; index <= t_last; ++index)
     {
         int value = ScriptGlobals::read(index);
         if (value <= 0 || value > 100) continue;
@@ -151,6 +152,41 @@ void Mod::updateDebugHotkeys()
     {
         m_showMissionDebug = !m_showMissionDebug;
     }
+    if (m_teleportKey.justPressed())
+    {
+        teleportToTestSpot();
+    }
+}
+
+// TEMPORARY
+void Mod::teleportToTestSpot()
+{
+    // Same gate as the traps and DeathLink: moving CJ out of a scripted sequence strands the script
+    // waiting for him to arrive somewhere he no longer is.
+    if (!PlayerControl::isInControl()) return;
+
+    CPlayerPed* player = FindPlayerPed();
+    if (!player) return;
+
+    constexpr float TELEPORT_X = 1000.0f;
+    constexpr float TELEPORT_Y = 1381.0f;
+
+    CVector target(TELEPORT_X, TELEPORT_Y, 0.0f);
+    // Collision for an unstreamed area isn't loaded yet, so ask for it before the ground query -
+    // otherwise FindGroundZForCoord answers from nothing and CJ lands under the map.
+    CStreaming::LoadScene(&target);
+    target.z = CWorld::FindGroundZForCoord(TELEPORT_X, TELEPORT_Y) + 1.0f;
+
+    CVehicle* vehicle = player->m_pVehicle;
+    if (player->bInVehicle && vehicle)
+    {
+        vehicle->SetPosition(target);
+    }
+    else
+    {
+        player->SetPosition(target);
+    }
+    CStreaming::LoadScene(&target);
 }
 
 bool Mod::detectWorldWipe()
@@ -459,7 +495,8 @@ void Mod::drawOverlay()
         CFont::SetBackground(false, false);
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
-            (m_checkListener.missionDebugLine() + "~n~" + flyingSchoolScoreLine()).c_str());
+            (m_checkListener.missionDebugLine()
+                + "~n~" + scoreWindowLine("DBG bike:", 2140, 2200)).c_str());
     }
 }
 

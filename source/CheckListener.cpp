@@ -25,6 +25,10 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
 	submissionTrackers.push_back(std::make_unique<SchoolTracker>(DRIVING_SCHOOL_ID, DRIVING_SCHOOL_TIERS, DRIVING_SCHOOL_SCORE_GLOBALS));
 	submissionTrackers.push_back(std::make_unique<SchoolTracker>(FLYING_SCHOOL_ID, FLYING_SCHOOL_TIERS, FLYING_SCHOOL_SCORE_GLOBALS));
+	// Boat School stores a best TIME, not a percentage, so SchoolTracker cannot read it - an empty
+	// span leaves it inert rather than counting times as scores.
+	submissionTrackers.push_back(std::make_unique<SchoolTracker>(BOAT_SCHOOL_ID, BOAT_SCHOOL_TIERS, std::span<const int>{}));
+	submissionTrackers.push_back(std::make_unique<SchoolTracker>(BIKE_SCHOOL_ID, BIKE_SCHOOL_TIERS, BIKE_SCHOOL_SCORE_GLOBALS));
 	submissionTrackers.push_back(std::make_unique<PimpingTracker>(PIMPING_ID));
 }
 
