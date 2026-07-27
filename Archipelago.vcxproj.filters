@@ -147,6 +147,12 @@
     <ClInclude Include="header\SnapshotTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
+    <ClInclude Include="header\HorseshoeTracker.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="header\HorseshoePositions.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
     <ClInclude Include="header\SnapshotPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
@@ -267,6 +273,9 @@
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SnapshotTracker.cpp">
+      <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HorseshoeTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SaveDataManager.cpp">

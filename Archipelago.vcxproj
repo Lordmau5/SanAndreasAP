@@ -49,6 +49,8 @@
     <ClInclude Include="header\Collectible.h" />
     <ClInclude Include="header\TagTracker.h" />
     <ClInclude Include="header\SnapshotTracker.h" />
+    <ClInclude Include="header\HorseshoeTracker.h" />
+    <ClInclude Include="header\HorseshoePositions.h" />
     <ClInclude Include="header\SnapshotPositions.h" />
     <ClInclude Include="header\TaxiTracker.h" />
     <ClInclude Include="header\VigilanteTracker.h" />
@@ -85,6 +87,7 @@
     <ClCompile Include="source\BlipTarget.cpp" />
     <ClCompile Include="source\TagTracker.cpp" />
     <ClCompile Include="source\SnapshotTracker.cpp" />
+    <ClCompile Include="source\HorseshoeTracker.cpp" />
     <ClCompile Include="source\TrapHandler.cpp" />
     <ClCompile Include="source\TaxiTracker.cpp" />
     <ClCompile Include="source\VigilanteTracker.cpp" />

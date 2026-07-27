@@ -12,6 +12,7 @@
 #include "PersistentState.h"
 #include "TagTracker.h"
 #include "SnapshotTracker.h"
+#include "HorseshoeTracker.h"
 #include "SubmissionTracker.h"
 #include "ParamedicTracker.h"
 #include "FirefighterTracker.h"
@@ -52,7 +53,7 @@ public:
 
 	// Every collectible check flows through here - Mod drains this instead of a getPending/confirm
 	// pair per kind. Mod also gathers the blip targets off this list.
-	const std::array<CollectibleTracker*, 2>& getCollectibles() const { return m_collectibles; }
+	const std::array<CollectibleTracker*, 3>& getCollectibles() const { return m_collectibles; }
 
 	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
 	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
@@ -92,8 +93,10 @@ private:
 
 	TagTracker m_tagTracker;
 	SnapshotTracker m_snapshotTracker;
-	// Both, driven uniformly through the interface - declared after the members it points at.
-	std::array<CollectibleTracker*, 2> m_collectibles{ &m_tagTracker, &m_snapshotTracker };
+	HorseshoeTracker m_horseshoeTracker;
+	// All of them, driven uniformly through the interface - declared after the members it points at.
+	std::array<CollectibleTracker*, 3> m_collectibles{
+		&m_tagTracker, &m_snapshotTracker, &m_horseshoeTracker };
 
 	PendingChecks<int> m_pendingPickUps;
 	PendingChecks<std::string> m_pendingMissions;
