@@ -24,6 +24,7 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
 	submissionTrackers.push_back(std::make_unique<DrivingSchoolTracker>(DRIVING_SCHOOL_ID));
+	submissionTrackers.push_back(std::make_unique<PimpingTracker>(PIMPING_ID));
 }
 
 

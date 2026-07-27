@@ -1,14 +1,11 @@
 #pragma once
 #include "CTheScripts.h"
 
-// The SCM's global variable array. Anything the game tracks only in mission script state (school
-// medals, for one) lives here rather than in CStats.
+// The SCM's global variable array - where state with no CStats entry lives (driving school scores).
 namespace ScriptGlobals
 {
-	// main.scm reserves the first chunk of ScriptSpace for globals, one 4-byte slot each.
+	// One 4-byte slot each, at the start of ScriptSpace.
 	inline constexpr int COUNT = 16384;
-	// Stands in for a global index that has not been confirmed against a running game yet.
-	inline constexpr int UNVERIFIED_GLOBAL = -1;
 
 	inline int read(int t_index)
 	{

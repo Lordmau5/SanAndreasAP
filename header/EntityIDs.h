@@ -13,6 +13,7 @@ inline constexpr int FIREFIGHTER_ID = 123;
 inline constexpr int VIGILANTE_ID = 124;
 inline constexpr int BURGLARY_ID = 125;
 inline constexpr int TRUCKING_ID = 117;
+inline constexpr int PIMPING_ID = 127;
 // Valet and Driving School have no row in the missions table, so they reserve the first indices
 // past its end - a mission appended to that table has to start at 138.
 inline constexpr int VALET_ID = 136;
@@ -52,8 +53,9 @@ inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 56,  8, 1.0f };
 // progressPerTier unused - ValetTracker walks its own threshold table in currentTier().
 inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
 inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 69, 12, 1.0f };
+inline constexpr SubmissionTierSpec PIMPING_TIERS     { 81, 10, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 81;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 91;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

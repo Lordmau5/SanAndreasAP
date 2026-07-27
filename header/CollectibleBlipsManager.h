@@ -38,12 +38,13 @@ public:
 	bool areBlipsEnabled() const;
 
 private:
-	// Blips are identified as ours by world POSITION, not sprite - RADAR_SPRITE_SPRAY is also
-	// vanilla's Pay 'n' Spray icon, so the sprite can't tell them apart. This searches the current
-	// targets for one at t_pos, returning its index or -1.
+	// Index of the target at t_pos, or -1. Position alone does not prove a blip is ours.
 	int targetIndexAt(const CVector& t_pos) const;
+	// Index of the target a blip at t_pos with t_sprite is ours for, or -1. Needs both: our sprites
+	// are shared with vanilla (Pay 'n' Spray, question-mark missions) and so are some positions.
+	int ownedTargetIndexAt(const CVector& t_pos, int t_sprite) const;
 	bool ownsBlip(int t_handle) const;
-	int findExistingBlipAt(const CVector& t_pos) const;
+	int findExistingBlipAt(const CVector& t_pos, int t_sprite) const;
 
 	// Rebuilds the handle table from the blips actually present in the world: adopts the ones a save
 	// restored and drops duplicates. Makes the blip count idempotent no matter how we arrived.

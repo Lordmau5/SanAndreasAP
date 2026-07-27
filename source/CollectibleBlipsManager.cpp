@@ -13,6 +13,10 @@ namespace
 {
 	// Kept as the old key so existing saves' toggle preference still loads.
 	constexpr char SHOW_BLIPS_KEY[] = "show_tag_blips";
+
+	// Squared 1cm: blip positions round-trip a save with zero drift, so anything looser starts
+	// matching vanilla blips that share our sprite and clearing them.
+	constexpr float POSITION_TOLERANCE_SQ = 0.0001f;
 }
 
 void CollectibleBlipsManager::save(SaveDataManager& t_saveData)
@@ -33,16 +37,22 @@ int CollectibleBlipsManager::targetIndexAt(const CVector& t_pos) const
 	{
 		float dx = t_pos.x - m_targets[i].position.x;
 		float dy = t_pos.y - m_targets[i].position.y;
-		if (dx * dx + dy * dy < 4.0f) return i;
+		if (dx * dx + dy * dy < POSITION_TOLERANCE_SQ) return i;
 	}
 	return -1;
 }
 
-// A blip handle only means anything inside the session that created it. A load restores the radar
-// pool from the save, so a stale handle can still resolve - but to whatever blip the save put in
-// that slot. Clearing that destroys someone else's blip, and for a mission marker that takes the red
-// world marker with it, permanently. So only ever touch a handle that still sits at one of our
-// positions.
+int CollectibleBlipsManager::ownedTargetIndexAt(const CVector& t_pos, int t_sprite) const
+{
+	int index = targetIndexAt(t_pos);
+	if (index < 0) return -1;
+	if (m_targets[index].sprite != t_sprite) return -1;
+
+	return index;
+}
+
+// A stale handle can still resolve after a load - to whatever blip the save put in that slot. So
+// never trust the handle alone; clearing the game's mission blip is permanent.
 bool CollectibleBlipsManager::ownsBlip(int t_handle) const
 {
 	if (t_handle == -1) return false;
@@ -50,19 +60,21 @@ bool CollectibleBlipsManager::ownsBlip(int t_handle) const
 	int arrayIndex = CRadar::GetActualBlipArrayIndex(t_handle);
 	if (arrayIndex < 0) return false;
 
-	return targetIndexAt(CRadar::ms_RadarTrace[arrayIndex].m_vecPos) >= 0;
+	const tRadarTrace& trace = CRadar::ms_RadarTrace[arrayIndex];
+	return ownedTargetIndexAt(trace.m_vecPos, trace.m_nRadarSprite) >= 0;
 }
 
-int CollectibleBlipsManager::findExistingBlipAt(const CVector& t_pos) const
+int CollectibleBlipsManager::findExistingBlipAt(const CVector& t_pos, int t_sprite) const
 {
 	for (unsigned int i = 0; i < MAX_RADAR_TRACES; ++i)
 	{
 		const tRadarTrace& trace = CRadar::ms_RadarTrace[i];
 		if (!trace.m_bInUse) continue;
+		if (trace.m_nRadarSprite != t_sprite) continue;
 
 		float dx = t_pos.x - trace.m_vecPos.x;
 		float dy = t_pos.y - trace.m_vecPos.y;
-		if (dx * dx + dy * dy < 4.0f)
+		if (dx * dx + dy * dy < POSITION_TOLERANCE_SQ)
 		{
 			return CRadar::GetNewUniqueBlipIndex(static_cast<int>(i));
 		}
@@ -79,7 +91,7 @@ void CollectibleBlipsManager::reconcileWithPool()
 		const tRadarTrace& trace = CRadar::ms_RadarTrace[i];
 		if (!trace.m_bInUse) continue;
 
-		int index = targetIndexAt(trace.m_vecPos);
+		int index = ownedTargetIndexAt(trace.m_vecPos, trace.m_nRadarSprite);
 		if (index < 0) continue;
 
 		int handle = CRadar::GetNewUniqueBlipIndex(static_cast<int>(i));
@@ -180,7 +192,7 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 			// it instead of adding a second one - duplicates are what exhaust the 175-trace pool and
 			// stop the game creating its own mission-marker blips. Checking here rather than only on
 			// load makes it immune to when the save's radar data actually lands.
-			handle = findExistingBlipAt(target.position);
+			handle = findExistingBlipAt(target.position, target.sprite);
 			if (handle == -1)
 			{
 				handle = CRadar::SetCoordBlip(BLIP_COORD, target.position, 0, BLIP_DISPLAY_BOTH, nullptr);

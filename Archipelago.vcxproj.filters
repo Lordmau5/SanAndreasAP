@@ -108,6 +108,9 @@
     <ClInclude Include="header\DrivingSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\PimpingTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\ScriptGlobals.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
@@ -237,6 +240,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\DrivingSchoolTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PimpingTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\GymTracker.cpp">

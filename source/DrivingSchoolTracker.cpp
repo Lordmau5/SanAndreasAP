@@ -3,17 +3,12 @@
 
 namespace
 {
-	// Each test's best percentage lives in its own hand-allocated global - the slots are neither
-	// contiguous nor in test order, so they are listed rather than derived. Confirmed by matching
-	// all twelve values against a fully completed school.
-	//
-	// The count is taken from these rather than from the school's furthest-unlocked-test global,
-	// which stops moving once the twelfth test unlocks and so can never see it passed.
+	// Each test's best percentage, in its own hand-allocated global - neither contiguous nor in test
+	// order, so they are listed rather than derived. Read in preference to the furthest-unlocked-test
+	// global ($53), which stops moving once test 12 unlocks and so can never see it passed.
 	constexpr int TEST_SCORE_GLOBALS[] = { 91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107 };
 
-	// Bronze, the school's pass mark. Testing against it rather than against zero keeps a failed
-	// run from counting even if the game records its score, and the stored value is a personal
-	// best, so a bad retry can never drop a test back below the line.
+	// The school's pass mark. Comparing against it rather than zero keeps a failed run from counting.
 	constexpr int BRONZE_SCORE = 70;
 }
 
