@@ -23,7 +23,8 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<GymTracker>(SAN_FIERRO_GYM_ID, STYLE_KUNG_FU, "gymsf", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
-	submissionTrackers.push_back(std::make_unique<DrivingSchoolTracker>(DRIVING_SCHOOL_ID));
+	submissionTrackers.push_back(std::make_unique<SchoolTracker>(DRIVING_SCHOOL_ID, DRIVING_SCHOOL_TIERS, DRIVING_SCHOOL_SCORE_GLOBALS));
+	submissionTrackers.push_back(std::make_unique<SchoolTracker>(FLYING_SCHOOL_ID, FLYING_SCHOOL_TIERS, FLYING_SCHOOL_SCORE_GLOBALS));
 	submissionTrackers.push_back(std::make_unique<PimpingTracker>(PIMPING_ID));
 }
 

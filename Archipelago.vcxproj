@@ -25,7 +25,7 @@
     <ClInclude Include="header\TieredSubmissionTracker.h" />
     <ClInclude Include="header\TruckingTracker.h" />
     <ClInclude Include="header\ValetTracker.h" />
-    <ClInclude Include="header\DrivingSchoolTracker.h" />
+    <ClInclude Include="header\SchoolTracker.h" />
     <ClInclude Include="header\PimpingTracker.h" />
     <ClInclude Include="header\ScriptGlobals.h" />
     <ClInclude Include="header\Mod.h" />
@@ -70,7 +70,7 @@
     <ClCompile Include="source\TieredSubmissionTracker.cpp" />
     <ClCompile Include="source\TruckingTracker.cpp" />
     <ClCompile Include="source\ValetTracker.cpp" />
-    <ClCompile Include="source\DrivingSchoolTracker.cpp" />
+    <ClCompile Include="source\SchoolTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Mod.cpp" />

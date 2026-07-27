@@ -1,4 +1,5 @@
 #include "Mod.h"
+#include "ScriptGlobals.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
 #include "CStreaming.h"
@@ -126,6 +127,21 @@ void Mod::updateMissionBlockers()
     {
         removeMissionBlockers();
     }
+}
+
+// TEMPORARY: lesson 1's score is $1945, so the other nine sit near it. Lists everything in the
+// window holding a plausible percentage - do the lessons and read the slots off.
+static std::string flyingSchoolScoreLine()
+{
+    std::string line = "DBG flyScores:";
+    for (int index = 1930; index <= 1990; ++index)
+    {
+        int value = ScriptGlobals::read(index);
+        if (value <= 0 || value > 100) continue;
+
+        line += " $" + std::to_string(index) + "=" + std::to_string(value);
+    }
+    return line;
 }
 
 // TEMPORARY
@@ -443,7 +459,7 @@ void Mod::drawOverlay()
         CFont::SetBackground(false, false);
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
-            m_checkListener.missionDebugLine().c_str());
+            (m_checkListener.missionDebugLine() + "~n~" + flyingSchoolScoreLine()).c_str());
     }
 }
 

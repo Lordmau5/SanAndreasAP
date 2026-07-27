@@ -14,10 +14,16 @@ inline constexpr int VIGILANTE_ID = 124;
 inline constexpr int BURGLARY_ID = 125;
 inline constexpr int TRUCKING_ID = 117;
 inline constexpr int PIMPING_ID = 127;
-// Valet and Driving School have no row in the missions table, so they reserve the first indices
-// past its end - a mission appended to that table has to start at 138.
 inline constexpr int VALET_ID = 136;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
+inline constexpr int FLYING_SCHOOL_ID = 138;
+
+inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
+	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
+};
+inline constexpr int FLYING_SCHOOL_SCORE_GLOBALS[] = {
+	1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951,
+};
 
 // Missions that sit inside the story ID range but are optional side content: they send their
 // check like anything else, but spend no Progressive Mission, so running out never locks the
@@ -58,8 +64,9 @@ inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 56,  8, 1.0f };
 inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
 inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 69, 12, 1.0f };
 inline constexpr SubmissionTierSpec PIMPING_TIERS     { 81, 10, 1.0f };
+inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 91, 10, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 91;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 101;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },
