@@ -28,6 +28,24 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 }
 
 
+// TEMPORARY
+std::string CheckListener::missionDebugLine() const
+{
+	std::string key(CStats::LastMissionPassedName);
+
+	int id = -1;
+	for (int i = 0; i < static_cast<int>(missions.size()); ++i)
+	{
+		if (missions[i] == key)
+		{
+			id = i;
+			break;
+		}
+	}
+
+	return "DBG LastMission: [" + key + "] id=" + std::to_string(id);
+}
+
 void CheckListener::save(SaveDataManager& t_saveData)
 {
 	for (const CollectibleTracker* collectible : m_collectibles)
@@ -139,10 +157,10 @@ void CheckListener::initializeMissionList()
 		"CRASH_2",   // 21  Doberman
 		"CRASH_1",   // 22  Burning Desire
 		"CRASH_3",   // 23  Gray Imports
-		"RYDER_1",    // 24  Home Invasion
+		"RYDER_1",   // 24  Home Invasion
 		"RYDER_3",   // 25  Catalyst
 		"RYDER_2",   // 26  Robbing Uncle Sam
-		"SMOKE_1",    // 27  OG Loc
+		"SMOKE_1",   // 27  OG Loc
 		"SMOKE_2",   // 28  Running Dog
 		"SMOKE_3",   // 29  Wrong Side of the Tracks
 		"SMOKE_4",   // 30  Just Business
@@ -166,43 +184,43 @@ void CheckListener::initializeMissionList()
 		"TRUTH_1",   // 46  Body Harvest (verified in-game)
 		"TRUTH_2",   // 47  Are you going to San Fierro? (verified in-game)
 		"BCESAR4",   // 48  Wu Zi Mu (verified in-game; Farewell My Love is separate - see 135)
-		"GAR_1",   // 49  Wear Flowers In Your Hair
+		"GAR_1",     // 49  Wear Flowers In Your Hair
 		"GAR_2",     // 50  Deconstruction
-		"SCRA_1",   // 51  555 WE TIP
-		"SCRA_2",   // 52  Snail Trail
+		"SCRA_1",    // 51  555 WE TIP
+		"SCRA_2",    // 52  Snail Trail
 		"WUZI_1",    // 53  Mountain Cloud Boys
-		"FAR_4",   // 54  Ran Fa Li
-		"FAR_5",    // 55  Lure
+		"FAR_4",     // 54  Ran Fa Li
+		"FAR_5",     // 55  Lure
 		"WUZI_2",    // 56  Amphibious Assault
 		"WUZI_4",    // 57  The Da Nang Thang
-		"SYND_1",     // 58  Photo Opportunity
-		"SYND_2",     // 59  Jizzy
-		"SYND_3",     // 60  Outrider
+		"SYND_1",    // 58  Photo Opportunity
+		"SYND_2",    // 59  Jizzy
+		"SYND_3",    // 60  Outrider
 		"SYND_4",    // 61  Ice Cold Killa
-		"SYND_6",     // 62  Toreno's Last Flight
-		"SYND_7",     // 63  Yay Ka-Boom-Boom
-		"SYND_5",     // 64  Pier 69
-		"FAR_2",    // 65  T-Bone Mendez
+		"SYND_6",    // 62  Toreno's Last Flight
+		"SYND_7",    // 63  Yay Ka-Boom-Boom
+		"SYND_5",    // 64  Pier 69
+		"FAR_2",     // 65  T-Bone Mendez
 		"FAR_3",     // 66  Mike Toreno
 		"STEAL_1",   // 67  Zeroing In
 		"STEAL_2",   // 68  Test Drive
 		"STEAL_4",   // 69  Customs Fast Track
 		"STEAL_5",   // 70  Puncture Wounds
-		"FAR_1",    // 71  Back to School
+		"FAR_1",     // 71  Back to School
 		"ZERO_1",    // 72  Air Raid
 		"ZERO_2",    // 73  Supply Lines...
 		"ZERO_4",    // 74  New Model Army
-		"TORENO1",   // 75  Monster
-		"TORENO2",   // 76  Highjack
-		"DES_3",     // 77  Interdiction
+		"DESERT1",   // 75  Monster
+		"DESERT2",   // 76  Highjack
+		"DESERT3",   // 77  Interdiction
 		"DESERT4",   // 78  Verdant Meadows
 		"DESERT6",   // 79  N.O.E.
 		"DESERT9",   // 80  Stowaway
-		"MAF_4",     // 81  Black Project
-		"DES_10",    // 82  Green Goo
+		"DESERT8",   // 81  Black Project
+		"DESER10",   // 82  Green Goo
 		"DESERT5",   // 83  Learning to Fly
 		"CASINO1",   // 84  Fender Ketchup
-		"CASINO2",   // 85  Explosive Situation
+		"CASEEN2",   // 85  Explosive Situation
 		"CASINO3",   // 86  You've Had Your Chips
 		"CASINO7",   // 87  Fish in a Barrel
 		"CASINO4",   // 88  Don Peyote
@@ -211,7 +229,7 @@ void CheckListener::initializeMissionList()
 		"CASINO9",   // 91  Freefall
 		"CASIN10",   // 92  Saint Mark's Bistro
 		"VCRASH1",   // 93  Misappropriation
-		"VCR_2",     // 94  High Noon
+		"VCRASH2",   // 94  High Noon
 		"DOC_2",     // 95  Madd Dogg
 		"HEIST_1",   // 96  Architectural Espionage
 		"HEIST_3",   // 97  Key To Her Heart
@@ -219,7 +237,7 @@ void CheckListener::initializeMissionList()
 		"HEIST_4",   // 99  Cop Wheels
 		"HEIST_5",   // 100 Up, Up and Away!
 		"HEIST_9",   // 101 Breaking the Bank at Caligula's
-		"MANSIO1",   // 102 A Home In The Hills
+		"MAN_1",     // 102 A Home In The Hills
 		"MANSIO2",   // 103 Vertical Bird
 		"MANSIO3",   // 104 Home Coming
 		"MANSON5",   // 105 Cut Throat Business

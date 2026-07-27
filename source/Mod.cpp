@@ -29,6 +29,7 @@ void Mod::start()
     sendChecksToAP(event);
     updateGameplaySystems();
     updateMissionBlockers();
+    updateDebugHotkeys();
 
     parseIncomingMessages();
 }
@@ -124,6 +125,15 @@ void Mod::updateMissionBlockers()
     else if (m_checkGiver.getProgressiveMissionCounter() > 0 && m_blockersSpawned)
     {
         removeMissionBlockers();
+    }
+}
+
+// TEMPORARY
+void Mod::updateDebugHotkeys()
+{
+    if (m_missionDebugToggleKey.justPressed())
+    {
+        m_showMissionDebug = !m_showMissionDebug;
     }
 }
 
@@ -420,6 +430,21 @@ void Mod::drawOverlay()
     m_blipManager.drawNumbers();
     m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
+
+    // TEMPORARY
+    if (m_showMissionDebug)
+    {
+        CFont::SetFontStyle(FONT_SUBTITLES);
+        CFont::SetScale(ScreenScale::of(0.45f), ScreenScale::of(0.9f));
+        CFont::SetColor(CRGBA(255, 255, 0, 255));
+        CFont::SetProportional(true);
+        CFont::SetOrientation(ALIGN_LEFT);
+        CFont::SetDropShadowPosition(1);
+        CFont::SetBackground(false, false);
+        CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
+        CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
+            m_checkListener.missionDebugLine().c_str());
+    }
 }
 
 void Mod::drawMenuOverlay()
