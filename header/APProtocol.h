@@ -14,7 +14,7 @@ namespace APProtocol
 		Unknown,   // unrecognised or malformed - callers ignore it rather than guess
 		Status,    // STATUS:<text>                  plain client status line
 		ItemSent,  // SENT:<text>                    an item we found for some other player's world
-		LocateTag, // LOCATE:TAG:<index>             highlight one spray tag on the map
+		Locate,    // LOCATE:<TYPE>:<index>          highlight one collectible on the map
 		ShopItem,  // SHOPITEM:<slot>:<text>         what an Ammu-Nation slot now contains
 		Give,      // GIVE:<index>:<effect>[:<value>]  an item granted to us, at its list position
 		Control,   // CTRL:<name>[:<value>]          not an item - see below
@@ -34,8 +34,9 @@ namespace APProtocol
 		// Give/Control: the value.
 		std::string text;
 		// Give: the effect name ("money", "trap_fat", ...). Control: the control name.
+		// Locate: the collectible type ("TAG", "SNAPSHOT", ...).
 		std::string effect;
-		// LocateTag/ShopItem: the index. Give: position in the client's items_received list.
+		// Locate/ShopItem: the index. Give: position in the client's items_received list.
 		// -1 when absent or not a number.
 		int index = -1;
 	};

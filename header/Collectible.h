@@ -31,6 +31,9 @@ public:
 	// Appends one BlipTarget per entry (claimed included, so the manager can reap old blips). The
 	// caller ranks them and hands the whole lot to CollectibleBlipsManager.
 	virtual void appendBlipTargets(std::vector<BlipTarget>& t_out) const = 0;
+
+	virtual const char* checkType() const = 0;
+	virtual void setLocated(int t_index) = 0;
 };
 
 // Base for the scattered-collectible trackers (spray tags, snapshots). The game exposes only a
@@ -110,6 +113,13 @@ public:
 
 	const std::array<bool, N>& getClaimed() const { return m_claimed; }
 
+	const char* checkType() const override { return m_checkType; }
+
+	void setLocated(int t_index) override
+	{
+		m_located = (t_index >= 0 && t_index < N) ? t_index : -1;
+	}
+
 	void save(SaveDataManager& t_saveData) const override
 	{
 		std::string bits(N, '0');
@@ -143,9 +153,8 @@ protected:
 	// once per increment of the count, so it may assume anything it returned earlier is claimed.
 	virtual int identifyCollected() const = 0;
 
-	// The entry the player asked to have highlighted (the /tag command), or -1. Only tags override
-	// this; everything else has no locate command.
-	virtual int locatedIndex() const { return -1; }
+	// The entry the player asked to have highlighted, or -1.
+	int locatedIndex() const { return m_located; }
 
 	bool isClaimed(int t_index) const { return m_claimed[t_index]; }
 
@@ -156,6 +165,7 @@ private:
 	const char* m_checkType;
 	std::array<bool, N> m_claimed{};
 	PendingChecks<int> m_pending;
+	int m_located = -1;
 	float m_lastCount = 0.0f;
 	bool m_countInitialized = false;
 };

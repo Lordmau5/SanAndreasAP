@@ -32,6 +32,14 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<QuarryTracker>(QUARRY_ID));
 }
 
+void CheckListener::locateCollectible(const std::string& t_type, int t_index)
+{
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		if (t_type == collectible->checkType()) collectible->setLocated(t_index);
+	}
+}
+
 void CheckListener::save(SaveDataManager& t_saveData)
 {
 	for (const CollectibleTracker* collectible : m_collectibles)

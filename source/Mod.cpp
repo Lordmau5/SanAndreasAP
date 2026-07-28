@@ -128,6 +128,15 @@ void Mod::updateMissionBlockers()
     }
 }
 
+static std::string collectibleLabel(const std::string& t_type)
+{
+    if (t_type == "TAG") return "LS Tag";
+    if (t_type == "SNAPSHOT") return "SF Snapshot";
+    if (t_type == "HORSESHOE") return "LV Horseshoe";
+    if (t_type == "OYSTER") return "Oyster";
+    return t_type;
+}
+
 bool Mod::detectWorldWipe()
 {
 	bool wiped = false;
@@ -312,11 +321,12 @@ void Mod::parseIncomingMessages()
             m_notificationOverlay.show(message.text, NotificationIcon::ItemSent);
             break;
 
-        case APProtocol::MessageKind::LocateTag:
-            m_checkListener.locateTag(message.index);
+        case APProtocol::MessageKind::Locate:
+            m_checkListener.locateCollectible(message.effect, message.index);
             if (message.index >= 0)
             {
-                m_notificationOverlay.show("Locating LS Tag #" + std::to_string(message.index + 1));
+                m_notificationOverlay.show("Locating " + collectibleLabel(message.effect)
+                    + " #" + std::to_string(message.index + 1));
             }
             break;
 

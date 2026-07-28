@@ -9,11 +9,6 @@ TagTracker::TagTracker()
 {
 }
 
-void TagTracker::setLocated(int t_index)
-{
-	m_located = (t_index >= 0 && t_index < 100) ? t_index : -1;
-}
-
 float TagTracker::readCount() const
 {
 	// Read raw rather than through CStats: STAT_TAGS_SPRAYED never updated during real gameplay

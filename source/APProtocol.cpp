@@ -36,10 +36,14 @@ APProtocol::Message APProtocol::parse(const std::string& t_line)
 		return message;
 	}
 
-	if (stripPrefix(t_line, "LOCATE:TAG:", rest))
+	if (stripPrefix(t_line, "LOCATE:", rest))
 	{
-		message.kind = MessageKind::LocateTag;
-		message.index = parseIntOr(rest, -1);
+		size_t colon = rest.find(':');
+		if (colon == std::string::npos) return message; // malformed - stays Unknown
+
+		message.kind = MessageKind::Locate;
+		message.effect = rest.substr(0, colon);
+		message.index = parseIntOr(rest.substr(colon + 1), -1);
 		return message;
 	}
 

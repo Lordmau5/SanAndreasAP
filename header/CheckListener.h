@@ -59,8 +59,9 @@ public:
 	// pair per kind. Mod also gathers the blip targets off this list.
 	const std::array<CollectibleTracker*, 5>& getCollectibles() const { return m_collectibles; }
 
-	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
-	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
+	// Highlight one entry of a collectible set on the map, or clear it with -1. Unknown types are
+	// ignored, so a newer client naming a set this build lacks is harmless.
+	void locateCollectible(const std::string& t_type, int t_index);
 
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();
