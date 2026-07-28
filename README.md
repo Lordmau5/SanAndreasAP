@@ -6,8 +6,8 @@ Mission items; spray tags, Ammu-Nation purchases, and side activities send
 checks to the multiworld.
 
 > [!NOTE]
-> Los Santos and Badlands are randomized so far (Big Smoke → Are You Going
-> to San Fierro?). The rest of the game will come in future updates. Feel free to bug report either through `Issues` or using [GTA SA Thread](https://discord.com/channels/1085716850370957462/1098055987648282717) in Archipelago After Dark
+> Los Santos, San Fierro and Las Venturas are randomized so far (Big Smoke → A Home in the Hills). 
+> The rest of the game will come in future updates. Feel free to bug report either through `Issues` or using [GTA SA Thread](https://discord.com/channels/1085716850370957462/1098055987648282717) in Archipelago After Dark
 
 ## Related repositories
 
@@ -16,21 +16,23 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.2.0)
+## Current scope (v0.3.0)
 
-- **Goal:** **The Green Sabre** (Los Santos only) or
-  **Are You Going to San Fierro?** (Los Santos + Badlands).
-- 27 Los Santos story missions, plus 9 Badlands missions,
+- **Goal:**
+    - **The Green Sabre** (Los Santos only)
+    - **Are You Going to San Fierro?** (Los Santos → Badlands)
+    - **Yay Ka-Boom-Boom** (Los Santos → San Fierro)
+    - **A Home in the Hills** (Los Santos → Las Venturas)
+- 76 story missions across all regions
   gated by Progressive Mission items
-- 100 spray tags as individual locations (toggleable)
+- 100 spray tags, 50 snapshots, horseshoes and oysters as individual locations (toggleable)
 - Side activities, paying out **per level** rather than once at the end:
   Paramedic, Firefighter and Vigilante (12 levels each), Taxi Driver (one per
-  5 fares), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands),
-  and LS Gym Boxing
+  5 fares), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands) etc.
 - 8 Ammu-Nation shop slots that sell checks (the menu shows what each
   purchase contains)
 - Traps (wanted level, fat CJ, flat tires, car fire) and filler items
-  (21 weapons, money, full armor, car repair)
+  (21 weapons, money, full armor, car repair, weapon mastery)
 - DeathLink
 - Autosave to slot 8 after every story mission and side-activity completion
 
@@ -74,11 +76,12 @@ the C++ mod.
 - Spray tags, Ammu-Nation purchases, and side-activity levels all send
   checks. The Ammu-Nation menu shows what each slot contains; already-checked
   slots revert to selling their normal weapons.
-- Tag locations appear on the radar and map (nearest ones only, to keep the
+- Collectible locations appear on the radar and map (nearest ones only, to keep the
   radar readable). Press **F8** in the pause menu to toggle them off
-- Client command `/tag <1-100>` highlights a specific tag on the radar so you
+- Client commands `/tag <1-100>`, `/snapshot <1-50>` etc. highlight a specific collectible on the radar so you
   can find it from anywhere.
 - A respawning spray can with plenty of paint sits outside CJ's house.
+- A respawning camera sits outside Doherty Garage.
 - The game autosaves to **slot 8** ("Autosave: [mission]") after every story
   mission and side-activity completion.
 - On-screen notifications show items you receive and checks you send to other
@@ -107,12 +110,8 @@ the C++ mod.
 
 ## Roadmap
 
-- San Fierro and Las Venturas regions with their missions and side activities
-- All checks in every region
-    - Collectibles
-    - Schools
-    - Submissions (Train, Quarry)
-    - Sidemissions (Zero, Heist)
+- Return to Los Santos missions and side activities
+- Remaining checks for a 100% goal
 - More options for customizing seeds
 - Native support with Rainbomizer
 
