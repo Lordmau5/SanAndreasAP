@@ -130,15 +130,17 @@ void Mod::updateMissionBlockers()
     }
 }
 
-// TEMPORARY: lists every global in a window holding a plausible percentage, for finding a school's
-// per-test score slots. Pass a test and the slot it wrote appears in the line.
-static std::string scoreWindowLine(const char* t_label, int t_first, int t_last)
+// TEMPORARY: lists every global in a window whose value is in range, for finding a school's per-test
+// slots. Pass a test and the slot it wrote appears in the line. The range matters: driving, flying
+// and bike school store a 0-100 percentage, boat school stores a time in milliseconds.
+static std::string scoreWindowLine(const char* t_label, int t_first, int t_last,
+    int t_minValue, int t_maxValue)
 {
     std::string line = t_label;
     for (int index = t_first; index <= t_last; ++index)
     {
         int value = ScriptGlobals::read(index);
-        if (value <= 0 || value > 100) continue;
+        if (value < t_minValue || value > t_maxValue) continue;
 
         line += " $" + std::to_string(index) + "=" + std::to_string(value);
     }
@@ -496,7 +498,7 @@ void Mod::drawOverlay()
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
             (m_checkListener.missionDebugLine()
-                + "~n~" + scoreWindowLine("DBG bike:", 2140, 2200)).c_str());
+                + "~n~" + scoreWindowLine("DBG bike:", 2140, 2200, 1, 100)).c_str());
     }
 }
 

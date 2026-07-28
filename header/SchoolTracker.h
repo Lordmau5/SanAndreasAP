@@ -13,7 +13,12 @@ public:
 	void enforceSubmissionReward() override;
 
 protected:
+	// Counts the tests that passed. Which is which is left to isTestPassed.
 	float getProgress() const override;
+
+	// Whether one test's stored value counts as a pass. Defaults to the game's own 70% mark, which
+	// covers every school scored on percentage - boat school scores on time and distance instead.
+	virtual bool isTestPassed(int t_testIndex, int t_value) const;
 
 private:
 	// The game's own pass mark, stated in its flight school text.

@@ -29,6 +29,9 @@ inline constexpr int FLYING_SCHOOL_SCORE_GLOBALS[] = {
 inline constexpr int BIKE_SCHOOL_SCORE_GLOBALS[] = {
 	2164, 2165, 2166, 2167, 2168, 2169,
 };
+inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
+	1963, 1964, 1965, 1966, 1967,
+};
 
 // Missions that sit inside the story ID range but are optional side content: they send their
 // check like anything else, but spend no Progressive Mission, so running out never locks the

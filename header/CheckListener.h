@@ -23,6 +23,7 @@
 #include "TruckingTracker.h"
 #include "ValetTracker.h"
 #include "SchoolTracker.h"
+#include "BoatSchoolTracker.h"
 #include "PimpingTracker.h"
 
 enum class CheckEvent

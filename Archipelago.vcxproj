@@ -26,6 +26,7 @@
     <ClInclude Include="header\TruckingTracker.h" />
     <ClInclude Include="header\ValetTracker.h" />
     <ClInclude Include="header\SchoolTracker.h" />
+    <ClInclude Include="header\BoatSchoolTracker.h" />
     <ClInclude Include="header\PimpingTracker.h" />
     <ClInclude Include="header\ScriptGlobals.h" />
     <ClInclude Include="header\Mod.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="source\TruckingTracker.cpp" />
     <ClCompile Include="source\ValetTracker.cpp" />
     <ClCompile Include="source\SchoolTracker.cpp" />
+    <ClCompile Include="source\BoatSchoolTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\Mod.cpp" />

@@ -14,11 +14,15 @@ void SchoolTracker::enforceSubmissionReward()
 float SchoolTracker::getProgress() const
 {
 	int passed = 0;
-	for (int scoreGlobal : m_scoreGlobals)
+	for (int test = 0; test < static_cast<int>(m_scoreGlobals.size()); ++test)
 	{
-		// Comparing against the pass mark rather than zero keeps a failed run from counting, and the
-		// stored value is a personal best, so a bad retry never drops a test back below the line.
-		if (ScriptGlobals::read(scoreGlobal) >= PASS_SCORE) passed++;
+		if (isTestPassed(test, ScriptGlobals::read(m_scoreGlobals[test]))) passed++;
 	}
 	return static_cast<float>(passed);
+}
+
+bool SchoolTracker::isTestPassed(int, int t_value) const
+{
+	// The stored value is a personal best, so a bad retry never drops a test back below the mark.
+	return t_value >= PASS_SCORE;
 }

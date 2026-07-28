@@ -108,6 +108,9 @@
     <ClInclude Include="header\SchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\BoatSchoolTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\PimpingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -145,12 +148,6 @@
       <Filter>Header\Tags</Filter>
     </ClInclude>
     <ClInclude Include="header\SnapshotTracker.h">
-      <Filter>Header\Tags</Filter>
-    </ClInclude>
-    <ClInclude Include="header\HorseshoeTracker.h">
-      <Filter>Header\Tags</Filter>
-    </ClInclude>
-    <ClInclude Include="header\HorseshoePositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
     <ClInclude Include="header\HorseshoeTracker.h">
@@ -254,6 +251,9 @@
     <ClCompile Include="source\SchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
+    <ClCompile Include="source\BoatSchoolTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
     <ClCompile Include="source\PimpingTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
@@ -279,9 +279,6 @@
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SnapshotTracker.cpp">
-      <Filter>Source\Tags</Filter>
-    </ClCompile>
-    <ClCompile Include="source\HorseshoeTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\HorseshoeTracker.cpp">
