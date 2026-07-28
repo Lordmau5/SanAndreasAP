@@ -13,7 +13,7 @@ public:
 	void enforceSubmissionReward() override;
 
 protected:
-	// Counts the tests that passed. Which is which is left to isTestPassed.
+	// Counts the tests that passed. Which is left to isTestPassed.
 	float getProgress() const override;
 
 	// Whether one test's stored value counts as a pass. Defaults to the game's own 70% mark, which
