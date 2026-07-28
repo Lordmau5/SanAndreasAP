@@ -1,5 +1,6 @@
 #include "BlipTarget.h"
 #include <algorithm>
+#include <cmath>
 #include <utility>
 
 void rankByDistance(std::vector<BlipTarget>& t_targets, const CVector& t_playerPos)
@@ -19,6 +20,8 @@ void rankByDistance(std::vector<BlipTarget>& t_targets, const CVector& t_playerP
 
 	for (int r = 0; r < static_cast<int>(byDistance.size()); ++r)
 	{
-		t_targets[byDistance[r].second].rank = r;
+		BlipTarget& target = t_targets[byDistance[r].second];
+		target.rank = r;
+		target.distance = std::sqrt(byDistance[r].first);
 	}
 }

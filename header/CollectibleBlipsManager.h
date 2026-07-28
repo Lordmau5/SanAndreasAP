@@ -60,11 +60,9 @@ private:
 	int m_reconcileTicks = RECONCILE_TICKS;
 	static constexpr int RECONCILE_TICKS = 10;
 
-	// The shared radar budget across every collectible set. The hysteresis band lets an entry
-	// already showing keep its blip slightly past the cut-off, so one hovering on the boundary
-	// doesn't flicker as the player moves.
 	static constexpr int MAX_BLIPS = 30;
-	static constexpr int BLIP_HYSTERESIS = 10;
+	
+	static constexpr float RANGE_HYSTERESIS = 1.15f;
 
 	bool m_blipsEnabled = true;
 

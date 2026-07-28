@@ -153,6 +153,8 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 		return worldWiped;
 	}
 
+	const float radarRange = CRadar::m_radarRange;
+
 	for (int i = 0; i < static_cast<int>(m_targets.size()); ++i)
 	{
 		const BlipTarget& target = m_targets[i];
@@ -171,9 +173,10 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 		bool wantBlip = false;
 		if (!target.claimed)
 		{
+			const float keepRange = handle != -1 ? radarRange * RANGE_HYSTERESIS : radarRange;
+
 			if (target.located) wantBlip = true;
-			else if (target.rank < MAX_BLIPS) wantBlip = true;
-			else if (handle != -1 && target.rank < MAX_BLIPS + BLIP_HYSTERESIS) wantBlip = true;
+			else if (target.distance <= keepRange && target.rank < MAX_BLIPS) wantBlip = true;
 		}
 
 		if (!wantBlip)

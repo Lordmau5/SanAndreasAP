@@ -17,6 +17,7 @@ inline constexpr int TRUCKING_ID = 117;
 inline constexpr int PIMPING_ID = 127;
 inline constexpr int BOAT_SCHOOL_ID = 119;
 inline constexpr int BIKE_SCHOOL_ID = 120;
+inline constexpr int QUARRY_ID = 118;
 inline constexpr int VALET_ID = 136;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
@@ -73,8 +74,9 @@ inline constexpr SubmissionTierSpec PIMPING_TIERS     { 81, 10, 1.0f };
 inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 91, 10, 1.0f };
 inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 101, 5, 1.0f };
 inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 106, 6, 1.0f };
+inline constexpr SubmissionTierSpec QUARRY_TIERS       { 112, 7, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 112;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 119;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

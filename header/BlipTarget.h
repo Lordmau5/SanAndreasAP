@@ -1,4 +1,5 @@
 #pragma once
+#include <cfloat>
 #include <climits>
 #include <vector>
 #include <CVector.h>
@@ -14,6 +15,7 @@ struct BlipTarget
 	bool claimed;     // claimed entries are still listed, so the manager can reap their old blips
 	bool located;     // the /tag one: always shown, and full-range so it edge-clamps like a marker
 	int rank = INT_MAX; // 0 = nearest unclaimed; INT_MAX = claimed / not ranked
+	float distance = FLT_MAX; // 2D metres to the player, for the radar-range test
 };
 
 // Fills in `rank` for every unclaimed target by distance to the player, nearest = 0; claimed

@@ -185,6 +185,17 @@ static std::string gymDebugLines()
 }
 
 // TEMPORARY
+static std::string radarPoolLine()
+{
+    int inUse = 0;
+    for (unsigned int i = 0; i < MAX_RADAR_TRACES; ++i)
+    {
+        if (CRadar::ms_RadarTrace[i].m_bInUse) inUse++;
+    }
+    return "DBG radar " + std::to_string(inUse) + "/" + std::to_string(MAX_RADAR_TRACES);
+}
+
+// TEMPORARY
 void Mod::updateDebugHotkeys()
 {
     if (m_missionDebugToggleKey.justPressed())
@@ -234,8 +245,8 @@ void Mod::teleportToTestSpot()
     CPlayerPed* player = FindPlayerPed();
     if (!player) return;
 
-    constexpr float TELEPORT_X = 1962.3f;
-    constexpr float TELEPORT_Y = 2287.97f;
+    constexpr float TELEPORT_X = 886.83f;
+    constexpr float TELEPORT_Y = 875.23f;
 
     CVector target(TELEPORT_X, TELEPORT_Y, 0.0f);
     // Collision for an unstreamed area isn't loaded yet, so ask for it before the ground query -
@@ -562,7 +573,8 @@ void Mod::drawOverlay()
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
             (m_checkListener.missionDebugLine()
-                + "~n~" + gymDebugLines()).c_str());
+                + "~n~" + gymDebugLines()
+                + "~n~" + radarPoolLine()).c_str());
     }
 }
 

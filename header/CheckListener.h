@@ -25,6 +25,7 @@
 #include "SchoolTracker.h"
 #include "BoatSchoolTracker.h"
 #include "ExportListTracker.h"
+#include "QuarryTracker.h"
 #include "PimpingTracker.h"
 
 enum class CheckEvent
