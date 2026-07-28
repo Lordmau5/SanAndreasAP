@@ -44,8 +44,6 @@ inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	71,               // Driving School: Back to School
 	72, 73, 74,       // Zero: Air Raid, Supply Lines, New Model Army
 
-	// Not AP locations yet: GXT keys unverified. Listed anyway so they spend no Progressive
-	// Mission - the Caligula's heist is optional and is not needed to finish Las Venturas.
 	96, 97, 98, 99, 100, 101,
 };
 
