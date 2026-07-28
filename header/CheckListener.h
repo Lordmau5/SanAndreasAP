@@ -62,10 +62,6 @@ public:
 	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
 	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
 
-	// TEMPORARY: the GXT key the game last reported and the missions-table index it resolves to,
-	// for verifying that table against a running game.
-	std::string missionDebugLine() const;
-
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();
 

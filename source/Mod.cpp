@@ -1,15 +1,10 @@
 #include "Mod.h"
 #include "PlayerControl.h"
-#include "ScriptGlobals.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
 #include "CStreaming.h"
 #include "CPools.h"
-#include "ExportVehicles.h"
-#include <CCarCtrl.h>
 #include <CRadar.h>
-#include <cctype>
-#include <cstring>
 
 Mod::Mod()
 {
@@ -35,7 +30,6 @@ void Mod::start()
     sendChecksToAP(event);
     updateGameplaySystems();
     updateMissionBlockers();
-    updateDebugHotkeys();
 
     parseIncomingMessages();
 }
@@ -132,138 +126,6 @@ void Mod::updateMissionBlockers()
     {
         removeMissionBlockers();
     }
-}
-
-// TEMPORARY: lists every global in a window whose value is in range, for finding a school's per-test
-// slots. Pass a test and the slot it wrote appears in the line. The range matters: driving, flying
-// and bike school store a 0-100 percentage, boat school stores a time in milliseconds.
-static std::string scoreWindowLine(const char* t_label, int t_first, int t_last,
-    int t_minValue, int t_maxValue)
-{
-    std::string line = t_label;
-    for (int index = t_first; index <= t_last; ++index)
-    {
-        int value = ScriptGlobals::read(index);
-        if (value < t_minValue || value > t_maxValue) continue;
-
-        line += " $" + std::to_string(index) + "=" + std::to_string(value);
-    }
-    return line;
-}
-
-// TEMPORARY
-static std::string gymDebugLines()
-{
-    CPlayerPed* player = FindPlayerPed();
-    int style = player ? static_cast<int>(player->m_nFightingStyle) : -1;
-
-    std::string gymish;
-    std::string all;
-    int count = 0;
-    for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
-    {
-        char name[9] = {};
-        std::memcpy(name, script->m_szName, 8);
-        count++;
-
-        std::string lower(name);
-        for (char& c : lower) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-        if (lower.find("gym") != std::string::npos)
-        {
-            if (!gymish.empty()) gymish += ",";
-            gymish += name;
-        }
-        if (count <= 26)
-        {
-            all += std::string(name) + " ";
-        }
-    }
-    if (gymish.empty()) gymish = "none";
-
-    return "DBG style=" + std::to_string(style) + " gym=[" + gymish + "] scripts=" + std::to_string(count)
-        + "~n~DBG " + all;
-}
-
-// TEMPORARY
-static std::string radarPoolLine()
-{
-    int inUse = 0;
-    for (unsigned int i = 0; i < MAX_RADAR_TRACES; ++i)
-    {
-        if (CRadar::ms_RadarTrace[i].m_bInUse) inUse++;
-    }
-    return "DBG radar " + std::to_string(inUse) + "/" + std::to_string(MAX_RADAR_TRACES);
-}
-
-// TEMPORARY
-void Mod::updateDebugHotkeys()
-{
-    if (m_missionDebugToggleKey.justPressed())
-    {
-        m_showMissionDebug = !m_showMissionDebug;
-    }
-    if (m_teleportKey.justPressed())
-    {
-        teleportToTestSpot();
-    }
-    if (m_spawnVehicleKey.justPressed())
-    {
-        spawnTestVehicle();
-    }
-}
-
-// TEMPORARY
-void Mod::spawnTestVehicle()
-{
-    if (!PlayerControl::isInControl()) return;
-
-    constexpr int MODEL = exportVehicleModels[0];
-    constexpr float SPAWN_X = -1604.07f;
-    constexpr float SPAWN_Y = 109.9f;
-
-    CVector spawn(SPAWN_X, SPAWN_Y, 0.0f);
-    CStreaming::LoadScene(&spawn);
-    spawn.z = CWorld::FindGroundZForCoord(SPAWN_X, SPAWN_Y) + 1.0f;
-
-    CStreaming::RequestModel(MODEL, 0);
-    CStreaming::LoadAllRequestedModels(false);
-
-    if (CCarCtrl::CreateCarForScript(MODEL, spawn, false))
-    {
-        m_notificationOverlay.show("DBG spawned export vehicle");
-    }
-    CStreaming::SetModelIsDeletable(MODEL);
-}
-
-// TEMPORARY
-void Mod::teleportToTestSpot()
-{
-    // Same gate as the traps and DeathLink: moving CJ out of a scripted sequence strands the script
-    // waiting for him to arrive somewhere he no longer is.
-    if (!PlayerControl::isInControl()) return;
-
-    CPlayerPed* player = FindPlayerPed();
-    if (!player) return;
-
-    constexpr float TELEPORT_X = 886.83f;
-    constexpr float TELEPORT_Y = 875.23f;
-
-    CVector target(TELEPORT_X, TELEPORT_Y, 0.0f);
-    // Collision for an unstreamed area isn't loaded yet, so ask for it before the ground query -
-    // otherwise FindGroundZForCoord answers from nothing and CJ lands under the map.
-    CStreaming::LoadScene(&target);
-    target.z = CWorld::FindGroundZForCoord(TELEPORT_X, TELEPORT_Y) + 1.0f;
-
-    CVehicle* vehicle = player->m_pVehicle;
-    if (player->bInVehicle && vehicle)
-    {
-        vehicle->SetPosition(target);
-    }
-    else
-    {
-        player->SetPosition(target);
-    }
-    CStreaming::LoadScene(&target);
 }
 
 bool Mod::detectWorldWipe()
@@ -553,7 +415,6 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     return true;
 }
 
-
 void Mod::drawOverlay()
 {
     m_notificationOverlay.draw();
@@ -561,22 +422,6 @@ void Mod::drawOverlay()
     m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
 
-    // TEMPORARY
-    if (m_showMissionDebug)
-    {
-        CFont::SetFontStyle(FONT_SUBTITLES);
-        CFont::SetScale(ScreenScale::of(0.45f), ScreenScale::of(0.9f));
-        CFont::SetColor(CRGBA(255, 255, 0, 255));
-        CFont::SetProportional(true);
-        CFont::SetOrientation(ALIGN_LEFT);
-        CFont::SetDropShadowPosition(1);
-        CFont::SetBackground(false, false);
-        CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
-        CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
-            (m_checkListener.missionDebugLine()
-                + "~n~" + gymDebugLines()
-                + "~n~" + radarPoolLine()).c_str());
-    }
 }
 
 void Mod::drawMenuOverlay()

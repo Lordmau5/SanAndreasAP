@@ -32,25 +32,6 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<QuarryTracker>(QUARRY_ID));
 }
 
-
-// TEMPORARY
-std::string CheckListener::missionDebugLine() const
-{
-	std::string key(CStats::LastMissionPassedName);
-
-	int id = -1;
-	for (int i = 0; i < static_cast<int>(missions.size()); ++i)
-	{
-		if (missions[i] == key)
-		{
-			id = i;
-			break;
-		}
-	}
-
-	return "DBG LastMission: [" + key + "] id=" + std::to_string(id);
-}
-
 void CheckListener::save(SaveDataManager& t_saveData)
 {
 	for (const CollectibleTracker* collectible : m_collectibles)
@@ -343,8 +324,6 @@ bool CheckListener::submissionLevelChecker()
 		m_pendingSubmissionLevels.push(slot);
 	}
 
-
-
 	// One-shot submissions that watch live game state for their own completion (the gyms).
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -384,7 +363,6 @@ void CheckListener::confirmSubmissionLevelSent()
 {
 	m_pendingSubmissionLevels.confirm();
 }
-
 
 std::string CheckListener::getMissionID()
 {
