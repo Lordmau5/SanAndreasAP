@@ -21,6 +21,7 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<TaxiTracker>(TAXI_ID));
 	submissionTrackers.push_back(std::make_unique<GymTracker>(LOS_SANTOS_GYM_ID, STYLE_BOXING, "gymls", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<GymTracker>(SAN_FIERRO_GYM_ID, STYLE_KUNG_FU, "gymsf", m_styleArbiter));
+	submissionTrackers.push_back(std::make_unique<GymTracker>(LAS_VENTURAS_GYM_ID, STYLE_KNEE_HEAD, "gymlv", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
 	submissionTrackers.push_back(std::make_unique<SchoolTracker>(DRIVING_SCHOOL_ID, DRIVING_SCHOOL_TIERS, DRIVING_SCHOOL_SCORE_GLOBALS));
@@ -290,8 +291,6 @@ void CheckListener::enforceSubmissionRewards()
 
 CheckEvent CheckListener::update()
 {
-	enforceSubmissionRewards();
-
 	// Baselines captured in the constructor are meaningless - nothing is loaded at process
 	// start, so every polled counter reads its pre-game value. And the session's first Load
 	// Game can slip past SaveDataManager's change detection entirely (the game pre-populates
@@ -324,6 +323,8 @@ CheckEvent CheckListener::update()
 	{
 		event = CheckEvent::Submission;
 	}
+
+	enforceSubmissionRewards();
 	return event;
 }
 

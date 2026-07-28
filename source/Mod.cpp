@@ -6,6 +6,8 @@
 #include "CStreaming.h"
 #include "CPools.h"
 #include <CRadar.h>
+#include <cctype>
+#include <cstring>
 
 Mod::Mod()
 {
@@ -148,6 +150,39 @@ static std::string scoreWindowLine(const char* t_label, int t_first, int t_last,
 }
 
 // TEMPORARY
+static std::string gymDebugLines()
+{
+    CPlayerPed* player = FindPlayerPed();
+    int style = player ? static_cast<int>(player->m_nFightingStyle) : -1;
+
+    std::string gymish;
+    std::string all;
+    int count = 0;
+    for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
+    {
+        char name[9] = {};
+        std::memcpy(name, script->m_szName, 8);
+        count++;
+
+        std::string lower(name);
+        for (char& c : lower) c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        if (lower.find("gym") != std::string::npos)
+        {
+            if (!gymish.empty()) gymish += ",";
+            gymish += name;
+        }
+        if (count <= 26)
+        {
+            all += std::string(name) + " ";
+        }
+    }
+    if (gymish.empty()) gymish = "none";
+
+    return "DBG style=" + std::to_string(style) + " gym=[" + gymish + "] scripts=" + std::to_string(count)
+        + "~n~DBG " + all;
+}
+
+// TEMPORARY
 void Mod::updateDebugHotkeys()
 {
     if (m_missionDebugToggleKey.justPressed())
@@ -170,8 +205,8 @@ void Mod::teleportToTestSpot()
     CPlayerPed* player = FindPlayerPed();
     if (!player) return;
 
-    constexpr float TELEPORT_X = 1000.0f;
-    constexpr float TELEPORT_Y = 1381.0f;
+    constexpr float TELEPORT_X = 1962.3f;
+    constexpr float TELEPORT_Y = 2287.97f;
 
     CVector target(TELEPORT_X, TELEPORT_Y, 0.0f);
     // Collision for an unstreamed area isn't loaded yet, so ask for it before the ground query -
@@ -498,7 +533,7 @@ void Mod::drawOverlay()
         CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
         CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
             (m_checkListener.missionDebugLine()
-                + "~n~" + scoreWindowLine("DBG bike:", 2140, 2200, 1, 100)).c_str());
+                + "~n~" + gymDebugLines()).c_str());
     }
 }
 

@@ -7,6 +7,7 @@
 // agree on them.
 inline constexpr int LOS_SANTOS_GYM_ID = 114;
 inline constexpr int SAN_FIERRO_GYM_ID = 115;
+inline constexpr int LAS_VENTURAS_GYM_ID = 116;
 inline constexpr int TAXI_ID = 121;
 inline constexpr int PARAMEDIC_ID = 122;
 inline constexpr int FIREFIGHTER_ID = 123;
