@@ -5,6 +5,8 @@
 #include "ItemEffects.h"
 #include "CStreaming.h"
 #include "CPools.h"
+#include "ExportVehicles.h"
+#include <CCarCtrl.h>
 #include <CRadar.h>
 #include <cctype>
 #include <cstring>
@@ -193,6 +195,33 @@ void Mod::updateDebugHotkeys()
     {
         teleportToTestSpot();
     }
+    if (m_spawnVehicleKey.justPressed())
+    {
+        spawnTestVehicle();
+    }
+}
+
+// TEMPORARY
+void Mod::spawnTestVehicle()
+{
+    if (!PlayerControl::isInControl()) return;
+
+    constexpr int MODEL = exportVehicleModels[0];
+    constexpr float SPAWN_X = -1604.07f;
+    constexpr float SPAWN_Y = 109.9f;
+
+    CVector spawn(SPAWN_X, SPAWN_Y, 0.0f);
+    CStreaming::LoadScene(&spawn);
+    spawn.z = CWorld::FindGroundZForCoord(SPAWN_X, SPAWN_Y) + 1.0f;
+
+    CStreaming::RequestModel(MODEL, 0);
+    CStreaming::LoadAllRequestedModels(false);
+
+    if (CCarCtrl::CreateCarForScript(MODEL, spawn, false))
+    {
+        m_notificationOverlay.show("DBG spawned export vehicle");
+    }
+    CStreaming::SetModelIsDeletable(MODEL);
 }
 
 // TEMPORARY

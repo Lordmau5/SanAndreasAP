@@ -111,6 +111,12 @@
     <ClInclude Include="header\BoatSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\ExportListTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ExportVehicles.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\PimpingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -252,6 +258,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\BoatSchoolTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ExportListTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\PimpingTracker.cpp">

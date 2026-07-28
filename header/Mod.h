@@ -91,6 +91,9 @@ private:
 	// TEMPORARY: F6 drops CJ at a fixed spot, for repeated trips to whatever is being tested.
 	EdgeTriggeredKey m_teleportKey{ VK_F6 };
 	void teleportToTestSpot();
+	// TEMPORARY: F5 spawns an export-board vehicle, for testing the export checks.
+	EdgeTriggeredKey m_spawnVehicleKey{ VK_F5 };
+	void spawnTestVehicle();
 	void updateDebugHotkeys();
 
 	void parseIncomingMessages();

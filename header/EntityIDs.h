@@ -39,7 +39,6 @@ inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
 // player out of them. A flat list rather than a range because the branches aren't contiguous.
 //
 inline constexpr int OPTIONAL_MISSION_IDS[] = {
-	// Not AP location yet: Wang Cars needs Back to School AND Yay Ka-Boom-Boom
 	67, 68, 69, 70,   // Wang Cars: Zeroing In, Test Drive, Customs Fast Track, Puncture Wounds
 
 	71,               // Driving School: Back to School

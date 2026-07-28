@@ -24,6 +24,7 @@
 #include "ValetTracker.h"
 #include "SchoolTracker.h"
 #include "BoatSchoolTracker.h"
+#include "ExportListTracker.h"
 #include "PimpingTracker.h"
 
 enum class CheckEvent
@@ -54,7 +55,7 @@ public:
 
 	// Every collectible check flows through here - Mod drains this instead of a getPending/confirm
 	// pair per kind. Mod also gathers the blip targets off this list.
-	const std::array<CollectibleTracker*, 3>& getCollectibles() const { return m_collectibles; }
+	const std::array<CollectibleTracker*, 4>& getCollectibles() const { return m_collectibles; }
 
 	// Highlight one tag on the map (the /tag command). Tag-only, so it forwards to the tag tracker.
 	void locateTag(int t_index) { m_tagTracker.setLocated(t_index); }
@@ -95,9 +96,10 @@ private:
 	TagTracker m_tagTracker;
 	SnapshotTracker m_snapshotTracker;
 	HorseshoeTracker m_horseshoeTracker;
+	ExportListTracker m_exportTracker;
 	// All of them, driven uniformly through the interface - declared after the members it points at.
-	std::array<CollectibleTracker*, 3> m_collectibles{
-		&m_tagTracker, &m_snapshotTracker, &m_horseshoeTracker };
+	std::array<CollectibleTracker*, 4> m_collectibles{
+		&m_tagTracker, &m_snapshotTracker, &m_horseshoeTracker, &m_exportTracker };
 
 	PendingChecks<int> m_pendingPickUps;
 	PendingChecks<std::string> m_pendingMissions;

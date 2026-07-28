@@ -98,6 +98,10 @@ public:
 
 	void appendBlipTargets(std::vector<BlipTarget>& t_out) const override
 	{
+		// Not everything counted this way sits somewhere on the map - the export vehicles move, so
+		// that set is constructed with no positions and has nothing to blip.
+		if (m_positions.empty()) return;
+
 		for (int i = 0; i < N; ++i)
 		{
 			t_out.push_back({ m_positions[i], m_sprite, i + 1, m_claimed[i], i == locatedIndex(), INT_MAX });
