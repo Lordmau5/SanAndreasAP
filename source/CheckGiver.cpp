@@ -4,6 +4,8 @@
 #include "WeaponData.h"
 #include "SaveDataManager.h"
 #include "ParseUtils.h"
+#include <CStats.h>
+#include <map>
 
 namespace
 {
@@ -50,6 +52,34 @@ void CheckGiver::removeProgressiveMission()
 
 void CheckGiver::giveProgressiveMap()
 {
+}
+
+namespace
+{
+	const std::map<std::string, unsigned short> weaponSkillByName = {
+		{ "Pistol",            STAT_PISTOL_SKILL },
+		{ "Silenced Pistol",   STAT_SILENCED_PISTOL_SKILL },
+		{ "Desert Eagle",      STAT_DESERT_EAGLE_SKILL },
+		{ "Shotgun",           STAT_SHOTGUN_SKILL },
+		{ "Sawn-off Shotgun",  STAT_SAWN_OFF_SHOTGUN_SKILL },
+		{ "Combat Shotgun",    STAT_COMBAT_SHOTGUN_SKILL },
+		{ "Machine Pistol",    STAT_MACHINE_PISTOL_SKILL },
+		{ "SMG",               STAT_SMG_SKILL },
+		{ "AK-47",             STAT_AK_47_SKILL },
+		{ "M4",                STAT_M4_SKILL },
+		{ "Rifle",             STAT_RIFLE_SKILL },
+	};
+
+	// Hitman level - the skill stats run 0-1000.
+	constexpr float MAX_WEAPON_SKILL = 1000.0f;
+}
+
+void CheckGiver::giveWeaponMastery(const std::string& t_weaponName)
+{
+	auto it = weaponSkillByName.find(t_weaponName);
+	if (it == weaponSkillByName.end()) return;
+
+	CStats::SetStatValue(it->second, MAX_WEAPON_SKILL);
 }
 
 void CheckGiver::giveArmorRefill()

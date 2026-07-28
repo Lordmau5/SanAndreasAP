@@ -21,6 +21,7 @@ namespace
 
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },
+		{ "weapon_mastery",      ItemEffect::WeaponMastery,      -1,                  nullptr,     "Archipelago: Received {} Mastery",          NotificationIcon::Weapon },
 
 		{ "trap_tires",          ItemEffect::Trap,               -1,                  "tires",     "Archipelago: Flat Tires Trap!",             NotificationIcon::Trap },
 		{ "trap_fat",            ItemEffect::Trap,               -1,                  "fat",       "Archipelago: Fat CJ Trap!",                 NotificationIcon::Trap },

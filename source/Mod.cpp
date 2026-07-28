@@ -535,6 +535,7 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     case ItemEffect::ProgressiveMission: m_checkGiver.giveProgressiveMission(); break;
     case ItemEffect::ProgressiveMap:     m_checkGiver.giveProgressiveMap(); break;
     case ItemEffect::SubmissionCheck:    m_checkListener.submissionCheckWasReceived(spec->submissionId); break;
+    case ItemEffect::WeaponMastery:      m_checkGiver.giveWeaponMastery(t_value); break;
     case ItemEffect::ArmorRefill:        m_checkGiver.giveArmorRefill(); break;
     case ItemEffect::CarRepair:          m_checkGiver.giveCarRepair(); break;
     case ItemEffect::Trap:               m_trapHandler.giveTrap(spec->trapName); break;

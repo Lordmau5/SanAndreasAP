@@ -162,6 +162,12 @@
     <ClInclude Include="header\HorseshoeTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
+    <ClInclude Include="header\OysterTracker.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="header\OysterPositions.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
     <ClInclude Include="header\HorseshoePositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
@@ -297,6 +303,9 @@
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\HorseshoeTracker.cpp">
+      <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\OysterTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SaveDataManager.cpp">

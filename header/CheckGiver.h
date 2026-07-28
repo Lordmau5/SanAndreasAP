@@ -21,6 +21,9 @@ public:
 	// Refills armor to the player's current maximum (respects the Max Armor Upgrade).
 	void giveArmorRefill();
 
+	// Sets one weapon's skill stat to its maximum.
+	void giveWeaponMastery(const std::string& t_weaponName);
+
 	// Fully repairs the current vehicle, or the next one CJ enters if on foot.
 	void giveCarRepair();
 
