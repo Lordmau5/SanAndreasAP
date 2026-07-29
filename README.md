@@ -2,7 +2,7 @@
 
 An [Archipelago](https://archipelago.gg) multiworld randomizer for Grand Theft
 Auto: San Andreas (PC, v1.0). Story missions are gated behind Progressive
-Mission items; spray tags, Ammu-Nation purchases, and side activities send
+Mission items; collectibles, Ammu-Nation purchases, and side activities send
 checks to the multiworld.
 
 > [!NOTE]
