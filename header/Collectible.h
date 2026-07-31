@@ -34,6 +34,7 @@ public:
 
 	virtual const char* checkType() const = 0;
 	virtual void setLocated(int t_index) = 0;
+	virtual void setBlipsEnabled(bool t_enabled) = 0;
 };
 
 // Base for the scattered-collectible trackers (spray tags, snapshots). The game exposes only a
@@ -104,10 +105,10 @@ public:
 		// Not everything counted this way sits somewhere on the map - the export vehicles move, so
 		// that set is constructed with no positions and has nothing to blip.
 		if (m_positions.empty()) return;
-
 		for (int i = 0; i < N; ++i)
 		{
-			t_out.push_back({ m_positions[i], m_sprite, i + 1, m_claimed[i], i == locatedIndex(), INT_MAX });
+			bool claimed = m_claimed[i] || !m_blipsEnabled;
+			t_out.push_back({ m_positions[i], m_sprite, i + 1, claimed, i == locatedIndex(), INT_MAX });
 		}
 	}
 
@@ -119,6 +120,8 @@ public:
 	{
 		m_located = (t_index >= 0 && t_index < N) ? t_index : -1;
 	}
+
+	void setBlipsEnabled(bool t_enabled) override { m_blipsEnabled = t_enabled; }
 
 	void save(SaveDataManager& t_saveData) const override
 	{
@@ -165,6 +168,7 @@ private:
 	const char* m_checkType;
 	std::array<bool, N> m_claimed{};
 	PendingChecks<int> m_pending;
+	bool m_blipsEnabled = true;
 	int m_located = -1;
 	float m_lastCount = 0.0f;
 	bool m_countInitialized = false;

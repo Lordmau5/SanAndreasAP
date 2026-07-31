@@ -63,6 +63,8 @@ public:
 	// ignored, so a newer client naming a set this build lacks is harmless.
 	void locateCollectible(const std::string& t_type, int t_index);
 
+	void setIncludedCollectibles(const std::string& t_types);
+
 	int getPendingSubmissionId();
 	void confirmSubmissionSent();
 

@@ -40,6 +40,15 @@ void CheckListener::locateCollectible(const std::string& t_type, int t_index)
 	}
 }
 
+void CheckListener::setIncludedCollectibles(const std::string& t_types)
+{
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		std::string needle = "," + std::string(collectible->checkType()) + ",";
+		collectible->setBlipsEnabled(("," + t_types + ",").find(needle) != std::string::npos);
+	}
+}
+
 void CheckListener::save(SaveDataManager& t_saveData)
 {
 	for (const CollectibleTracker* collectible : m_collectibles)

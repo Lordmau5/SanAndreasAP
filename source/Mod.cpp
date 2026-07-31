@@ -363,6 +363,10 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
     {
         m_deathLinkHandler.killPlayer();
     }
+    else if (t_name == "collectibles")
+    {
+        m_checkListener.setIncludedCollectibles(t_value);
+    }
 }
 
 void Mod::applyPendingItems()
