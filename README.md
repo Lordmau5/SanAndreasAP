@@ -16,7 +16,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.3.0)
+## Current scope (v0.4.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -33,8 +33,9 @@ the C++ mod.
   purchase contains)
 - Traps (wanted level, fat CJ, flat tires, car fire) and filler items
   (21 weapons, money, full armor, car repair, weapon mastery)
-- DeathLink
 - Autosave to slot 8 after every story mission and side-activity completion
+- Deathlink
+- Choosing a starting point (Badlands, San Fierro, Las Venturas)
 
 ## Setup
 
@@ -68,6 +69,19 @@ the C++ mod.
 
 **To verify:** the bottom-left of the main menu shows
 `Archipelago: Connected` in green once the game is linked to the client.
+
+### Using Starting point save files
+1. Download the `StartingPointSaves-vX.X.X.zip` from the latest
+   [release](https://github.com/awakenbad/SanAndreasAP/releases)
+2. There are three folders: *Badlands*, *San Fierro*, *Las Venturas*
+3. Place both files from one of the folders inside:
+   `Documents/GTA San Andreas User Files`
+4. Launch the game and load into the save
+
+> **Note:** these use save slots 2, 3 and 4. If you have your own saves there,
+> back them up first or rename the files to a free slot. If you rename one,
+> rename **both** to match (`GTASAsf5.b` needs `GTASAsf5.b_ap.dat`), otherwise
+> the game save and its Archipelago data won't be paired up.
 
 ## How does this mod work?
 
@@ -126,3 +140,4 @@ the C++ mod.
   [GTAMods wiki](https://gtamods.com) — save format and memory research
 - [Sanny Builder's map tool](https://gtag.sannybuilder.com/maps/gtasa/) —
   spray tag coordinates
+- Wafflejunkie — starting point save files
