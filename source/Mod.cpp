@@ -107,14 +107,26 @@ void Mod::updateGameplaySystems()
 
 void Mod::updateMissionBlockers()
 {
-    // Self-heal: if the objects behind our bookkeeping have been destroyed (a load we failed to
-    // detect), drop the stale list so the check below respawns them. This deliberately does not
-    // depend on the world-wipe signal - it verifies the objects themselves.
-    if (m_blockersSpawned && !m_missionBlockers.empty()
-        && !CPools::ms_pObjectPool->IsObjectValid(m_missionBlockers.front()))
+    // Self-heal: drop pointers whose objects have been destroyed (a load we failed to detect).
+    if (m_blockersSpawned)
     {
-        m_missionBlockers.clear();
-        m_blockersSpawned = false;
+        size_t liveCount = 0;
+        for (CObject* blocker : m_missionBlockers)
+        {
+            if (CPools::ms_pObjectPool->IsObjectValid(blocker))
+            {
+                m_missionBlockers[liveCount++] = blocker;
+            }
+        }
+        m_missionBlockers.resize(liveCount);
+        m_blockersSpawned = !m_missionBlockers.empty();
+    }
+
+    // On a timer, not the world-wipe signal - that never fires for objects.
+    if (++m_blockerScanTicks >= BLOCKER_SCAN_INTERVAL && FindPlayerPed())
+    {
+        m_blockerScanTicks = 0;
+        adoptExistingBlockers();
     }
 
     if (m_checkGiver.getProgressiveMissionCounter() == 0 && !m_blockersSpawned)
@@ -215,6 +227,52 @@ void Mod::spawnMissionBlockers()
     // Only latch when objects actually appeared. Right after a game load the models may not be
     // streamed in yet and CObject::Create can return null for every position - latching then
     // would leave the player with no blockers and no retry, so try again next tick instead.
+    m_blockersSpawned = !m_missionBlockers.empty();
+}
+
+bool Mod::ownsBlocker(const CObject* t_object) const
+{
+    for (const CObject* blocker : m_missionBlockers)
+    {
+        if (blocker == t_object) return true;
+    }
+    return false;
+}
+
+bool Mod::isBlockerPosition(const CVector& t_position, int t_modelId) const
+{
+    for (const Position& spawn : missionStartPos)
+    {
+        float expectedZ = t_modelId == BARRICADE_MODEL_ID ? spawn.z + BARRICADE_Z_OFFSET : spawn.z;
+        float dx = t_position.x - spawn.x;
+        float dy = t_position.y - spawn.y;
+        float dz = t_position.z - expectedZ;
+        if (dx * dx + dy * dy + dz * dz < BLOCKER_POSITION_TOLERANCE_SQ) return true;
+    }
+    return false;
+}
+
+void Mod::adoptExistingBlockers()
+{
+    auto* pool = CPools::ms_pObjectPool;
+    if (!pool) return;
+
+    for (int i = 0; i < pool->m_nSize; ++i)
+    {
+        CObject* object = pool->GetAt(i);
+        // The sentinel shares BLOCKER_MODEL_ID - adopting it would delete our wipe detector.
+        if (!object || object == m_worldSentinel) continue;
+
+        int modelId = object->m_nModelIndex;
+        if (modelId != BLOCKER_MODEL_ID && modelId != BARRICADE_MODEL_ID) continue;
+        if (!isBlockerPosition(object->GetPosition(), modelId)) continue;
+
+        if (!ownsBlocker(object))
+        {
+            m_missionBlockers.push_back(object);
+        }
+    }
+
     m_blockersSpawned = !m_missionBlockers.empty();
 }
 

@@ -42,6 +42,8 @@ private:
 	const int BLOCKER_MODEL_ID = 2973;
 	const int BARRICADE_MODEL_ID = MODEL_CJ_ROADBARRIER;
 	const float BARRICADE_Z_OFFSET = 0.6f;
+	// Squared 1cm - anything looser starts matching genuine road barriers.
+	const float BLOCKER_POSITION_TOLERANCE_SQ = 0.0001f;
 
 	// A permanent respawning spray can outside CJ's house, so tag hunting never requires
 	// trips back for ammo.
@@ -59,6 +61,8 @@ private:
 	APSocket m_apSocket;
 	std::vector<CObject*> m_missionBlockers;
 	bool m_blockersSpawned = false;
+	int m_blockerScanTicks = 0;
+	static constexpr int BLOCKER_SCAN_INTERVAL = 30;
 	DeathLinkHandler m_deathLinkHandler;
 	SaveDataManager m_saveDataManager;
 	AutoSaveManager m_autoSaveManager;
@@ -100,6 +104,12 @@ private:
 	void spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo);
 	void spawnMissionBlockers();
 	void removeMissionBlockers();
+	// Takes ownership of blockers the save file restored, so they can be removed like our own.
+	void adoptExistingBlockers();
+	// Whether a world position is one of ours for the given model - barricades sit higher.
+	bool isBlockerPosition(const CVector& t_position, int t_modelId) const;
+	// Whether we already hold this object, so repeat scans can't add it twice.
+	bool ownsBlocker(const CObject* t_object) const;
 	void sendChecksToAP(CheckEvent t_event);
 
 	// Grants everything the log says this save is still owed. Re-grants after a save rollback are
