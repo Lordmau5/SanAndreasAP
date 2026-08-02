@@ -52,7 +52,7 @@ the C++ mod.
 
 ### Install
 
-1. Download the `.zip` from the latest
+1. Download the `SanAndreasAP-vX.X.X.zip` from the latest
    [release](https://github.com/awakenbad/SanAndreasAP/releases).
 2. Install `gta_sa.apworld` by double-clicking it (a popup should appear confirming the
    install), then restart the Archipelago Launcher.
