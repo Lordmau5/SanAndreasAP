@@ -88,6 +88,11 @@ private:
 	std::string currentMission;
 	std::string lastMission;
 	int const NO_MISSION = -1;
+
+	static constexpr char ENDING_CUTSCENE_NAME[] = "RIOT4E1";
+	static constexpr int END_OF_THE_LINE_ID = 112;
+	bool m_endingFired = false;
+	bool isEndingCutscenePlaying() const;
 	// Declared before the trackers so it outlives them - the gym trackers hold a reference to it.
 	FightingStyleArbiter m_styleArbiter;
 	std::vector<std::unique_ptr<SubmissionTracker>> submissionTrackers;

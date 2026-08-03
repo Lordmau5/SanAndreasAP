@@ -3,6 +3,7 @@
 #include "SaveDataManager.h"
 #include "common.h"
 #include "CTheScripts.h"
+#include "CCutsceneMgr.h"
 #include <algorithm>
 #include <cctype>
 #include <cstring>
@@ -68,6 +69,7 @@ void CheckListener::load(const SaveDataManager& t_saveData)
 	// diffs live counters against these. Re-taking them after a load is what stops the jump from
 	// the old session's values to the loaded save's being read as fresh progress.
 	resyncBaselines();
+	m_endingFired = false;
 
 	for (CollectibleTracker* collectible : m_collectibles)
 	{
@@ -95,13 +97,32 @@ void CheckListener::confirmPickUpSent()
 	m_pendingPickUps.confirm();
 }
 
+bool CheckListener::isEndingCutscenePlaying() const
+{
+	if (!CCutsceneMgr::ms_running) return false;
+
+	const char* name = CCutsceneMgr::ms_cutsceneName;
+	return name && std::strncmp(name, ENDING_CUTSCENE_NAME, 8) == 0;
+}
+
 bool CheckListener::missionChecker()
 {
 	currentMission = CStats::LastMissionPassedName;
 
+	if (!m_endingFired && isEndingCutscenePlaying()
+		&& END_OF_THE_LINE_ID < static_cast<int>(missions.size()))
+	{
+		m_endingFired = true;
+		m_pendingMissions.push(missions[END_OF_THE_LINE_ID]);
+	}
+
 	if (lastMission != currentMission)
 	{
 		lastMission = currentMission;
+
+		// The key finally arriving is the same completion the cutscene already reported.
+		bool alreadySent = m_endingFired && END_OF_THE_LINE_ID < static_cast<int>(missions.size())
+			&& currentMission == missions[END_OF_THE_LINE_ID];
 
 		int missionIDcounter = 0;
 		for (const auto& mission : missions)
@@ -113,7 +134,7 @@ bool CheckListener::missionChecker()
 			missionIDcounter++;
 		}
 
-		if (missionIDcounter < static_cast<int>(missions.size()))
+		if (!alreadySent && missionIDcounter < static_cast<int>(missions.size()))
 		{
 			if (SubmissionTracker* st = findTracker(missionIDcounter))
 			{
@@ -241,16 +262,16 @@ void CheckListener::initializeMissionList()
 		"HEIST_5",   // 100 Up, Up and Away!
 		"HEIST_9",   // 101 Breaking the Bank at Caligula's
 		"MAN_1",     // 102 A Home In The Hills
-		"MANSIO2",   // 103 Vertical Bird
-		"MANSIO3",   // 104 Home Coming
-		"MANSON5",   // 105 Cut Throat Business
+		"MAN_2",   // 103 Vertical Bird
+		"MAN_3",   // 104 Home Coming
+		"MAN_5",   // 105 Cut Throat Business
 		"GROVE_1",   // 106 Beat Down on B Dup
 		"GROVE_2",   // 107 Grove 4 Life
 		"RIOT_1",    // 108 Riot
 		"RIOT_2",    // 109 Los Desperados
 		"FINALEA",   // 110 End Of The Line (1)
 		"FINALEB",   // 111 End Of The Line (2)
-		"FINALEC",   // 112 End Of The Line (3)
+		"RIOT_4",   // 112 End Of The Line (3)
 		"SHRANGE",   // 113 Shooting range
 		"GYMLS",     // 114 Los Santos Gym Fight School
 		"GYMSF",     // 115 San Fierro Gym Fight School
@@ -425,6 +446,9 @@ bool CheckListener::isStoryMission(int missionId)
 	{
 		if (missionId == optionalId) return false;
 	}
+
+	// End of the Line is reported as three completions; only the last one spends a mission.
+	if (missionId == 110 || missionId == 111) return false;
 
 	if (missionId == 135) return true; // Farewell, My Love... - appended past the original range
 	return missionId >= 11 && missionId <= 112;
