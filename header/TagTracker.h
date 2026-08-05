@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 #include "Collectible.h"
 
 // The 100 Los Santos spray tags. Spraying requires standing at the wall, so the tag the player is

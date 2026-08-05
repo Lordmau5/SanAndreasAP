@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Header">
@@ -180,6 +180,9 @@
     <ClInclude Include="header\SaveDataManager.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
+    <ClInclude Include="header\GameStorageHook.h">
+      <Filter>Header\Persistence</Filter>
+    </ClInclude>
     <ClInclude Include="header\ReceivedItemLog.h">
       <Filter>Header\Protocol</Filter>
     </ClInclude>
@@ -309,6 +312,9 @@
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\SaveDataManager.cpp">
+      <Filter>Source\Persistence</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameStorageHook.cpp">
       <Filter>Source\Persistence</Filter>
     </ClCompile>
     <ClCompile Include="source\AutoSaveManager.cpp">

@@ -11,6 +11,19 @@ Mod::Mod()
 	m_apSocket.connectToServer("127.0.0.1", 12345);
 
 	m_persistentSubsystems = { &m_checkListener, &m_checkGiver, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
+
+	// Staged here rather than every tick, so a save started mid-tick still records current values.
+	GameStorageHook::setBeforeSaveCallback([this]
+	{
+		// No save may contain them - they cost 68 of the 350 object-pool slots and stack on reload.
+		removeMissionBlockers();
+
+		for (PersistentState* subsystem : m_persistentSubsystems)
+		{
+			subsystem->save(m_saveDataManager);
+		}
+		m_saveDataManager.recordValuesAtSave();
+	});
 }
 
 void Mod::start()
@@ -19,8 +32,11 @@ void Mod::start()
     m_apSocket.update();
     pollDeathLink();
 
-    bool worldWiped = updateWorldState();
-    persistAndRestoreState(worldWiped);
+    // Consumed once, then handed to everything that needs it - the blip manager included.
+    bool loadHooked = GameStorageHook::consumeLoadHappened();
+
+    bool worldWiped = updateWorldState(loadHooked);
+    persistAndRestoreState(worldWiped, loadHooked);
 
     // Detection has to run before the respawn top-up: it re-asserts the trackers' max-health
     // override for this tick, which the top-up then heals to.
@@ -43,19 +59,14 @@ void Mod::pollDeathLink()
 }
 
 // Returns true when the world was rebuilt this tick (a load or a new game).
-bool Mod::updateWorldState()
+bool Mod::updateWorldState(bool t_loadHooked)
 {
-    // Both signals are polled every tick (no short-circuit): the object sentinel catches loads,
-    // while the blip pool still catches a New Game that clears the radar.
-    // Wipe detection must run BEFORE the blip manager touches anything: after a load its handles
-    // are stale, and acting on them would clear blips that now belong to the game.
-    bool objectWiped = detectWorldWipe();
-    if (objectWiped)
+    // Loads come from the hook; the blip pool is left only to catch a New Game clearing the radar.
+    if (t_loadHooked)
     {
         m_blipManager.onWorldWiped();
     }
-    bool blipWiped = m_blipManager.render(collectBlipTargets());
-    return blipWiped || objectWiped;
+    return m_blipManager.render(collectBlipTargets());
 }
 
 std::vector<BlipTarget> Mod::collectBlipTargets()
@@ -127,16 +138,35 @@ void Mod::updateMissionBlockers()
     {
         m_blockerScanTicks = 0;
         adoptExistingBlockers();
+
+        // Saves from before they were kept out can hold stacked sets - one set is all that is ever
+        // wanted, and the surplus alone can exhaust the pool.
+        if (m_missionBlockers.size() > missionStartPos.size() * 2)
+        {
+            removeMissionBlockers();
+        }
     }
 
-    if (m_checkGiver.getProgressiveMissionCounter() == 0 && !m_blockersSpawned)
+    bool blocked = m_checkGiver.getProgressiveMissionCounter() == 0;
+
+    if (blocked && !m_blockersSpawned)
     {
         spawnMissionBlockers();
-        m_notificationOverlay.show("Note: You are out of Progressive Missions. Missions will be blocked until you unlock more.");
     }
-    else if (m_checkGiver.getProgressiveMissionCounter() > 0 && m_blockersSpawned)
+    else if (!blocked && m_blockersSpawned)
     {
         removeMissionBlockers();
+    }
+
+    // Tied to running out, not to spawning - blockers also come and go around every save.
+    if (blocked && !m_outOfMissionsNotified)
+    {
+        m_notificationOverlay.show("Note: You are out of Progressive Missions. Missions will be blocked until you unlock more.");
+        m_outOfMissionsNotified = true;
+    }
+    else if (!blocked)
+    {
+        m_outOfMissionsNotified = false;
     }
 }
 
@@ -149,57 +179,34 @@ static std::string collectibleLabel(const std::string& t_type)
     return t_type;
 }
 
-bool Mod::detectWorldWipe()
+bool Mod::hasBlockerAt(const Position& t_spawn, int t_modelId) const
 {
-	bool wiped = false;
+    float expectedZ = t_modelId == BARRICADE_MODEL_ID ? t_spawn.z + BARRICADE_Z_OFFSET : t_spawn.z;
 
-	if (m_worldSentinel)
-	{
-		// The pool slot can be recycled by an unrelated object after ours is destroyed, so
-		// confirm the model too - otherwise a reused slot would look like our sentinel.
-		bool stillOurs = CPools::ms_pObjectPool->IsObjectValid(m_worldSentinel)
-			&& m_worldSentinel->m_nModelIndex == BLOCKER_MODEL_ID;
-		if (!stillOurs)
-		{
-			wiped = true;
-			m_worldSentinel = nullptr;
-		}
-	}
+    for (CObject* blocker : m_missionBlockers)
+    {
+        if (!blocker || blocker->m_nModelIndex != t_modelId) continue;
 
-	if (!m_worldSentinel)
-	{
-		CPlayerPed* player = FindPlayerPed();
-		if (!player) return wiped;
-
-		CStreaming::RequestModel(BLOCKER_MODEL_ID, 0);
-		CStreaming::LoadAllRequestedModels(false);
-
-		m_worldSentinel = CObject::Create(BLOCKER_MODEL_ID);
-		if (m_worldSentinel)
-		{
-			// Parked far below the player so it can never be seen or collided with.
-			CVector pos = player->GetPosition();
-			m_worldSentinel->SetPosition(CVector(pos.x, pos.y, pos.z - 500.0f));
-			m_worldSentinel->SetIsStatic(true);
-			m_worldSentinel->bStreamingDontDelete = true;
-			m_worldSentinel->bIsVisible = false;
-			m_worldSentinel->bUsesCollision = false;
-			m_worldSentinel->m_nObjectType = OBJECT_MISSION;
-			CWorld::Add(m_worldSentinel);
-		}
-	}
-
-	return wiped;
+        CVector position = blocker->GetPosition();
+        float dx = position.x - t_spawn.x;
+        float dy = position.y - t_spawn.y;
+        float dz = position.z - expectedZ;
+        if (dx * dx + dy * dy + dz * dz < BLOCKER_POSITION_TOLERANCE_SQ) return true;
+    }
+    return false;
 }
 
 void Mod::spawnMissionBlockers()
 {
+    // Own whatever is already there before creating more, or an old save's set gets doubled.
+    adoptExistingBlockers();
+
     CStreaming::RequestModel(BLOCKER_MODEL_ID, 0);
     CStreaming::RequestModel(BARRICADE_MODEL_ID, 0);
     CStreaming::LoadAllRequestedModels(false);
 
     for (const Position& pos : missionStartPos) {
-        CObject* blocker = CObject::Create(BLOCKER_MODEL_ID);
+        CObject* blocker = hasBlockerAt(pos, BLOCKER_MODEL_ID) ? nullptr : CObject::Create(BLOCKER_MODEL_ID);
 
         if (blocker) {
             blocker->SetPosition(CVector(pos.x, pos.y, pos.z));
@@ -212,7 +219,7 @@ void Mod::spawnMissionBlockers()
             m_missionBlockers.push_back(blocker);
         }
 
-        CObject* barricade = CObject::Create(BARRICADE_MODEL_ID);
+        CObject* barricade = hasBlockerAt(pos, BARRICADE_MODEL_ID) ? nullptr : CObject::Create(BARRICADE_MODEL_ID);
 
         if (barricade) {
             barricade->SetPosition(CVector(pos.x, pos.y, pos.z + BARRICADE_Z_OFFSET));
@@ -260,8 +267,7 @@ void Mod::adoptExistingBlockers()
     for (int i = 0; i < pool->m_nSize; ++i)
     {
         CObject* object = pool->GetAt(i);
-        // The sentinel shares BLOCKER_MODEL_ID - adopting it would delete our wipe detector.
-        if (!object || object == m_worldSentinel) continue;
+        if (!object) continue;
 
         int modelId = object->m_nModelIndex;
         if (modelId != BLOCKER_MODEL_ID && modelId != BARRICADE_MODEL_ID) continue;
@@ -560,29 +566,26 @@ void Mod::spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int
 	CPickups::GenerateNewOne(t_position, t_modelId, PICKUP_ON_STREET, t_ammo, 0, false, nullptr);
 }
 
-void Mod::persistAndRestoreState(bool t_worldWiped)
+void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 {
 	m_saveDataManager.poll();
 
-	// The first-in-game-tick trigger covers a session whose menu ticks never ran (no sentinel
-	// existed yet to observe the wipe); the wipe signal covers every load after that. Both are
-	// guarded by the fresh-New-Game check: a brand new game has no last-passed mission at its
-	// very first tick (any loadable save does; the intro's INITIAL mission passes long before
-	// saving is even possible), and restoring another slot's data into a fresh game is the
-	// failure mode that must stay impossible.
-	bool firstInGameTick = !m_firstInGameTickHandled && FindPlayerPed();
+	bool firstInGameTick = FindPlayerPed() && !m_firstInGameTickHandled;
 	if (firstInGameTick)
 	{
 		m_firstInGameTickHandled = true;
 	}
 
+	// Only the hook may trigger this. The wipe signal cannot tell a load from a save, and a
+	// "first tick with a last-passed mission" test fires on a New Game's first mission instead.
 	bool restoreNeeded = false;
-	if ((t_worldWiped || firstInGameTick) && CStats::LastMissionPassedName[0] != '\0')
+	if (t_loadHooked && CStats::LastMissionPassedName[0] != '\0')
 	{
 		restoreNeeded = m_saveDataManager.restoreFromCurrentLoadName();
 	}
 
-	if (firstInGameTick || t_worldWiped)
+	// Still keyed off the wipe: a save destroys our objects too, so the cached pointers dangle.
+	if (firstInGameTick || t_worldWiped || t_loadHooked)
 	{
 		spawnCollectiblePickups();
 
@@ -607,10 +610,4 @@ void Mod::persistAndRestoreState(bool t_worldWiped)
 		}
 	}
 
-	// Staged every tick rather than only on change, so a save triggered by anything - the player,
-	// an autosave, a mission end - always writes current values with no separate dirty tracking.
-	for (PersistentState* subsystem : m_persistentSubsystems)
-	{
-		subsystem->save(m_saveDataManager);
-	}
 }

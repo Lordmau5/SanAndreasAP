@@ -11,23 +11,23 @@ static std::string extractFileName(const std::string& pathOrName)
 	return pos == std::string::npos ? pathOrName : pathOrName.substr(pos + 1);
 }
 
+void SaveDataManager::recordValuesAtSave()
+{
+	m_valuesAtSave = m_values;
+	m_hasValuesAtSave = true;
+}
+
 void SaveDataManager::poll()
 {
 	std::string saveName = extractFileName(CGenericGameStorage::ms_SaveFileNameJustSaved);
 
-	if (!m_initialized)
-	{
-		m_lastSeenSaveFileName = saveName;
-		m_initialized = true;
-		return;
-	}
+	// Keyed off our own record rather than the name changing: saving twice to the same slot
+	// leaves the name identical, and that save still has to reach the companion file.
+	if (!m_hasValuesAtSave || saveName.empty()) return;
 
-	if (!saveName.empty() && saveName != m_lastSeenSaveFileName)
-	{
-		m_lastSeenSaveFileName = saveName;
-		m_currentSaveKey = saveName;
-		writeToDisk();
-	}
+	m_hasValuesAtSave = false;
+	m_currentSaveKey = saveName;
+	writeToDisk(m_valuesAtSave);
 }
 
 bool SaveDataManager::restoreFromCurrentLoadName()
@@ -35,9 +35,6 @@ bool SaveDataManager::restoreFromCurrentLoadName()
 	std::string loadName = extractFileName(CGenericGameStorage::ms_LoadFileName);
 	if (loadName.empty()) return false;
 
-	// Re-baseline the save-name tracking too, so a later save to a different slot is still
-	// detected as a change and re-keys the companion file correctly.
-	m_lastSeenSaveFileName = loadName;
 	m_currentSaveKey = loadName;
 	loadFromDisk();
 	return true;
@@ -54,10 +51,6 @@ void SaveDataManager::setValue(const std::string& key, const std::string& value)
 	if (it != m_values.end() && it->second == value) return;
 
 	m_values[key] = value;
-	if (!m_currentSaveKey.empty())
-	{
-		writeToDisk();
-	}
 }
 
 std::string SaveDataManager::getValue(const std::string& key, const std::string& defaultValue) const
@@ -89,12 +82,12 @@ void SaveDataManager::loadFromDisk()
 	}
 }
 
-void SaveDataManager::writeToDisk() const
+void SaveDataManager::writeToDisk(const std::unordered_map<std::string, std::string>& t_values) const
 {
 	std::ofstream file(getFilePath(), std::ios::trunc);
 	if (!file.is_open()) return;
 
-	for (const auto& [key, value] : m_values)
+	for (const auto& [key, value] : t_values)
 	{
 		file << key << "=" << value << "\n";
 	}

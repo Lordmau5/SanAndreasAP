@@ -1,4 +1,5 @@
 #include "AutoSaveManager.h"
+#include "GameStorageHook.h"
 #include "common.h"
 #include "CTheScripts.h"
 #include <CGenericGameStorage.h>
@@ -42,6 +43,8 @@ bool AutoSaveManager::performSave()
 	// source, so clear the flag across the write and put it straight back.
 	bool wasInVehicle = player->bInVehicle;
 	player->bInVehicle = false;
+
+	GameStorageHook::notifyBeforeSave();
 
 	CGenericGameStorage::MakeValidSaveName(AUTOSAVE_SLOT - 1);
 	bool saved = CGenericGameStorage::GenericSave(0);

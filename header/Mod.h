@@ -20,6 +20,7 @@
 #include "BlipTarget.h"
 #include "AmmuNationShop.h"
 #include "TrapHandler.h"
+#include "GameStorageHook.h"
 
 class Mod
 {
@@ -61,6 +62,7 @@ private:
 	APSocket m_apSocket;
 	std::vector<CObject*> m_missionBlockers;
 	bool m_blockersSpawned = false;
+	bool m_outOfMissionsNotified = false;
 	int m_blockerScanTicks = 0;
 	static constexpr int BLOCKER_SCAN_INTERVAL = 30;
 	DeathLinkHandler m_deathLinkHandler;
@@ -81,11 +83,6 @@ private:
 	std::vector<PersistentState*> m_persistentSubsystems;
 
 	bool m_firstInGameTickHandled = false;
-	// Invisible object used to detect that the world was rebuilt (load or new game). Blips are
-	// part of the save file and come back intact, so they cannot see a load - world objects are
-	// destroyed by one, which makes an object the only sentinel a save can't preserve.
-	CObject* m_worldSentinel = nullptr;
-	bool detectWorldWipe();
 
 	EdgeTriggeredKey m_tagBlipToggleKey{ VK_F8 };
 
@@ -93,7 +90,7 @@ private:
 
 	// One tick, in order - see start() for why the sequence matters.
 	void pollDeathLink();
-	bool updateWorldState();
+	bool updateWorldState(bool t_loadHooked);
 	// Gathers every collectible's blip targets and ranks them by distance, for the blip manager.
 	std::vector<BlipTarget> collectBlipTargets();
 	void applyRespawnHealthTopUp();
@@ -110,6 +107,8 @@ private:
 	bool isBlockerPosition(const CVector& t_position, int t_modelId) const;
 	// Whether we already hold this object, so repeat scans can't add it twice.
 	bool ownsBlocker(const CObject* t_object) const;
+	// Whether one of ours already stands at this spawn, so a load can't double the set.
+	bool hasBlockerAt(const Position& t_spawn, int t_modelId) const;
 	void sendChecksToAP(CheckEvent t_event);
 
 	// Grants everything the log says this save is still owed. Re-grants after a save rollback are
@@ -118,6 +117,6 @@ private:
 	// Grants one item's effect. Returns false when the effect name isn't one this build knows.
 	bool applyItemEffect(const std::string& t_effectName, const std::string& t_value, bool t_isNew);
 	void applyControlMessage(const std::string& t_name, const std::string& t_value);
-	void persistAndRestoreState(bool t_worldWiped);
+	void persistAndRestoreState(bool t_worldWiped, bool t_loadHooked);
 };
 

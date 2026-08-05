@@ -4,6 +4,7 @@
 #include <CMessages.h>
 #include "CStreaming.h"
 #include "Mod.h"
+#include "GameStorageHook.h"
 
 using namespace plugin;
 
@@ -14,6 +15,8 @@ struct Main
 
     Main()
     {
+        GameStorageHook::install();
+
         // register event callbacks
         Events::gameProcessEvent += []{ gInstance.OnGameProcess(); };
         Events::drawHudEvent += []{ gInstance.mod.drawOverlay(); };

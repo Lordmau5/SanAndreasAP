@@ -20,7 +20,7 @@ bool BoatSchoolTracker::isTestPassed(int t_testIndex, int t_value) const
 
 	if (t_testIndex == JUMP_TEST) return t_value > PASS_LIMITS[t_testIndex];
 
-	// The timed tests start at a high sentinel rather than zero, so "strictly under the limit" also
-	// rules out a test that has never been attempted.
-	return t_value < PASS_LIMITS[t_testIndex];
+	// Unattempted tests hold a high sentinel, so "under the limit" means passed - but zero is what
+	// the globals read before the scripts write them, and that is not a pass.
+	return t_value > 0 && t_value < PASS_LIMITS[t_testIndex];
 }

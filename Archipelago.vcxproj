@@ -34,6 +34,7 @@
     <ClInclude Include="header\OysterPositions.h" />
     <ClInclude Include="header\PimpingTracker.h" />
     <ClInclude Include="header\ScriptGlobals.h" />
+    <ClInclude Include="header\GameStorageHook.h" />
     <ClInclude Include="header\Mod.h" />
     <ClInclude Include="header\NotificationOverlay.h" />
     <ClInclude Include="header\ParamedicTracker.h" />
@@ -83,6 +84,7 @@
     <ClCompile Include="source\QuarryTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
+    <ClCompile Include="source\GameStorageHook.cpp" />
     <ClCompile Include="source\Mod.cpp" />
     <ClCompile Include="source\NotificationOverlay.cpp" />
     <ClCompile Include="source\ParamedicTracker.cpp" />
