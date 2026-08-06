@@ -17,7 +17,9 @@ public:
 	// Called every tick, so whatever is in memory is already staged when the player next saves.
 	virtual void save(SaveDataManager& t_saveData) = 0;
 
-	// Called only once a save has really been loaded - never on a fresh New Game, where
-	// restoring another slot's data is the failure mode that must stay impossible.
+	// Restores state from the given manager. Normally called after a real slot loads; on a New Game
+	// it is instead handed an empty manager, so every field returns to its default through this one
+	// path. The invariant is that a New Game must never see ANOTHER slot's data - empty defaults are
+	// safe, a wrong slot is the failure mode that must stay impossible.
 	virtual void load(const SaveDataManager& t_saveData) = 0;
 };

@@ -5,6 +5,7 @@
 #include "CStreaming.h"
 #include "CPools.h"
 #include <CRadar.h>
+#include <CTimer.h>
 
 Mod::Mod()
 {
@@ -34,6 +35,17 @@ void Mod::start()
 
     // Consumed once, then handed to everything that needs it - the blip manager included.
     bool loadHooked = GameStorageHook::consumeLoadHappened();
+
+    if (GameStorageHook::consumeNewGameHappened())
+    {
+        resetForNewGame();
+    }
+    else if (loadHooked)
+    {
+        // A load restores its own weapons rather than clearing them, so it cancels any pending
+        // New Game re-grant delay instead of making the loaded save's items wait it out.
+        m_newGameRegrantPending = false;
+    }
 
     bool worldWiped = updateWorldState(loadHooked);
     persistAndRestoreState(worldWiped, loadHooked);
@@ -440,6 +452,30 @@ void Mod::applyPendingItems()
     // and then immediately roll back once the real save arrived.
     if (!m_firstInGameTickHandled) return;
 
+    // A New Game's script init strips CJ's weapons and stats a beat after he spawns. Hold the
+    // re-grant until the player has held control CONTINUOUSLY a little past that init, so the grants
+    // land after the wipe rather than getting cleared by it.
+    if (m_newGameRegrantPending)
+    {
+        if (!PlayerControl::isInControl())
+        {
+            // The intro cutscene (and a flicker of control before it) must not run the timer down,
+            // or the grant lands right as the wipe fires on skip. Any break restarts the wait.
+            m_newGameRegrantClockStarted = false;
+            return;
+        }
+        unsigned int now = CTimer::m_snTimeInMilliseconds;
+        // Re-anchor on a backwards jump too: the game resets its timer around the new game.
+        if (!m_newGameRegrantClockStarted || now < m_newGameRegrantControlStartMs)
+        {
+            m_newGameRegrantClockStarted = true;
+            m_newGameRegrantControlStartMs = now;
+            return;
+        }
+        if (now - m_newGameRegrantControlStartMs < NEW_GAME_REGRANT_DELAY_MS) return;
+        m_newGameRegrantPending = false;
+    }
+
     std::vector<ReceivedItem> pending = m_receivedItemLog.takePendingItems();
     if (pending.empty()) return;
 
@@ -610,4 +646,26 @@ void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 		}
 	}
 
+}
+
+void Mod::resetForNewGame()
+{
+	// Feed every subsystem an empty manager so each returns to its fresh-game defaults through the
+	// same path a load uses. This can't restore another slot's data - the values are empty by
+	// construction - and it resets m_lastAppliedIndex with the rest, so every item the session has
+	// already received is re-granted to the new save on the next tick rather than lost to a softlock.
+	SaveDataManager freshDefaults;
+	for (PersistentState* subsystem : m_persistentSubsystems)
+	{
+		subsystem->load(freshDefaults);
+	}
+
+	m_blipManager.onWorldWiped();
+	m_missionBlockers.clear();
+	m_blockersSpawned = false;
+
+	m_firstInGameTickHandled = false;
+	m_outOfMissionsNotified = false;
+	m_newGameRegrantPending = true;
+	m_newGameRegrantClockStarted = false;
 }

@@ -11,6 +11,10 @@ namespace GameStorageHook
 	// the caller can do its work on a normal tick.
 	bool consumeLoadHappened();
 
+	// True once per New Game started from the menu (not a load), cleared by reading it. Lets the
+	// caller wipe stale per-slot state instead of carrying the previous save's into the new one.
+	bool consumeNewGameHappened();
+
 	// Runs INSIDE the game's pre-save, before anything is serialised - there is no tick between
 	// that moment and the write, so anything that must reach the file has to happen here.
 	void setBeforeSaveCallback(std::function<void()> t_callback);

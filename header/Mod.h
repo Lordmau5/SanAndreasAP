@@ -84,6 +84,13 @@ private:
 
 	bool m_firstInGameTickHandled = false;
 
+	// New Game re-grant waits out the script init that strips CJ's weapons/stats after spawn (see
+	// applyPendingItems); needs control held continuously, or the intro cutscene runs the timer down.
+	bool m_newGameRegrantPending = false;
+	bool m_newGameRegrantClockStarted = false;
+	unsigned int m_newGameRegrantControlStartMs = 0;
+	static constexpr unsigned int NEW_GAME_REGRANT_DELAY_MS = 4000;
+
 	EdgeTriggeredKey m_tagBlipToggleKey{ VK_F8 };
 
 	void parseIncomingMessages();
@@ -118,5 +125,8 @@ private:
 	bool applyItemEffect(const std::string& t_effectName, const std::string& t_value, bool t_isNew);
 	void applyControlMessage(const std::string& t_name, const std::string& t_value);
 	void persistAndRestoreState(bool t_worldWiped, bool t_loadHooked);
+	// Wipes stale per-slot AP state when a New Game starts mid-session, so the previous save's
+	// collectibles, mission counter and item mark can't carry into (and corrupt) the fresh run.
+	void resetForNewGame();
 };
 
