@@ -334,7 +334,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         if (m_apSocket.sendToServer(APProtocol::pickUpCheck()))
         {
             m_checkListener.confirmPickUpSent();
-            m_notificationOverlay.show("Picked up an item");
         }
         break;
     case CheckEvent::Submission:
