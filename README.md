@@ -6,7 +6,7 @@ Mission items; collectibles, Ammu-Nation purchases, and side activities send
 checks to the multiworld.
 
 > [!NOTE]
-> Los Santos, San Fierro and Las Venturas are randomized so far (Big Smoke → A Home in the Hills). 
+> All regions are randomized (Big Smoke → End of the Line), but not all side activities are. 
 > The rest of the game will come in future updates. Feel free to bug report either through `Issues` or using [GTA SA Thread](https://discord.com/channels/1085716850370957462/1098055987648282717) in Archipelago After Dark
 
 ## Related repositories
@@ -16,19 +16,21 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.4.1)
+## Current scope (v0.5.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
     - **Are You Going to San Fierro?** (Los Santos → Badlands)
     - **Yay Ka-Boom-Boom** (Los Santos → San Fierro)
     - **A Home in the Hills** (Los Santos → Las Venturas)
-- 76 story missions across all regions
+    - **End of the Line** (Los Santos → Return to Los Santos)
+- 100 story missions across all regions
   gated by Progressive Mission items
-- 100 spray tags, 50 snapshots, horseshoes and oysters as individual locations (toggleable)
+- Spray tags, snapshots, horseshoes and oysters as individual locations (toggleable)
 - Side activities, paying out **per level** rather than once at the end:
   Paramedic, Firefighter and Vigilante (12 levels each), Taxi Driver (one per
   5 fares), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands) etc.
+  The number of checks each activity sends is adjustable in the options.
 - 8 Ammu-Nation shop slots that sell checks (the menu shows what each
   purchase contains)
 - Traps (wanted level, fat CJ, flat tires, car fire) and filler items
@@ -52,7 +54,7 @@ the C++ mod.
 
 ### Install
 
-1. Download the `SanAndreasAP-vX.X.X.zip` from the latest
+1. Download the `Archipelago.SA.asi` and `gta_sa.apworld` from the latest
    [release](https://github.com/awakenbad/SanAndreasAP/releases).
 2. Install `gta_sa.apworld` by double-clicking it (a popup should appear confirming the
    install), then restart the Archipelago Launcher.
@@ -63,8 +65,9 @@ the C++ mod.
    - Find **Grand Theft Auto: San Andreas**
    - Tweak the settings, enter your slot name at the top, and press
      **Export Options**
-5. Run `GTASAClient.exe`, then type `/connect <address>` to connect it to your
-   Archipelago server.
+5. In the Archipelago Launcher, open **GTA SA Client** (it comes with the
+   `.apworld` you installed in step 2), then type `/connect <address>` to connect
+   it to your Archipelago server.
 6. Launch the game.
 
 **To verify:** the bottom-left of the main menu shows
@@ -108,8 +111,9 @@ the C++ mod.
 
 ## Troubleshooting
 
-- **"Archipelago: Disconnected" in the menu** — `GTASAClient.exe` isn't
-  running. Start it; the game reconnects automatically within a few seconds.
+- **"Archipelago: Disconnected" in the menu** — the **GTA SA Client** isn't
+  running. Open it from the Archipelago Launcher; the game reconnects
+  automatically within a few seconds.
 
 ## Notes
 
@@ -121,10 +125,11 @@ the C++ mod.
   hand you everything a second time.
 - The client must be running before checks can be sent; anything you complete
   while it is disconnected is sent automatically once it reconnects.
+- Connect the client to the room for the **same seed** as the save you load.
+  Loading a save that belongs to a different seed will misapply items.
 
 ## Roadmap
 
-- Return to Los Santos missions and side activities
 - Remaining checks for a 100% goal
 - More options for customizing seeds
 - Native support with Rainbomizer
