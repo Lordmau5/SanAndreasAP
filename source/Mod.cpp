@@ -534,7 +534,6 @@ void Mod::drawOverlay()
     m_blipManager.drawNumbers();
     m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
-
 }
 
 void Mod::drawMenuOverlay()
@@ -609,12 +608,16 @@ void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 	if (firstInGameTick)
 	{
 		m_firstInGameTickHandled = true;
+
+		if (CStats::LastMissionPassedName[0] == '\0')
+		{
+			m_newGameRegrantPending = true;
+			m_newGameRegrantClockStarted = false;
+		}
 	}
 
-	// Only the hook may trigger this. The wipe signal cannot tell a load from a save, and a
-	// "first tick with a last-passed mission" test fires on a New Game's first mission instead.
 	bool restoreNeeded = false;
-	if (t_loadHooked && CStats::LastMissionPassedName[0] != '\0')
+	if (t_loadHooked)
 	{
 		restoreNeeded = m_saveDataManager.restoreFromCurrentLoadName();
 	}
