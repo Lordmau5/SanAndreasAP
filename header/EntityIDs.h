@@ -21,6 +21,7 @@ inline constexpr int QUARRY_ID = 118;
 inline constexpr int VALET_ID = 136;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
+inline constexpr int GANG_TERRITORY_ID = 139;
 
 inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
 	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
@@ -75,15 +76,14 @@ inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 91, 10, 1.0f };
 inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 101, 5, 1.0f };
 inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 106, 6, 1.0f };
 inline constexpr SubmissionTierSpec QUARRY_TIERS       { 112, 7, 1.0f };
+inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 119, 20, 5.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 119;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 139;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },
     { 2459.55, -1687.75, 12.56, 0 },
     { 2515.07, -1673.98, 12.71, 0 },
-    // House Party's second part starts at its own Grove Street marker, not one of the shared
-    // ones (hand-captured in-game; z lowered ~1m from the ped-origin readout to ground level).
     { 2486.59, -1649.52, 12.48, 0 },
     { 1365.251, -1280.12, 12.5469, 0 },
     { 1042.85, -1338.62, 12.55, 0 },

@@ -29,6 +29,7 @@
     <ClInclude Include="header\BoatSchoolTracker.h" />
     <ClInclude Include="header\ExportListTracker.h" />
     <ClInclude Include="header\QuarryTracker.h" />
+    <ClInclude Include="header\GangTerritoryTracker.h" />
     <ClInclude Include="header\ExportVehicles.h" />
     <ClInclude Include="header\OysterTracker.h" />
     <ClInclude Include="header\OysterPositions.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="source\ExportListTracker.cpp" />
     <ClCompile Include="source\OysterTracker.cpp" />
     <ClCompile Include="source\QuarryTracker.cpp" />
+    <ClCompile Include="source\GangTerritoryTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\GameStorageHook.cpp" />
@@ -142,8 +144,8 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Release\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>C:\Users\Owner\Desktop\git\SanAndreasAP\header;$(IncludePath)</IncludePath>
-    <SourcePath>C:\Users\Owner\Desktop\git\SanAndreasAP\source;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)header;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug GTA-SA|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -152,8 +154,8 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Debug\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>C:\Users\Owner\Desktop\git\SanAndreasAP\header;$(IncludePath)</IncludePath>
-    <SourcePath>C:\Users\Owner\Desktop\git\SanAndreasAP\source;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)header;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release GTA-SA|Win32'">
     <ClCompile>

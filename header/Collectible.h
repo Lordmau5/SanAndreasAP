@@ -68,22 +68,24 @@ public:
 		}
 
 		int delta = static_cast<int>(currentCount) - static_cast<int>(m_lastCount);
-		if (delta > 0)
+
+		if (delta < 0)
 		{
 			m_lastCount = currentCount;
+			return hasPending();
+		}
 
-			// Claiming the nearest/aimed one, then the next, delta times gives the delta collected
-			// this tick, in the order they'd be found - identical to one batched search.
-			for (int i = 0; i < delta; ++i)
-			{
-				int index = identifyCollected();
-				// Can't tell which - drop the check rather than claim the wrong entry, which would
-				// burn a location the player never found.
-				if (index < 0) break;
+		for (int i = 0; i < delta; ++i)
+		{
+			int index = identifyCollected();
+			if (index < 0) break;
 
-				m_claimed[index] = true;
-				m_pending.push(index);
-			}
+			// An already-claimed entry means a re-sprayed tag - consume it but don't re-check.
+			m_lastCount += 1.0f;
+			if (m_claimed[index]) continue;
+
+			m_claimed[index] = true;
+			m_pending.push(index);
 		}
 
 		return hasPending();

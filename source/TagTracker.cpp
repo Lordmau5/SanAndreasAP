@@ -27,8 +27,6 @@ int TagTracker::identifyCollected() const
 	float bestDistance = 0.0f;
 	for (int i = 0; i < static_cast<int>(tagPositions.size()); ++i)
 	{
-		if (isClaimed(i)) continue;
-
 		float distance = CVector::Distance(playerPos, tagPositions[i]);
 		if (best == -1 || distance < bestDistance)
 		{

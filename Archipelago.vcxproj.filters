@@ -117,6 +117,9 @@
     <ClInclude Include="header\QuarryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\GangTerritoryTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\ExportVehicles.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -276,6 +279,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\QuarryTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GangTerritoryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\PimpingTracker.cpp">
