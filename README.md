@@ -108,6 +108,10 @@ the C++ mod.
 
 - Some text may not scale correctly without Widescreen Fix installed.
 - Autosave titles longer than ~22 characters are truncated.
+- Spray tags sprayed during the mission **Tagging Up Turf** may not send their
+  checks for some players (the tag's radar blip stays on the map). This is being
+  investigated - if you can reproduce it, please share your exact steps in
+  [issue #1](https://github.com/awakenbad/SanAndreasAP/issues/1).
 
 ## Troubleshooting
 
