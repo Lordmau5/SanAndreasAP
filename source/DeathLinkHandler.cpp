@@ -42,7 +42,7 @@ bool DeathLinkHandler::update()
 		m_suppressNextDeathBroadcast = false;
 		return false;
 	}
-	return justDied;
+	return m_enabled && justDied;
 }
 
 bool DeathLinkHandler::consumeRespawn()
