@@ -136,7 +136,7 @@ inline const char* const missionStartPosBranch[] = {
     "Woozie",
     "Triads",
     "Loco Syndicate",
-    "Garage",
+    nullptr,
     nullptr,
     nullptr,
     "Toreno",
