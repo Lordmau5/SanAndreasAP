@@ -75,6 +75,15 @@
     <ClInclude Include="header\CheckGiver.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
+    <ClInclude Include="header\MissionBranches.h">
+      <Filter>Header\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="header\BranchProgress.h">
+      <Filter>Header\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MissionBlockerManager.h">
+      <Filter>Header\Checks</Filter>
+    </ClInclude>
     <ClInclude Include="header\PendingChecks.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
@@ -240,6 +249,15 @@
       <Filter>Source\Checks</Filter>
     </ClCompile>
     <ClCompile Include="source\CheckGiver.cpp">
+      <Filter>Source\Checks</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MissionBranches.cpp">
+      <Filter>Source\Checks</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BranchProgress.cpp">
+      <Filter>Source\Checks</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MissionBlockerManager.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
     <ClCompile Include="source\SubmissionTracker.cpp">

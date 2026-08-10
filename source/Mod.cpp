@@ -2,6 +2,7 @@
 #include "PlayerControl.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
+#include "MissionBranches.h"
 #include "CStreaming.h"
 #include "CPools.h"
 #include <CRadar.h>
@@ -11,13 +12,11 @@ Mod::Mod()
 {
 	m_apSocket.connectToServer("127.0.0.1", 12345);
 
-	m_persistentSubsystems = { &m_checkListener, &m_checkGiver, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
+	m_persistentSubsystems = { &m_checkListener, &m_branchProgress, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
 
-	// Staged here rather than every tick, so a save started mid-tick still records current values.
 	GameStorageHook::setBeforeSaveCallback([this]
 	{
-		// No save may contain them - they cost 68 of the 350 object-pool slots and stack on reload.
-		removeMissionBlockers();
+		m_blockerManager.removeAll();
 
 		for (PersistentState* subsystem : m_persistentSubsystems)
 		{
@@ -29,11 +28,9 @@ Mod::Mod()
 
 void Mod::start()
 {
-    // The order of these phases is load-bearing; each one's comment says why.
     m_apSocket.update();
     pollDeathLink();
 
-    // Consumed once, then handed to everything that needs it - the blip manager included.
     bool loadHooked = GameStorageHook::consumeLoadHappened();
 
     if (GameStorageHook::consumeNewGameHappened())
@@ -42,22 +39,18 @@ void Mod::start()
     }
     else if (loadHooked)
     {
-        // A load restores its own weapons rather than clearing them, so it cancels any pending
-        // New Game re-grant delay instead of making the loaded save's items wait it out.
         m_newGameRegrantPending = false;
     }
 
     bool worldWiped = updateWorldState(loadHooked);
     persistAndRestoreState(worldWiped, loadHooked);
 
-    // Detection has to run before the respawn top-up: it re-asserts the trackers' max-health
-    // override for this tick, which the top-up then heals to.
     CheckEvent event = m_checkListener.update();
     applyRespawnHealthTopUp();
 
     sendChecksToAP(event);
     updateGameplaySystems();
-    updateMissionBlockers();
+    m_blockerManager.update(m_branchProgress);
 
     parseIncomingMessages();
 }
@@ -70,10 +63,8 @@ void Mod::pollDeathLink()
     }
 }
 
-// Returns true when the world was rebuilt this tick (a load or a new game).
 bool Mod::updateWorldState(bool t_loadHooked)
 {
-    // Loads come from the hook; the blip pool is left only to catch a New Game clearing the radar.
     if (t_loadHooked)
     {
         m_blipManager.onWorldWiped();
@@ -95,10 +86,6 @@ std::vector<BlipTarget> Mod::collectBlipTargets()
     return targets;
 }
 
-// The hospital/police respawn refill recomputes max health from the game's internal stat,
-// ignoring the Paramedic tracker's override - so on the respawn edge, top current health up to
-// our max. Heals to whatever the current max is, so it's a no-op without the upgrade and also
-// corrects the reverse case (respawn granting MORE than an unearned max).
 void Mod::applyRespawnHealthTopUp()
 {
     if (!m_deathLinkHandler.consumeRespawn()) return;
@@ -128,60 +115,6 @@ void Mod::updateGameplaySystems()
     }
 }
 
-void Mod::updateMissionBlockers()
-{
-    // Self-heal: drop pointers whose objects have been destroyed (a load we failed to detect).
-    if (m_blockersSpawned)
-    {
-        size_t liveCount = 0;
-        for (CObject* blocker : m_missionBlockers)
-        {
-            if (CPools::ms_pObjectPool->IsObjectValid(blocker))
-            {
-                m_missionBlockers[liveCount++] = blocker;
-            }
-        }
-        m_missionBlockers.resize(liveCount);
-        m_blockersSpawned = !m_missionBlockers.empty();
-    }
-
-    // On a timer, not the world-wipe signal - that never fires for objects.
-    if (++m_blockerScanTicks >= BLOCKER_SCAN_INTERVAL && FindPlayerPed())
-    {
-        m_blockerScanTicks = 0;
-        adoptExistingBlockers();
-
-        // Saves from before they were kept out can hold stacked sets - one set is all that is ever
-        // wanted, and the surplus alone can exhaust the pool.
-        if (m_missionBlockers.size() > missionStartPos.size() * 2)
-        {
-            removeMissionBlockers();
-        }
-    }
-
-    bool blocked = m_checkGiver.getProgressiveMissionCounter() == 0;
-
-    if (blocked && !m_blockersSpawned)
-    {
-        spawnMissionBlockers();
-    }
-    else if (!blocked && m_blockersSpawned)
-    {
-        removeMissionBlockers();
-    }
-
-    // Tied to running out, not to spawning - blockers also come and go around every save.
-    if (blocked && !m_outOfMissionsNotified)
-    {
-        m_notificationOverlay.show("Note: You are out of Progressive Missions. Missions will be blocked until you unlock more.");
-        m_outOfMissionsNotified = true;
-    }
-    else if (!blocked)
-    {
-        m_outOfMissionsNotified = false;
-    }
-}
-
 static std::string collectibleLabel(const std::string& t_type)
 {
     if (t_type == "TAG") return "LS Tag";
@@ -189,125 +122,6 @@ static std::string collectibleLabel(const std::string& t_type)
     if (t_type == "HORSESHOE") return "LV Horseshoe";
     if (t_type == "OYSTER") return "Oyster";
     return t_type;
-}
-
-bool Mod::hasBlockerAt(const Position& t_spawn, int t_modelId) const
-{
-    float expectedZ = t_modelId == BARRICADE_MODEL_ID ? t_spawn.z + BARRICADE_Z_OFFSET : t_spawn.z;
-
-    for (CObject* blocker : m_missionBlockers)
-    {
-        if (!blocker || blocker->m_nModelIndex != t_modelId) continue;
-
-        CVector position = blocker->GetPosition();
-        float dx = position.x - t_spawn.x;
-        float dy = position.y - t_spawn.y;
-        float dz = position.z - expectedZ;
-        if (dx * dx + dy * dy + dz * dz < BLOCKER_POSITION_TOLERANCE_SQ) return true;
-    }
-    return false;
-}
-
-void Mod::spawnMissionBlockers()
-{
-    // Own whatever is already there before creating more, or an old save's set gets doubled.
-    adoptExistingBlockers();
-
-    CStreaming::RequestModel(BLOCKER_MODEL_ID, 0);
-    CStreaming::RequestModel(BARRICADE_MODEL_ID, 0);
-    CStreaming::LoadAllRequestedModels(false);
-
-    for (const Position& pos : missionStartPos) {
-        CObject* blocker = hasBlockerAt(pos, BLOCKER_MODEL_ID) ? nullptr : CObject::Create(BLOCKER_MODEL_ID);
-
-        if (blocker) {
-            blocker->SetPosition(CVector(pos.x, pos.y, pos.z));
-            blocker->SetIsStatic(true);
-            blocker->bStreamingDontDelete = true;
-            blocker->bDistanceFade = true;
-            blocker->bIsVisible = false;
-            blocker->m_nObjectType = OBJECT_MISSION;
-            CWorld::Add(blocker);
-            m_missionBlockers.push_back(blocker);
-        }
-
-        CObject* barricade = hasBlockerAt(pos, BARRICADE_MODEL_ID) ? nullptr : CObject::Create(BARRICADE_MODEL_ID);
-
-        if (barricade) {
-            barricade->SetPosition(CVector(pos.x, pos.y, pos.z + BARRICADE_Z_OFFSET));
-            barricade->SetIsStatic(true);
-            barricade->bStreamingDontDelete = true;
-            barricade->bDistanceFade = true;
-            barricade->m_nObjectType = OBJECT_MISSION;
-            CWorld::Add(barricade);
-            m_missionBlockers.push_back(barricade);
-        }
-    }
-    // Only latch when objects actually appeared. Right after a game load the models may not be
-    // streamed in yet and CObject::Create can return null for every position - latching then
-    // would leave the player with no blockers and no retry, so try again next tick instead.
-    m_blockersSpawned = !m_missionBlockers.empty();
-}
-
-bool Mod::ownsBlocker(const CObject* t_object) const
-{
-    for (const CObject* blocker : m_missionBlockers)
-    {
-        if (blocker == t_object) return true;
-    }
-    return false;
-}
-
-bool Mod::isBlockerPosition(const CVector& t_position, int t_modelId) const
-{
-    for (const Position& spawn : missionStartPos)
-    {
-        float expectedZ = t_modelId == BARRICADE_MODEL_ID ? spawn.z + BARRICADE_Z_OFFSET : spawn.z;
-        float dx = t_position.x - spawn.x;
-        float dy = t_position.y - spawn.y;
-        float dz = t_position.z - expectedZ;
-        if (dx * dx + dy * dy + dz * dz < BLOCKER_POSITION_TOLERANCE_SQ) return true;
-    }
-    return false;
-}
-
-void Mod::adoptExistingBlockers()
-{
-    auto* pool = CPools::ms_pObjectPool;
-    if (!pool) return;
-
-    for (int i = 0; i < pool->m_nSize; ++i)
-    {
-        CObject* object = pool->GetAt(i);
-        if (!object) continue;
-
-        int modelId = object->m_nModelIndex;
-        if (modelId != BLOCKER_MODEL_ID && modelId != BARRICADE_MODEL_ID) continue;
-        if (!isBlockerPosition(object->GetPosition(), modelId)) continue;
-
-        if (!ownsBlocker(object))
-        {
-            m_missionBlockers.push_back(object);
-        }
-    }
-
-    m_blockersSpawned = !m_missionBlockers.empty();
-}
-
-void Mod::removeMissionBlockers()
-{
-    for (CObject* blocker : m_missionBlockers) {
-        // Backstop against pointers that dangle because a game load destroyed the objects
-        // without the load being detected. Note this can't catch a freed slot the new game
-        // state has already reused - the restore-time reset above is the primary protection.
-        if (!CPools::ms_pObjectPool->IsObjectValid(blocker)) continue;
-
-        CWorld::Remove(blocker);
-        delete blocker;
-    }
-    m_missionBlockers.clear();
-
-    m_blockersSpawned = false;
 }
 
 void Mod::sendChecksToAP(CheckEvent t_event)
@@ -319,13 +133,12 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         std::string missionIDStr = m_checkListener.getMissionID();
         if (m_apSocket.sendToServer(APProtocol::missionCheck(missionIDStr)))
         {
-            if (m_checkListener.isStoryMission(parseIntOr(missionIDStr, -1)))
+            int missionID = parseIntOr(missionIDStr, -1);
+            if (m_checkListener.isStoryMission(missionID))
             {
-                m_checkGiver.removeProgressiveMission();
+                m_branchProgress.completeMission(branchOfMission(missionID));
             }
             m_checkListener.confirmMissionSent();
-            // Arm an autosave now that the check is away and the counter has been spent, so
-            // the save reflects the completed mission. It fires once the game is safe to save.
             m_autoSaveManager.requestSave();
         }
         break;
@@ -347,8 +160,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         break;
     }
 
-    // Collectibles (tags, snapshots) each know their own wire format, so one loop drains every
-    // kind - adding another needs no change here.
     for (CollectibleTracker* collectible : m_checkListener.getCollectibles())
     {
         if (collectible->hasPending()
@@ -358,8 +169,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         }
     }
 
-    // Per-level submission checks (Paramedic/Firefighter/Vigilante levels 1-12) live outside
-    // CheckListener's event system - send independently.
     if (m_checkListener.hasPendingSubmissionLevel())
     {
         if (m_apSocket.sendToServer(APProtocol::submissionLevelCheck(m_checkListener.getPendingSubmissionLevelSlot())))
@@ -368,7 +177,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         }
     }
 
-    // Shop purchases live outside CheckListener's event system - send independently.
     if (m_pendingShopChecks.hasPending())
     {
         if (m_apSocket.sendToServer(APProtocol::shopCheck(m_pendingShopChecks.front())))
@@ -391,7 +199,6 @@ void Mod::parseIncomingMessages()
             m_notificationOverlay.show(message.text);
             break;
 
-        // An item we found that belongs to another player's world.
         case APProtocol::MessageKind::ItemSent:
             m_notificationOverlay.show(message.text, NotificationIcon::ItemSent);
             break;
@@ -409,8 +216,6 @@ void Mod::parseIncomingMessages()
             m_ammuNationShop.setSlotContents(message.index, message.text);
             break;
 
-        // Buffered rather than applied here: the log decides what this save is actually owed,
-        // and batching the whole tick's delivery lets a re-grant be summarised in one line.
         case APProtocol::MessageKind::Give:
             m_receivedItemLog.recordDelivered(message.index, message.effect, message.text);
             break;
@@ -429,7 +234,6 @@ void Mod::parseIncomingMessages()
 
 void Mod::applyControlMessage(const std::string& t_name, const std::string& t_value)
 {
-    // Never deduplicated and never announced - these are events, not items the player owns.
     if (t_name == "death_link")
     {
         m_deathLinkHandler.setEnabled(t_value == "1");
@@ -446,25 +250,16 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
 
 void Mod::applyPendingItems()
 {
-    // Nothing is applied until the save's mark has had its chance to load, which happens on the
-    // first in-game tick. Applying while still in the menus would grant against a default mark
-    // and then immediately roll back once the real save arrived.
     if (!m_firstInGameTickHandled) return;
 
-    // A New Game's script init strips CJ's weapons and stats a beat after he spawns. Hold the
-    // re-grant until the player has held control CONTINUOUSLY a little past that init, so the grants
-    // land after the wipe rather than getting cleared by it.
     if (m_newGameRegrantPending)
     {
         if (!PlayerControl::isInControl())
         {
-            // The intro cutscene (and a flicker of control before it) must not run the timer down,
-            // or the grant lands right as the wipe fires on skip. Any break restarts the wait.
             m_newGameRegrantClockStarted = false;
             return;
         }
         unsigned int now = CTimer::m_snTimeInMilliseconds;
-        // Re-anchor on a backwards jump too: the game resets its timer around the new game.
         if (!m_newGameRegrantClockStarted || now < m_newGameRegrantControlStartMs)
         {
             m_newGameRegrantClockStarted = true;
@@ -487,7 +282,6 @@ void Mod::applyPendingItems()
         }
     }
 
-    // A rollback can owe a save dozens of items at once; one line beats burying the screen.
     if (restoredCount > 0)
     {
         m_notificationOverlay.show("Archipelago: Restored " + std::to_string(restoredCount) + " items");
@@ -499,15 +293,13 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     const ItemEffectSpec* spec = findItemEffect(t_effectName);
     if (!spec) return false;
 
-    // Traps are one-shot events, not possessions. Re-granting one to a rolled-back save would
-    // punish the player a second time for an item they already suffered through.
     if (spec->effect == ItemEffect::Trap && !t_isNew) return true;
 
     switch (spec->effect)
     {
     case ItemEffect::Money:              m_checkGiver.giveMoney(parseIntOr(t_value, 0)); break;
     case ItemEffect::Weapon:             m_checkGiver.giveWeapon(t_value); break;
-    case ItemEffect::ProgressiveMission: m_checkGiver.giveProgressiveMission(); break;
+    case ItemEffect::ProgressiveMission: m_branchProgress.receiveItem(t_value); break;
     case ItemEffect::ProgressiveMap:     m_checkGiver.giveProgressiveMap(); break;
     case ItemEffect::SubmissionCheck:    m_checkListener.submissionCheckWasReceived(spec->submissionId); break;
     case ItemEffect::WeaponMastery:      m_checkGiver.giveWeaponMastery(t_value); break;
@@ -516,13 +308,14 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     case ItemEffect::Trap:               m_trapHandler.giveTrap(spec->trapName); break;
     }
 
-    // Re-grants are counted and summarised by the caller instead.
     if (t_isNew)
     {
-        std::string message = formatItemMessage(*spec, t_value);
+        bool isProgressive = spec->effect == ItemEffect::ProgressiveMission;
+        std::string message = formatItemMessage(*spec, isProgressive ? branchDisplayName(t_value) : t_value);
         if (!message.empty())
         {
-            m_notificationOverlay.show(message, spec->icon);
+            int radarSprite = isProgressive ? branchRadarSprite(t_value) : -1;
+            m_notificationOverlay.show(message, spec->icon, radarSprite);
         }
     }
     return true;
@@ -538,8 +331,6 @@ void Mod::drawOverlay()
 
 void Mod::drawMenuOverlay()
 {
-    // The pause menu is also where the mod's little settings live - poll the toggle here,
-    // since this only runs while a menu is open.
     if (m_tagBlipToggleKey.justPressed())
     {
         m_blipManager.toggleBlips();
@@ -574,16 +365,12 @@ void Mod::drawMenuOverlay()
 
 void Mod::spawnCollectiblePickups()
 {
-	// One per collectible that needs a tool: paint for the tags, a camera for the snapshots.
 	spawnPickupOnce(SPRAYCAN_PICKUP_POS, MODEL_SPRAYCAN, SPRAYCAN_PICKUP_AMMO);
 	spawnPickupOnce(CAMERA_PICKUP_POS, MODEL_CAMERA, CAMERA_PICKUP_AMMO);
 }
 
 void Mod::spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo)
 {
-	// Pickups created this way are stored in the game save's pickup pool, so spawning blindly
-	// every session would stack duplicates - skip if ours (or the regeneration placeholder of
-	// ours) is already in the pool.
 	for (int i = 0; i < 620; ++i)
 	{
 		const CPickup& pickup = CPickups::aPickUps[i];
@@ -622,20 +409,11 @@ void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 		restoreNeeded = m_saveDataManager.restoreFromCurrentLoadName();
 	}
 
-	// Still keyed off the wipe: a save destroys our objects too, so the cached pointers dangle.
 	if (firstInGameTick || t_worldWiped || t_loadHooked)
 	{
 		spawnCollectiblePickups();
 
-		// A wiped world destroyed every object we cached, blockers included - drop the dangling
-		// pointers without CWorld::Remove/delete (the objects are already gone; touching them
-		// corrupts the world lists) and let the counter check respawn them.
-		//
-		// This must key off the wipe itself, NOT off restoreNeeded: a wipe that doesn't trigger
-		// an AP restore used to leave m_blockersSpawned stuck true with no objects behind it, so
-		// the spawn branch could never fire again and the player kept playing unblocked.
-		m_missionBlockers.clear();
-		m_blockersSpawned = false;
+		m_blockerManager.forget();
 	}
 
 	if (restoreNeeded)
@@ -652,10 +430,6 @@ void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 
 void Mod::resetForNewGame()
 {
-	// Feed every subsystem an empty manager so each returns to its fresh-game defaults through the
-	// same path a load uses. This can't restore another slot's data - the values are empty by
-	// construction - and it resets m_lastAppliedIndex with the rest, so every item the session has
-	// already received is re-granted to the new save on the next tick rather than lost to a softlock.
 	SaveDataManager freshDefaults;
 	for (PersistentState* subsystem : m_persistentSubsystems)
 	{
@@ -663,11 +437,9 @@ void Mod::resetForNewGame()
 	}
 
 	m_blipManager.onWorldWiped();
-	m_missionBlockers.clear();
-	m_blockersSpawned = false;
+	m_blockerManager.forget();
 
 	m_firstInGameTickHandled = false;
-	m_outOfMissionsNotified = false;
 	m_newGameRegrantPending = true;
 	m_newGameRegrantClockStarted = false;
 }

@@ -3,11 +3,10 @@
 
 namespace
 {
-	// The single source of truth for every item the mod understands.
 	constexpr ItemEffectSpec ITEM_EFFECTS[] = {
 		{ "money",               ItemEffect::Money,              -1,                  nullptr,     "Archipelago: Received ${}",                 NotificationIcon::Money },
 		{ "weapon",              ItemEffect::Weapon,             -1,                  nullptr,     "Archipelago: Received weapon ({})",         NotificationIcon::Weapon },
-		{ "progressive_mission", ItemEffect::ProgressiveMission, -1,                  nullptr,     "Archipelago: Received a Progressive Mission", NotificationIcon::ProgressiveMission },
+		{ "progressive_mission", ItemEffect::ProgressiveMission, -1,                  nullptr,     "Archipelago: Received {} Mission",          NotificationIcon::ProgressiveMission },
 		{ "progressive_map",     ItemEffect::ProgressiveMap,     -1,                  nullptr,     "Archipelago: Received a Progressive Map",   NotificationIcon::None },
 
 		{ "health_upgrade",      ItemEffect::SubmissionCheck,    PARAMEDIC_ID,        nullptr,     "Archipelago: Received Max Health Upgrade",  NotificationIcon::HealthUpgrade },
@@ -34,8 +33,6 @@ namespace
 
 const ItemEffectSpec* findItemEffect(const std::string& t_name)
 {
-	// A linear scan over ~18 rows, a handful of times per session - a map would cost more to set
-	// up than it could ever save here.
 	for (const ItemEffectSpec& spec : ITEM_EFFECTS)
 	{
 		if (t_name == spec.name) return &spec;

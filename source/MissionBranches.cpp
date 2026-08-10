@@ -1,0 +1,68 @@
+#include "MissionBranches.h"
+#include <CRadar.h>
+#include <unordered_map>
+
+namespace
+{
+    const std::unordered_map<int, std::string> MISSION_BRANCH = {
+        {12, "Ryder"}, {13, "Sweet"}, {14, "Sweet"}, {15, "Sweet"}, {16, "Sweet"}, {17, "Sweet"},
+        {18, "Sweet"}, {19, "Sweet"}, {20, "Sweet"}, {21, "Sweet"}, {22, "C.R.A.S.H."},
+        {23, "C.R.A.S.H."}, {24, "Ryder"}, {25, "Ryder"}, {26, "Ryder"}, {27, "Big Smoke"},
+        {28, "Big Smoke"}, {29, "Big Smoke"}, {30, "Big Smoke"}, {31, "OG Loc"}, {32, "OG Loc"},
+        {33, "OG Loc"}, {34, "OG Loc"}, {36, "Cesar"}, {37, "Sweet"}, {38, "Sweet"},
+        {39, "C.R.A.S.H."}, {41, "Catalina"}, {42, "Catalina"}, {43, "Catalina"}, {44, "Catalina"},
+        {46, "The Truth"}, {47, "The Truth"}, {48, "Cesar"}, {49, "Garage"}, {50, "Garage"},
+        {51, "Garage"}, {52, "C.R.A.S.H."}, {53, "Woozie"}, {54, "Woozie"}, {55, "Woozie"},
+        {56, "Woozie"}, {57, "Woozie"}, {58, "Triads"}, {59, "Loco Syndicate"}, {60, "Triads"},
+        {61, "Triads"}, {62, "Triads"}, {63, "Triads"}, {64, "Triads"}, {65, "Loco Syndicate"},
+        {66, "Loco Syndicate"}, {75, "Toreno"}, {76, "Toreno"}, {77, "Toreno"}, {78, "Toreno"},
+        {79, "Toreno"}, {80, "Toreno"}, {81, "Toreno"}, {82, "Toreno"}, {83, "Toreno"},
+        {84, "Four Dragons Casino"}, {85, "Four Dragons Casino"}, {86, "Four Dragons Casino"},
+        {87, "Four Dragons Casino"}, {88, "Four Dragons Casino"}, {89, "Caligula's Palace"},
+        {90, "Caligula's Palace"}, {91, "Caligula's Palace"}, {92, "Caligula's Palace"},
+        {93, "C.R.A.S.H."}, {94, "C.R.A.S.H."}, {95, "Madd Dogg"}, {102, "Four Dragons Casino"},
+        {103, "Return"}, {104, "Return"}, {105, "Return"}, {106, "Sweet"}, {107, "Sweet"},
+        {108, "Sweet"}, {109, "Sweet"}, {112, "Sweet"}, {135, "Catalina"},
+    };
+
+    const std::string NO_BRANCH;
+}
+
+const std::string& branchOfMission(int t_missionId)
+{
+    auto it = MISSION_BRANCH.find(t_missionId);
+    return it == MISSION_BRANCH.end() ? NO_BRANCH : it->second;
+}
+
+int branchRadarSprite(const std::string& t_branch)
+{
+    static const std::unordered_map<std::string, int> BRANCH_SPRITE = {
+        {"Sweet", RADAR_SPRITE_SWEET},
+        {"Ryder", RADAR_SPRITE_RYDER},
+        {"Big Smoke", RADAR_SPRITE_BIGSMOKE},
+        {"OG Loc", RADAR_SPRITE_OGLOC},
+        {"Cesar", RADAR_SPRITE_CESARVIAPANDO},
+        {"C.R.A.S.H.", RADAR_SPRITE_CRASH1},
+        {"Catalina", RADAR_SPRITE_CATALINAPINK},
+        {"The Truth", RADAR_SPRITE_THETRUTH},
+        {"Garage", RADAR_SPRITE_CJ},
+        {"Triads", RADAR_SPRITE_TRIADS},
+        {"Loco Syndicate", RADAR_SPRITE_LOGOSYNDICATE},
+        {"Woozie", RADAR_SPRITE_WOOZIE},
+        {"Toreno", RADAR_SPRITE_TORENORANCH},
+        {"Four Dragons Casino", RADAR_SPRITE_TRIADSCASINO},
+        {"Caligula's Palace", RADAR_SPRITE_MAFIACASINO},
+        {"Madd Dogg", RADAR_SPRITE_MADDOG},
+        {"Return", RADAR_SPRITE_CJ},
+    };
+
+    auto it = BRANCH_SPRITE.find(t_branch);
+    return it == BRANCH_SPRITE.end() ? RADAR_SPRITE_CJ : it->second;
+}
+
+const std::string& branchDisplayName(const std::string& t_branch)
+{
+    static const std::string GARAGE_AS_CJ = "CJ";
+    if (t_branch == "Garage") return GARAGE_AS_CJ;
+    return t_branch;
+}

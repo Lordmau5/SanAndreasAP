@@ -5,6 +5,8 @@
 #include "ParseUtils.h"
 #include "CheckListener.h"
 #include "CheckGiver.h"
+#include "BranchProgress.h"
+#include "MissionBlockerManager.h"
 #include "CStats.h"
 #include "EntityIDs.h"
 #include "CRunningScript.h"
@@ -27,44 +29,24 @@ class Mod
 public:
 	Mod();
 
-	/// <summary>
-	/// Starts mod logic
-	/// </summary>
 	void start();
 
-	// Call every frame from Events::drawHudEvent, after the native HUD draw.
 	void drawOverlay();
 
-	// Call every frame from Events::drawMenuBackgroundEvent - shows the AP client connection
-	// status in the menu corner so players see at a glance that everything works.
 	void drawMenuOverlay();
 
 private:
-	const int BLOCKER_MODEL_ID = 2973;
-	const int BARRICADE_MODEL_ID = MODEL_CJ_ROADBARRIER;
-	const float BARRICADE_Z_OFFSET = 0.6f;
-	// Squared 1cm - anything looser starts matching genuine road barriers.
-	const float BLOCKER_POSITION_TOLERANCE_SQ = 0.0001f;
-
-	// A permanent respawning spray can outside CJ's house, so tag hunting never requires
-	// trips back for ammo.
 	const CVector SPRAYCAN_PICKUP_POS{ 2493.5f, -1671.0f, 13.3f };
 	static constexpr unsigned int SPRAYCAN_PICKUP_AMMO = 5000;
 
-	// The same idea for snapshots: a camera at the Doherty Garage, the first place the player
-	// reaches in San Fierro. Offset from the two mission markers there so it can't be mistaken
-	// for one or sit inside a blocker.
 	const CVector CAMERA_PICKUP_POS{ -2026.0f, 164.0f, 28.6f };
 	static constexpr unsigned int CAMERA_PICKUP_AMMO = 5000;
 
 	CheckListener m_checkListener;
 	CheckGiver m_checkGiver;
+	BranchProgress m_branchProgress;
+	MissionBlockerManager m_blockerManager;
 	APSocket m_apSocket;
-	std::vector<CObject*> m_missionBlockers;
-	bool m_blockersSpawned = false;
-	bool m_outOfMissionsNotified = false;
-	int m_blockerScanTicks = 0;
-	static constexpr int BLOCKER_SCAN_INTERVAL = 30;
 	DeathLinkHandler m_deathLinkHandler;
 	SaveDataManager m_saveDataManager;
 	AutoSaveManager m_autoSaveManager;
@@ -75,17 +57,10 @@ private:
 	ReceivedItemLog m_receivedItemLog;
 	PendingChecks<int> m_pendingShopChecks;
 
-	// Everything with state the vanilla save can't hold. Both the save and the restore path walk
-	// this one list, so a subsystem can't be persisted in one direction only. Order matters just
-	// once: CheckListener re-takes its detection baselines in load(), and nothing else depends on
-	// that, so it goes first out of habit rather than necessity.
-	// Declared after the subsystems it points at - members are constructed in declaration order.
 	std::vector<PersistentState*> m_persistentSubsystems;
 
 	bool m_firstInGameTickHandled = false;
 
-	// New Game re-grant waits out the script init that strips CJ's weapons/stats after spawn (see
-	// applyPendingItems); needs control held continuously, or the intro cutscene runs the timer down.
 	bool m_newGameRegrantPending = false;
 	bool m_newGameRegrantClockStarted = false;
 	unsigned int m_newGameRegrantControlStartMs = 0;
@@ -95,38 +70,18 @@ private:
 
 	void parseIncomingMessages();
 
-	// One tick, in order - see start() for why the sequence matters.
 	void pollDeathLink();
 	bool updateWorldState(bool t_loadHooked);
-	// Gathers every collectible's blip targets and ranks them by distance, for the blip manager.
 	std::vector<BlipTarget> collectBlipTargets();
 	void applyRespawnHealthTopUp();
 	void updateGameplaySystems();
-	void updateMissionBlockers();
 	void spawnCollectiblePickups();
-	// Spawns one respawning weapon pickup, unless an identical one is already in the world.
 	void spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo);
-	void spawnMissionBlockers();
-	void removeMissionBlockers();
-	// Takes ownership of blockers the save file restored, so they can be removed like our own.
-	void adoptExistingBlockers();
-	// Whether a world position is one of ours for the given model - barricades sit higher.
-	bool isBlockerPosition(const CVector& t_position, int t_modelId) const;
-	// Whether we already hold this object, so repeat scans can't add it twice.
-	bool ownsBlocker(const CObject* t_object) const;
-	// Whether one of ours already stands at this spawn, so a load can't double the set.
-	bool hasBlockerAt(const Position& t_spawn, int t_modelId) const;
 	void sendChecksToAP(CheckEvent t_event);
 
-	// Grants everything the log says this save is still owed. Re-grants after a save rollback are
-	// summarised in one line instead of one notification each, and skip one-shot effects.
 	void applyPendingItems();
-	// Grants one item's effect. Returns false when the effect name isn't one this build knows.
 	bool applyItemEffect(const std::string& t_effectName, const std::string& t_value, bool t_isNew);
 	void applyControlMessage(const std::string& t_name, const std::string& t_value);
 	void persistAndRestoreState(bool t_worldWiped, bool t_loadHooked);
-	// Wipes stale per-slot AP state when a New Game starts mid-session, so the previous save's
-	// collectibles, mission counter and item mark can't carry into (and corrupt) the fresh run.
 	void resetForNewGame();
 };
-

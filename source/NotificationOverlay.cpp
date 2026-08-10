@@ -8,7 +8,6 @@
 #include <CRadar.h>
 #include <CSprite2d.h>
 
-// All measured at 1920x1080 and converted to the player's resolution via ScreenScale::of().
 namespace
 {
 	const float RIGHT_MARGIN = 30.0f;
@@ -21,14 +20,15 @@ namespace
 	const float SLOT_GAP = 8.0f;
 	const float SLOT_HEIGHT = TEXT_HEIGHT + BOX_PADDING_V * 2.0f + SLOT_GAP;
 
-	// Bottom-left, clear of the radar's top edge.
 	const float RADAR_MESSAGE_LEFT = 80.0f;
 	const float RADAR_MESSAGE_FROM_BOTTOM = 290.0f;
 }
 
-void NotificationOverlay::show(const std::string& text, NotificationIcon icon)
+void NotificationOverlay::show(const std::string& text, NotificationIcon icon, int radarSpriteOverride)
 {
-	m_notifications.push_back({ text, icon, {}, false });
+	Notification notification{ text, icon };
+	notification.radarSprite = radarSpriteOverride;
+	m_notifications.push_back(notification);
 }
 
 void NotificationOverlay::showAboveRadar(const std::string& text)
@@ -98,7 +98,7 @@ void NotificationOverlay::draw()
 		for (size_t i = 0; i < visibleCount; ++i)
 		{
 			Notification& notification = m_notifications[i];
-			if (!notification.fades) continue; // already on the fast schedule
+			if (!notification.fades) continue;
 
 			notification.fades = false;
 			auto conveyorExpiry = now + BACKLOG_ADMIT_INTERVAL * static_cast<long long>(i + 1);
@@ -125,7 +125,6 @@ void NotificationOverlay::draw()
 		visibleCount++;
 	}
 
-	// Newest of the visible batch takes the bottom slot, older ones stack upward.
 	for (size_t i = 0; i < visibleCount; ++i)
 	{
 		drawOne(m_notifications[visibleCount - 1 - i], static_cast<int>(i), now);
@@ -164,7 +163,11 @@ void NotificationOverlay::drawOne(const Notification& notification, int slot, st
 	float textWidth = CFont::GetStringWidth(notification.text.c_str(), true);
 
 	CSprite2d* iconSprite = nullptr;
-	switch (notification.icon)
+	if (notification.radarSprite >= 0)
+	{
+		iconSprite = &CRadar::RadarBlipSprites[notification.radarSprite];
+	}
+	else switch (notification.icon)
 	{
 	case NotificationIcon::Money: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_CASH]; break;
 	case NotificationIcon::ProgressiveMission: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_CJ]; break;
@@ -176,7 +179,6 @@ void NotificationOverlay::drawOne(const Notification& notification, int slot, st
 	case NotificationIcon::Boxing: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_GYM]; break;
 	case NotificationIcon::Weapon: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_AMMUGUN]; break;
 	case NotificationIcon::Trap: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_ENEMYATTACK]; break;
-	// The airyard (plane) icon reads as "shipped off somewhere else".
 	case NotificationIcon::ItemSent: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_AIRYARD]; break;
 	default: break;
 	}

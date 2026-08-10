@@ -16,6 +16,7 @@
     <ClInclude Include="header\APSocket.h" />
     <ClInclude Include="header\BurglaryTracker.h" />
     <ClInclude Include="header\CheckGiver.h" />
+    <ClInclude Include="header\BranchProgress.h" />
     <ClInclude Include="header\CheckListener.h" />
     <ClInclude Include="header\DeathLinkHandler.h" />
     <ClInclude Include="header\EntityIDs.h" />
@@ -36,6 +37,8 @@
     <ClInclude Include="header\PimpingTracker.h" />
     <ClInclude Include="header\ScriptGlobals.h" />
     <ClInclude Include="header\GameStorageHook.h" />
+    <ClInclude Include="header\MissionBranches.h" />
+    <ClInclude Include="header\MissionBlockerManager.h" />
     <ClInclude Include="header\Mod.h" />
     <ClInclude Include="header\NotificationOverlay.h" />
     <ClInclude Include="header\ParamedicTracker.h" />
@@ -71,6 +74,7 @@
     <ClCompile Include="source\APSocket.cpp" />
     <ClCompile Include="source\BurglaryTracker.cpp" />
     <ClCompile Include="source\CheckGiver.cpp" />
+    <ClCompile Include="source\BranchProgress.cpp" />
     <ClCompile Include="source\CheckListener.cpp" />
     <ClCompile Include="source\DeathLinkHandler.cpp" />
     <ClCompile Include="source\FirefighterTracker.cpp" />
@@ -87,6 +91,8 @@
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\GameStorageHook.cpp" />
+    <ClCompile Include="source\MissionBranches.cpp" />
+    <ClCompile Include="source\MissionBlockerManager.cpp" />
     <ClCompile Include="source\Mod.cpp" />
     <ClCompile Include="source\NotificationOverlay.cpp" />
     <ClCompile Include="source\ParamedicTracker.cpp" />
