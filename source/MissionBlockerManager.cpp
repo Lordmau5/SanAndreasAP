@@ -1,5 +1,6 @@
 #include "MissionBlockerManager.h"
 #include "BranchProgress.h"
+#include "MissionBranches.h"
 #include "EntityIDs.h"
 #include "common.h"
 #include "CPools.h"
