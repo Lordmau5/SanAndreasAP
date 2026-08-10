@@ -1,12 +1,14 @@
 #include "CheckListener.h"
 #include "EntityIDs.h"
 #include "SaveDataManager.h"
+#include "ParseUtils.h"
 #include "common.h"
 #include "CTheScripts.h"
 #include "CCutsceneMgr.h"
 #include <algorithm>
 #include <cctype>
 #include <cstring>
+#include <map>
 
 CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 {
@@ -42,12 +44,37 @@ void CheckListener::locateCollectible(const std::string& t_type, int t_index)
 	}
 }
 
-void CheckListener::setIncludedCollectibles(const std::string& t_types)
+void CheckListener::setIncludedCollectibles(const std::string& t_config)
 {
+	std::map<std::string, std::vector<int>> byType;
+
+	size_t start = 0;
+	while (start < t_config.size())
+	{
+		size_t semicolon = t_config.find(';', start);
+		if (semicolon == std::string::npos) semicolon = t_config.size();
+		std::string entry = t_config.substr(start, semicolon - start);
+		start = semicolon + 1;
+
+		size_t equals = entry.find('=');
+		if (equals == std::string::npos) continue;
+
+		std::vector<int>& indices = byType[entry.substr(0, equals)];
+		std::string list = entry.substr(equals + 1);
+		size_t pos = 0;
+		while (pos < list.size())
+		{
+			size_t comma = list.find(',', pos);
+			if (comma == std::string::npos) comma = list.size();
+			indices.push_back(parseIntOr(list.substr(pos, comma - pos), -1));
+			pos = comma + 1;
+		}
+	}
+
 	for (CollectibleTracker* collectible : m_collectibles)
 	{
-		std::string needle = "," + std::string(collectible->checkType()) + ",";
-		collectible->setBlipsEnabled(("," + t_types + ",").find(needle) != std::string::npos);
+		auto it = byType.find(collectible->checkType());
+		collectible->setIncluded(it == byType.end() ? std::vector<int>{} : it->second);
 	}
 }
 

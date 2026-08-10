@@ -34,7 +34,7 @@ public:
 
 	virtual const char* checkType() const = 0;
 	virtual void setLocated(int t_index) = 0;
-	virtual void setBlipsEnabled(bool t_enabled) = 0;
+	virtual void setIncluded(const std::vector<int>& t_indices) = 0;
 };
 
 // Base for the scattered-collectible trackers (spray tags, snapshots). The game exposes only a
@@ -84,6 +84,8 @@ public:
 			m_lastCount += 1.0f;
 			if (m_claimed[index]) continue;
 
+			if (!isIncluded(index)) continue;
+
 			m_claimed[index] = true;
 			m_pending.push(index);
 		}
@@ -109,7 +111,7 @@ public:
 		if (m_positions.empty()) return;
 		for (int i = 0; i < N; ++i)
 		{
-			bool claimed = m_claimed[i] || !m_blipsEnabled;
+			bool claimed = m_claimed[i] || !isIncluded(i);
 			t_out.push_back({ m_positions[i], m_sprite, i + 1, claimed, i == locatedIndex(), INT_MAX });
 		}
 	}
@@ -123,7 +125,17 @@ public:
 		m_located = (t_index >= 0 && t_index < N) ? t_index : -1;
 	}
 
-	void setBlipsEnabled(bool t_enabled) override { m_blipsEnabled = t_enabled; }
+	void setIncluded(const std::vector<int>& t_indices) override
+	{
+		m_included.fill(false);
+		for (int index : t_indices)
+		{
+			if (index >= 0 && index < N) m_included[index] = true;
+		}
+		m_hasInclusionMask = true;
+	}
+
+	bool isIncluded(int t_index) const { return !m_hasInclusionMask || m_included[t_index]; }
 
 	void save(SaveDataManager& t_saveData) const override
 	{
@@ -170,7 +182,8 @@ private:
 	const char* m_checkType;
 	std::array<bool, N> m_claimed{};
 	PendingChecks<int> m_pending;
-	bool m_blipsEnabled = true;
+	std::array<bool, N> m_included{};
+	bool m_hasInclusionMask = false;
 	int m_located = -1;
 	float m_lastCount = 0.0f;
 	bool m_countInitialized = false;
