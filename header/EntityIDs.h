@@ -65,20 +65,20 @@ struct SubmissionTierSpec
 inline constexpr SubmissionTierSpec PARAMEDIC_TIERS   { 0,  12, 1.0f };
 inline constexpr SubmissionTierSpec FIREFIGHTER_TIERS { 12, 12, 1.0f };
 inline constexpr SubmissionTierSpec VIGILANTE_TIERS   { 24, 12, 1.0f };
-inline constexpr SubmissionTierSpec TAXI_TIERS        { 36, 10, 5.0f };
-inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 46, 10, 1000.0f };
-inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 56,  8, 1.0f };
+inline constexpr SubmissionTierSpec TAXI_TIERS        { 36, 50, 1.0f };
+inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 86, 10, 1000.0f };
+inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 96,  8, 1.0f };
 // progressPerTier unused - ValetTracker walks its own threshold table in currentTier().
-inline constexpr SubmissionTierSpec VALET_TIERS       { 64,  5, 0.0f };
-inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 69, 12, 1.0f };
-inline constexpr SubmissionTierSpec PIMPING_TIERS     { 81, 10, 1.0f };
-inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 91, 10, 1.0f };
-inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 101, 5, 1.0f };
-inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 106, 6, 1.0f };
-inline constexpr SubmissionTierSpec QUARRY_TIERS       { 112, 7, 1.0f };
-inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 119, 20, 5.0f };
+inline constexpr SubmissionTierSpec VALET_TIERS       { 104,  5, 0.0f };
+inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 109, 12, 1.0f };
+inline constexpr SubmissionTierSpec PIMPING_TIERS     { 121, 10, 1.0f };
+inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 131, 10, 1.0f };
+inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 141, 5, 1.0f };
+inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 146, 6, 1.0f };
+inline constexpr SubmissionTierSpec QUARRY_TIERS       { 152, 7, 1.0f };
+inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 159, 20, 5.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 139;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 179;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },
