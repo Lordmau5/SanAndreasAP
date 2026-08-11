@@ -22,6 +22,7 @@ struct Main
         Events::drawHudEvent += []{ gInstance.mod.drawOverlay(); };
         Events::drawMenuBackgroundEvent += []{ gInstance.mod.drawMenuOverlay(); };
         Events::drawBlipsEvent += []{ gInstance.mod.drawMissionCountsOnMap(); };
+        Events::drawBlipsEvent += []{ gInstance.mod.drawCollectiblesOnMap(); };
     }
 
     void OnGameProcess()

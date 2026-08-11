@@ -3,6 +3,7 @@
 #include "APProtocol.h"
 #include "ItemEffects.h"
 #include "MissionBranches.h"
+#include "MenuMap.h"
 #include "CStreaming.h"
 #include "CPools.h"
 #include <CRadar.h>
@@ -383,15 +384,7 @@ void Mod::drawMissionCountsImpl(bool t_menuMap)
         CVector2D screenPos;
         if (t_menuMap)
         {
-            constexpr float MENU_MAP_RANGE = 2990.0f;
-            float virtualX = FrontEndMenuManager.m_fMapBaseX + FrontEndMenuManager.m_fMapZoom * (trace.m_vecPos.x / MENU_MAP_RANGE);
-            float virtualY = FrontEndMenuManager.m_fMapBaseY - FrontEndMenuManager.m_fMapZoom * (trace.m_vecPos.y / MENU_MAP_RANGE);
-
-            screenPos.x = virtualX * static_cast<float>(RsGlobal.maximumWidth) / 640.0f;
-            screenPos.y = virtualY * static_cast<float>(RsGlobal.maximumHeight) / 448.0f;
-
-            if (screenPos.x < 0.0f || screenPos.x > static_cast<float>(RsGlobal.maximumWidth)) continue;
-            if (screenPos.y < 0.0f || screenPos.y > static_cast<float>(RsGlobal.maximumHeight)) continue;
+            if (!MenuMap::worldToScreen(trace.m_vecPos, screenPos)) continue;
 
             float offset = ScreenScale::of(7.0f);
             screenPos.x += offset;
@@ -414,6 +407,11 @@ void Mod::drawMissionCountsImpl(bool t_menuMap)
         CFont::SetColor(pending > 0 ? CRGBA(120, 255, 120, 255) : CRGBA(255, 70, 70, 255));
         CFont::PrintString(screenPos.x, screenPos.y, std::to_string(pending).c_str());
     }
+}
+
+void Mod::drawCollectiblesOnMap()
+{
+    m_blipManager.drawMapOverlay();
 }
 
 void Mod::drawMenuOverlay()

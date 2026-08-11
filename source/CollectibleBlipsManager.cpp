@@ -1,5 +1,6 @@
 #include "CollectibleBlipsManager.h"
 #include "ScreenScale.h"
+#include "MenuMap.h"
 #include "SaveDataManager.h"
 #include "common.h"
 #include <algorithm>
@@ -8,15 +9,21 @@
 #include <CRadar.h>
 #include <CFont.h>
 #include <CRGBA.h>
+#include <CRect.h>
+#include <CSprite2d.h>
+#include <CMenuManager.h>
 
 namespace
 {
 	// Kept as the old key so existing saves' toggle preference still loads.
 	constexpr char SHOW_BLIPS_KEY[] = "show_tag_blips";
 
-	// Squared 1cm: blip positions round-trip a save with zero drift, so anything looser starts
-	// matching vanilla blips that share our sprite and clearing them.
 	constexpr float POSITION_TOLERANCE_SQ = 0.0001f;
+
+	bool isPauseMapOpen()
+	{
+		return FrontEndMenuManager.m_bMenuActive && FrontEndMenuManager.m_nCurrentMenuPage == MENUPAGE_MAP;
+	}
 }
 
 void CollectibleBlipsManager::save(SaveDataManager& t_saveData)
@@ -116,6 +123,12 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 {
 	m_targets = std::move(t_targets);
 	m_handles.resize(m_targets.size(), -1);
+
+	if (isPauseMapOpen())
+	{
+		clearAllBlips();
+		return false;
+	}
 
 	bool worldWiped = false;
 	if (m_sentinelHandle != -1 && CRadar::GetActualBlipArrayIndex(m_sentinelHandle) < 0)
@@ -257,6 +270,59 @@ void CollectibleBlipsManager::drawNumbers() const
 		CVector2D screenPos;
 		CRadar::TransformRadarPointToScreenSpace(screenPos, radarSpace);
 		CFont::PrintString(screenPos.x, screenPos.y, std::to_string(target.number).c_str());
+	}
+}
+
+void CollectibleBlipsManager::clearAllBlips()
+{
+	for (unsigned int i = 0; i < MAX_RADAR_TRACES; ++i)
+	{
+		const tRadarTrace& trace = CRadar::ms_RadarTrace[i];
+		if (!trace.m_bInUse) continue;
+		if (ownedTargetIndexAt(trace.m_vecPos, trace.m_nRadarSprite) < 0) continue;
+		CRadar::ClearBlip(CRadar::GetNewUniqueBlipIndex(static_cast<int>(i)));
+	}
+	std::fill(m_handles.begin(), m_handles.end(), -1);
+}
+
+void CollectibleBlipsManager::drawMapOverlay()
+{
+	if (!isPauseMapOpen()) return;
+	if (!m_blipsEnabled) return;
+
+	clearAllBlips();
+
+	const float half = ScreenScale::of(16.0f);
+	for (const BlipTarget& target : m_targets)
+	{
+		if (target.claimed) continue;
+
+		CVector2D screenPos;
+		if (!MenuMap::worldToScreen(target.position, screenPos)) continue;
+
+		CRadar::RadarBlipSprites[target.sprite].Draw(
+			CRect(screenPos.x - half, screenPos.y - half, screenPos.x + half, screenPos.y + half),
+			CRGBA(255, 255, 255, 255));
+	}
+
+	const float scale = ScreenScale::of(0.5f);
+	CFont::SetFontStyle(FONT_SUBTITLES);
+	CFont::SetScale(scale, scale * 2.0f);
+	CFont::SetColor(CRGBA(255, 255, 255, 255));
+	CFont::SetProportional(true);
+	CFont::SetOrientation(ALIGN_CENTER);
+	CFont::SetDropShadowPosition(1);
+	CFont::SetBackground(false, false);
+
+	const float offset = ScreenScale::of(7.0f);
+	for (const BlipTarget& target : m_targets)
+	{
+		if (target.claimed) continue;
+
+		CVector2D screenPos;
+		if (!MenuMap::worldToScreen(target.position, screenPos)) continue;
+
+		CFont::PrintString(screenPos.x + offset, screenPos.y + offset, std::to_string(target.number).c_str());
 	}
 }
 

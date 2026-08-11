@@ -37,6 +37,8 @@ public:
 
 	void drawMissionCountsOnMap();
 
+	void drawCollectiblesOnMap();
+
 private:
 	const CVector SPRAYCAN_PICKUP_POS{ 2493.5f, -1671.0f, 13.3f };
 	static constexpr unsigned int SPRAYCAN_PICKUP_AMMO = 5000;

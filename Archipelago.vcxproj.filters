@@ -207,6 +207,9 @@
     <ClInclude Include="header\ScreenScale.h">
       <Filter>Header\HUD</Filter>
     </ClInclude>
+    <ClInclude Include="header\MenuMap.h">
+      <Filter>Header\HUD</Filter>
+    </ClInclude>
     <ClInclude Include="header\EntityIDs.h">
       <Filter>Header\Common</Filter>
     </ClInclude>

@@ -52,6 +52,7 @@
     <ClInclude Include="header\Position.h" />
     <ClInclude Include="header\SaveDataManager.h" />
     <ClInclude Include="header\ScreenScale.h" />
+    <ClInclude Include="header\MenuMap.h" />
     <ClInclude Include="header\SubmissionTracker.h" />
     <ClInclude Include="header\CollectibleBlipsManager.h" />
     <ClInclude Include="header\BlipTarget.h" />
