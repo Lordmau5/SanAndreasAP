@@ -35,12 +35,16 @@ public:
 
 	void drawMenuOverlay();
 
+	void drawMissionCountsOnMap();
+
 private:
 	const CVector SPRAYCAN_PICKUP_POS{ 2493.5f, -1671.0f, 13.3f };
 	static constexpr unsigned int SPRAYCAN_PICKUP_AMMO = 5000;
 
 	const CVector CAMERA_PICKUP_POS{ -2026.0f, 164.0f, 28.6f };
 	static constexpr unsigned int CAMERA_PICKUP_AMMO = 5000;
+
+	static constexpr float MISSION_BLIP_TOLERANCE_SQ = 25.0f;
 
 	CheckListener m_checkListener;
 	CheckGiver m_checkGiver;
@@ -78,6 +82,10 @@ private:
 	void spawnCollectiblePickups();
 	void spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo);
 	void sendChecksToAP(CheckEvent t_event);
+
+	void drawMissionCounts();
+	void drawMissionCountsImpl(bool t_menuMap);
+	const char* branchAtBlip(const CVector& t_pos) const;
 
 	void applyPendingItems();
 	bool applyItemEffect(const std::string& t_effectName, const std::string& t_value, bool t_isNew);

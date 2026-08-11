@@ -12,6 +12,7 @@ public:
 	void receiveItem(const std::string& t_branch);
 	void completeMission(const std::string& t_branch);
 	bool isBlocked(const std::string& t_branch) const;
+	int pending(const std::string& t_branch) const;
 
 private:
 	std::map<std::string, int> m_received;

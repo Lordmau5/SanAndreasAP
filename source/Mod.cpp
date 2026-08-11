@@ -7,6 +7,9 @@
 #include "CPools.h"
 #include <CRadar.h>
 #include <CTimer.h>
+#include <CFont.h>
+#include <CRGBA.h>
+#include <CMenuManager.h>
 
 Mod::Mod()
 {
@@ -325,8 +328,84 @@ void Mod::drawOverlay()
 {
     m_notificationOverlay.draw();
     m_blipManager.drawNumbers();
+    drawMissionCounts();
     m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
+}
+
+const char* Mod::branchAtBlip(const CVector& t_pos) const
+{
+    size_t count = missionStartPos.size();
+    if (count > MISSION_START_POS_BRANCH_COUNT) count = MISSION_START_POS_BRANCH_COUNT;
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        const char* branch = missionStartPosBranch[i];
+        if (!branch) continue;
+
+        float dx = t_pos.x - missionStartPos[i].x;
+        float dy = t_pos.y - missionStartPos[i].y;
+        if (dx * dx + dy * dy < MISSION_BLIP_TOLERANCE_SQ) return branch;
+    }
+    return nullptr;
+}
+
+void Mod::drawMissionCounts()
+{
+    drawMissionCountsImpl(false);
+}
+
+void Mod::drawMissionCountsOnMap()
+{
+    if (!FrontEndMenuManager.m_bMenuActive || FrontEndMenuManager.m_nCurrentMenuPage != MENUPAGE_MAP) return;
+    drawMissionCountsImpl(true);
+}
+
+void Mod::drawMissionCountsImpl(bool t_menuMap)
+{
+    float scale = 0.5f;
+    CFont::SetFontStyle(FONT_SUBTITLES);
+    CFont::SetScale(ScreenScale::of(scale), ScreenScale::of(scale * 2.0f));
+    CFont::SetProportional(true);
+    CFont::SetOrientation(ALIGN_CENTER);
+    CFont::SetDropShadowPosition(1);
+    CFont::SetBackground(false, false);
+
+    for (unsigned int t = 0; t < MAX_RADAR_TRACES; ++t)
+    {
+        const tRadarTrace& trace = CRadar::ms_RadarTrace[t];
+        if (!trace.m_bInUse) continue;
+
+        const char* branch = branchAtBlip(trace.m_vecPos);
+        if (!branch) continue;
+
+        CVector2D screenPos;
+        if (t_menuMap)
+        {
+            constexpr float MENU_MAP_RANGE = 2990.0f;
+            float virtualX = FrontEndMenuManager.m_fMapBaseX + FrontEndMenuManager.m_fMapZoom * (trace.m_vecPos.x / MENU_MAP_RANGE);
+            float virtualY = FrontEndMenuManager.m_fMapBaseY - FrontEndMenuManager.m_fMapZoom * (trace.m_vecPos.y / MENU_MAP_RANGE);
+
+            screenPos.x = virtualX * static_cast<float>(RsGlobal.maximumWidth) / 640.0f;
+            screenPos.y = virtualY * static_cast<float>(RsGlobal.maximumHeight) / 448.0f;
+
+            if (screenPos.x < 0.0f || screenPos.x > static_cast<float>(RsGlobal.maximumWidth)) continue;
+            if (screenPos.y < 0.0f || screenPos.y > static_cast<float>(RsGlobal.maximumHeight)) continue;
+        }
+        else
+        {
+            CVector2D radarSpace;
+            CVector2D worldPos(trace.m_vecPos.x, trace.m_vecPos.y);
+            CRadar::TransformRealWorldPointToRadarSpace(radarSpace, worldPos);
+            if (radarSpace.x * radarSpace.x + radarSpace.y * radarSpace.y > 0.85f * 0.85f) continue;
+            CRadar::TransformRadarPointToScreenSpace(screenPos, radarSpace);
+        }
+
+        int pending = m_branchProgress.pending(branch);
+        CFont::SetColor(pending > 0 ? CRGBA(120, 255, 120, 255) : CRGBA(255, 70, 70, 255));
+        float offset = ScreenScale::of(7.0f);
+        CFont::PrintString(screenPos.x + offset, screenPos.y + offset, std::to_string(pending).c_str());
+    }
 }
 
 void Mod::drawMenuOverlay()

@@ -33,6 +33,17 @@ bool BranchProgress::isBlocked(const std::string& t_branch) const
 	return receivedCount <= completedCount;
 }
 
+int BranchProgress::pending(const std::string& t_branch) const
+{
+	if (t_branch.empty()) return 0;
+
+	auto received = m_received.find(t_branch);
+	auto completed = m_completed.find(t_branch);
+	int receivedCount = received == m_received.end() ? 0 : received->second;
+	int completedCount = completed == m_completed.end() ? 0 : completed->second;
+	return receivedCount - completedCount;
+}
+
 void BranchProgress::save(SaveDataManager& t_saveData)
 {
 	std::set<std::string> branches;
