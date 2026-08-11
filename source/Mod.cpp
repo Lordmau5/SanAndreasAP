@@ -363,9 +363,10 @@ void Mod::drawMissionCountsOnMap()
 
 void Mod::drawMissionCountsImpl(bool t_menuMap)
 {
-    float scale = 0.5f;
+    float scaleX = t_menuMap ? ScreenScale::of(0.5f)
+                             : 0.3f * 1920.0f / static_cast<float>(RsGlobal.maximumWidth);
     CFont::SetFontStyle(FONT_SUBTITLES);
-    CFont::SetScale(ScreenScale::of(scale), ScreenScale::of(scale * 2.0f));
+    CFont::SetScale(scaleX, scaleX * 2.0f);
     CFont::SetProportional(true);
     CFont::SetOrientation(ALIGN_CENTER);
     CFont::SetDropShadowPosition(1);
@@ -391,6 +392,10 @@ void Mod::drawMissionCountsImpl(bool t_menuMap)
 
             if (screenPos.x < 0.0f || screenPos.x > static_cast<float>(RsGlobal.maximumWidth)) continue;
             if (screenPos.y < 0.0f || screenPos.y > static_cast<float>(RsGlobal.maximumHeight)) continue;
+
+            float offset = ScreenScale::of(7.0f);
+            screenPos.x += offset;
+            screenPos.y += offset;
         }
         else
         {
@@ -399,12 +404,15 @@ void Mod::drawMissionCountsImpl(bool t_menuMap)
             CRadar::TransformRealWorldPointToRadarSpace(radarSpace, worldPos);
             if (radarSpace.x * radarSpace.x + radarSpace.y * radarSpace.y > 0.85f * 0.85f) continue;
             CRadar::TransformRadarPointToScreenSpace(screenPos, radarSpace);
+
+            float offset = ScreenScale::of(7.0f);
+            screenPos.x += offset;
+            screenPos.y += offset;
         }
 
         int pending = m_branchProgress.pending(branch);
         CFont::SetColor(pending > 0 ? CRGBA(120, 255, 120, 255) : CRGBA(255, 70, 70, 255));
-        float offset = ScreenScale::of(7.0f);
-        CFont::PrintString(screenPos.x + offset, screenPos.y + offset, std::to_string(pending).c_str());
+        CFont::PrintString(screenPos.x, screenPos.y, std::to_string(pending).c_str());
     }
 }
 
