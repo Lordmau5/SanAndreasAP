@@ -29,6 +29,7 @@
 #include "QuarryTracker.h"
 #include "PimpingTracker.h"
 #include "GangTerritoryTracker.h"
+#include "ChiliadChallengeTracker.h"
 
 enum class CheckEvent
 {

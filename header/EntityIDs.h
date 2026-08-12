@@ -36,6 +36,9 @@ inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
 	1963, 1964, 1965, 1966, 1967,
 };
 
+inline constexpr int CHILIAD_CHALLENGE_ID = 132;
+inline constexpr int CHILIAD_PASSED_GLOBAL = 1801;
+
 // Missions that sit inside the story ID range but are optional side content: they send their
 // check like anything else, but spend no Progressive Mission, so running out never locks the
 // player out of them. A flat list rather than a range because the branches aren't contiguous.

@@ -129,6 +129,9 @@
     <ClInclude Include="header\GangTerritoryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\ChiliadChallengeTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\ExportVehicles.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -303,6 +306,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\GangTerritoryTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ChiliadChallengeTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\PimpingTracker.cpp">

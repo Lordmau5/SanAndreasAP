@@ -34,6 +34,7 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<PimpingTracker>(PIMPING_ID));
 	submissionTrackers.push_back(std::make_unique<QuarryTracker>(QUARRY_ID));
 	submissionTrackers.push_back(std::make_unique<GangTerritoryTracker>(GANG_TERRITORY_ID));
+	submissionTrackers.push_back(std::make_unique<ChiliadChallengeTracker>(CHILIAD_CHALLENGE_ID, CHILIAD_PASSED_GLOBAL));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)
@@ -322,10 +323,8 @@ void CheckListener::initializeMissionList()
 		"MTBIKER",   // 132 The Chiliad Challenge
 		"BMX",       // 133 BMX Challenge
 		"BUYPRO1",   // 134 Buy Properties Mission
-		// Appended past the original range: missions the source table
-		// merged into one row but which the game reports as separate completions. Appending
-		// keeps every existing index (= AP location ID) stable.
 		"BCES4_2",   // 135 Farewell, My Love... (verified in-game; row 48 covers only Wu Zi Mu)
+		"NRG500",    // 136 NRG-500 Challenge
 	};
 }
 

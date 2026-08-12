@@ -31,6 +31,7 @@
     <ClInclude Include="header\ExportListTracker.h" />
     <ClInclude Include="header\QuarryTracker.h" />
     <ClInclude Include="header\GangTerritoryTracker.h" />
+    <ClInclude Include="header\ChiliadChallengeTracker.h" />
     <ClInclude Include="header\ExportVehicles.h" />
     <ClInclude Include="header\OysterTracker.h" />
     <ClInclude Include="header\OysterPositions.h" />
@@ -89,6 +90,7 @@
     <ClCompile Include="source\OysterTracker.cpp" />
     <ClCompile Include="source\QuarryTracker.cpp" />
     <ClCompile Include="source\GangTerritoryTracker.cpp" />
+    <ClCompile Include="source\ChiliadChallengeTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
     <ClCompile Include="source\GameStorageHook.cpp" />
