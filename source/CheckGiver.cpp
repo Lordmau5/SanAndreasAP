@@ -49,7 +49,7 @@ namespace
 		{ "Rifle",             STAT_RIFLE_SKILL },
 	};
 
-	constexpr float MAX_WEAPON_SKILL = 1000.0f;
+	constexpr float MAX_SKILL = 1000.0f;
 }
 
 void CheckGiver::giveWeaponMastery(const std::string& t_weaponName)
@@ -57,7 +57,12 @@ void CheckGiver::giveWeaponMastery(const std::string& t_weaponName)
 	auto it = weaponSkillByName.find(t_weaponName);
 	if (it == weaponSkillByName.end()) return;
 
-	CStats::SetStatValue(it->second, MAX_WEAPON_SKILL);
+	CStats::SetStatValue(it->second, MAX_SKILL);
+}
+
+void CheckGiver::giveMaxSkill(int t_statId)
+{
+	CStats::SetStatValue(static_cast<unsigned short>(t_statId), MAX_SKILL);
 }
 
 void CheckGiver::giveArmorRefill()

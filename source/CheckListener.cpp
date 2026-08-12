@@ -320,7 +320,7 @@ void CheckListener::initializeMissionList()
 		"TRIA",      // 130 Beat the Cock!
 		"BCOUR",     // 131 Courier
 		"MTBIKER",   // 132 The Chiliad Challenge
-		"STUNT",     // 133 BMX / NRG-500 STUNT Mission
+		"BMX",       // 133 BMX Challenge
 		"BUYPRO1",   // 134 Buy Properties Mission
 		// Appended past the original range: missions the source table
 		// merged into one row but which the game reports as separate completions. Appending

@@ -16,6 +16,8 @@ public:
 
 	void giveWeaponMastery(const std::string& t_weaponName);
 
+	void giveMaxSkill(int t_statId);
+
 	void giveCarRepair();
 
 	void update();
