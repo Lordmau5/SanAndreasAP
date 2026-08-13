@@ -19,7 +19,7 @@ inline const char* const missionStartPosBranch[] = {
     "OG Loc",
     "Sweet",
     "C.R.A.S.H.",
-    nullptr,
+    "Big Smoke",
     "OG Loc",
     "Cesar",
     "C.R.A.S.H.",
@@ -45,6 +45,8 @@ inline const char* const missionStartPosBranch[] = {
     "C.R.A.S.H.",
     "Madd Dogg",
     "Return",
+    "Cesar",
+    nullptr,
 };
 
 inline constexpr size_t MISSION_START_POS_BRANCH_COUNT =

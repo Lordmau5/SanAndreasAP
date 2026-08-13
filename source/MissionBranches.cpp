@@ -29,6 +29,8 @@ namespace
     const std::string NO_BRANCH;
 
     constexpr size_t DOHERTY_GARAGE_MARKER = 15;
+    constexpr size_t MADD_DOGG_MANSION_MARKER = 31;
+    constexpr size_t JOHNSON_HOUSE_MARKER = 33;
 
     const char* activeBranchAtDohertyGarage(const BranchProgress& t_progress)
     {
@@ -38,6 +40,20 @@ namespace
         if (!t_progress.missionCompleted(60)) return "Triads";
         if (!t_progress.missionCompleted(52)) return "C.R.A.S.H.";
         if (!t_progress.missionCompleted(63)) return "Triads";
+        return nullptr;
+    }
+
+    const char* activeBranchAtMaddDoggMansion(const BranchProgress& t_progress)
+    {
+        if (!t_progress.missionCompleted(105)) return "Return";  // 103, 104, then 105
+        if (!t_progress.missionCompleted(108)) return "Sweet";   // Riot
+        return nullptr;
+    }
+
+    const char* activeBranchAtJohnsonHouse(const BranchProgress& t_progress)
+    {
+        if (!t_progress.missionCompleted(104)) return nullptr;   // Home Coming
+        if (!t_progress.missionCompleted(106)) return "Sweet";   // Beat Down on B Dup
         return nullptr;
     }
 }
@@ -51,6 +67,8 @@ const std::string& branchOfMission(int t_missionId)
 const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_progress)
 {
     if (t_markerIndex == DOHERTY_GARAGE_MARKER) return activeBranchAtDohertyGarage(t_progress);
+    if (t_markerIndex == MADD_DOGG_MANSION_MARKER) return activeBranchAtMaddDoggMansion(t_progress);
+    if (t_markerIndex == JOHNSON_HOUSE_MARKER) return activeBranchAtJohnsonHouse(t_progress);
 
     return t_markerIndex < MISSION_START_POS_BRANCH_COUNT ? missionStartPosBranch[t_markerIndex]
                                                           : nullptr;
