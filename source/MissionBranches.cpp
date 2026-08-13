@@ -1,4 +1,5 @@
 #include "MissionBranches.h"
+#include "BranchProgress.h"
 #include <CRadar.h>
 #include <unordered_map>
 
@@ -26,12 +27,33 @@ namespace
     };
 
     const std::string NO_BRANCH;
+
+    constexpr size_t DOHERTY_GARAGE_MARKER = 15;
+
+    const char* activeBranchAtDohertyGarage(const BranchProgress& t_progress)
+    {
+        if (!t_progress.missionCompleted(50)) return "Garage";
+        if (!t_progress.missionCompleted(58)) return "Triads";
+        if (!t_progress.missionCompleted(59)) return nullptr;
+        if (!t_progress.missionCompleted(60)) return "Triads";
+        if (!t_progress.missionCompleted(52)) return "C.R.A.S.H.";
+        if (!t_progress.missionCompleted(63)) return "Triads";
+        return nullptr;
+    }
 }
 
 const std::string& branchOfMission(int t_missionId)
 {
     auto it = MISSION_BRANCH.find(t_missionId);
     return it == MISSION_BRANCH.end() ? NO_BRANCH : it->second;
+}
+
+const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_progress)
+{
+    if (t_markerIndex == DOHERTY_GARAGE_MARKER) return activeBranchAtDohertyGarage(t_progress);
+
+    return t_markerIndex < MISSION_START_POS_BRANCH_COUNT ? missionStartPosBranch[t_markerIndex]
+                                                          : nullptr;
 }
 
 int branchRadarSprite(const std::string& t_branch)

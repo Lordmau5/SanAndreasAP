@@ -2,11 +2,15 @@
 #include <cstddef>
 #include <string>
 
+class BranchProgress;
+
 const std::string& branchOfMission(int t_missionId);
 
 int branchRadarSprite(const std::string& t_branch);
 
 const std::string& branchDisplayName(const std::string& t_branch);
+
+const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_progress);
 
 inline const char* const missionStartPosBranch[] = {
     nullptr,

@@ -6,6 +6,7 @@
 namespace
 {
 	constexpr char PROGRESSIVE_BRANCHES_KEY[] = "progressive_branches";
+	constexpr char COMPLETED_MISSIONS_KEY[] = "completed_missions";
 	constexpr char BRANCH_SEP = ';';
 	constexpr char FIELD_SEP = '|';
 }
@@ -16,8 +17,10 @@ void BranchProgress::receiveItem(const std::string& t_branch)
 	m_received[t_branch]++;
 }
 
-void BranchProgress::completeMission(const std::string& t_branch)
+void BranchProgress::completeMission(const std::string& t_branch, int t_missionId)
 {
+	m_completedMissions.insert(t_missionId);
+
 	if (t_branch.empty()) return;
 	m_completed[t_branch]++;
 }
@@ -44,6 +47,11 @@ int BranchProgress::pending(const std::string& t_branch) const
 	return receivedCount - completedCount;
 }
 
+bool BranchProgress::missionCompleted(int t_missionId) const
+{
+	return m_completedMissions.count(t_missionId) != 0;
+}
+
 void BranchProgress::save(SaveDataManager& t_saveData)
 {
 	std::set<std::string> branches;
@@ -63,12 +71,33 @@ void BranchProgress::save(SaveDataManager& t_saveData)
 		blob += name + FIELD_SEP + std::to_string(receivedCount) + FIELD_SEP + std::to_string(completedCount);
 	}
 	t_saveData.setValue(PROGRESSIVE_BRANCHES_KEY, blob);
+
+	std::string missions;
+	for (int missionId : m_completedMissions)
+	{
+		if (!missions.empty()) missions += BRANCH_SEP;
+		missions += std::to_string(missionId);
+	}
+	t_saveData.setValue(COMPLETED_MISSIONS_KEY, missions);
 }
 
 void BranchProgress::load(const SaveDataManager& t_saveData)
 {
 	m_received.clear();
 	m_completed.clear();
+	m_completedMissions.clear();
+
+	std::string missions = t_saveData.getValue(COMPLETED_MISSIONS_KEY, "");
+	size_t missionStart = 0;
+	while (missionStart < missions.size())
+	{
+		size_t missionEnd = missions.find(BRANCH_SEP, missionStart);
+		if (missionEnd == std::string::npos) missionEnd = missions.size();
+
+		int missionId = parseIntOr(missions.substr(missionStart, missionEnd - missionStart), -1);
+		if (missionId >= 0) m_completedMissions.insert(missionId);
+		missionStart = missionEnd + 1;
+	}
 
 	std::string blob = t_saveData.getValue(PROGRESSIVE_BRANCHES_KEY, "");
 	size_t start = 0;

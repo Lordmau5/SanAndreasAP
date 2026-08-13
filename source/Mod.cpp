@@ -140,7 +140,7 @@ void Mod::sendChecksToAP(CheckEvent t_event)
             int missionID = parseIntOr(missionIDStr, -1);
             if (m_checkListener.isStoryMission(missionID))
             {
-                m_branchProgress.completeMission(branchOfMission(missionID));
+                m_branchProgress.completeMission(branchOfMission(missionID), missionID);
             }
             m_checkListener.confirmMissionSent();
             m_autoSaveManager.requestSave();
@@ -342,12 +342,9 @@ const char* Mod::branchAtBlip(const CVector& t_pos) const
 
     for (size_t i = 0; i < count; ++i)
     {
-        const char* branch = missionStartPosBranch[i];
-        if (!branch) continue;
-
         float dx = t_pos.x - missionStartPos[i].x;
         float dy = t_pos.y - missionStartPos[i].y;
-        if (dx * dx + dy * dy < MISSION_BLIP_TOLERANCE_SQ) return branch;
+        if (dx * dx + dy * dy < MISSION_BLIP_TOLERANCE_SQ) return activeBranchAtMarker(i, m_branchProgress);
     }
     return nullptr;
 }

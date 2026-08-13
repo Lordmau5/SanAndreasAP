@@ -52,7 +52,7 @@ void MissionBlockerManager::reconcile(const BranchProgress& t_progress)
 
 	for (size_t i = 0; i < count; ++i)
 	{
-		const char* branch = missionStartPosBranch[i];
+		const char* branch = activeBranchAtMarker(i, t_progress);
 		const Position& pos = missionStartPos[i];
 		bool shouldBlock = branch != nullptr && t_progress.isBlocked(branch);
 
