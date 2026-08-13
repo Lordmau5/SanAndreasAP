@@ -44,7 +44,6 @@ inline const char* const missionStartPosBranch[] = {
     "C.R.A.S.H.",
     "C.R.A.S.H.",
     "Madd Dogg",
-    "Four Dragons Casino",
     "Return",
 };
 
