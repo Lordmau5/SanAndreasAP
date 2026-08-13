@@ -16,7 +16,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.5.0)
+## Current scope (v0.6.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -108,6 +108,7 @@ the C++ mod.
 
 - Some text may not scale correctly without Widescreen Fix installed.
 - Autosave titles longer than ~22 characters are truncated.
+- The Caligula's Casino Progressive Mission counter is misaligned.
 
 ## Troubleshooting
 
