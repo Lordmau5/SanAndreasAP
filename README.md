@@ -138,6 +138,10 @@ Not required, but they improve the experience:
 - Connect the client to the room for the **same seed** as the save you load.
   Loading a save that belongs to a different seed will misapply items.
 
+## Support
+If you ever feel like supporting the project, there's a Sponsor button at the top of the
+repo. It's completely optional and not required for the mod's development.
+
 ## Roadmap
 
 - Remaining checks for a 100% goal
