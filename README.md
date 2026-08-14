@@ -73,6 +73,15 @@ the C++ mod.
 **To verify:** the bottom-left of the main menu shows
 `Archipelago: Connected` in green once the game is linked to the client.
 
+### Recommended (optional) mods
+Not required, but they improve the experience:
+- [SilentPatch](https://gtaforums.com/topic/669045-silentpatch/) - a large collection of bug
+  fixes, including mouse input not being detected.
+- [FramerateVigilante](https://www.moddb.com/downloads/iiivcsa-framerate-vigilante) - fixes the
+  framerate-dependent bugs that show up with the frame limiter off, so the game works correctly at 60 FPS.
+- [WindowedMode](https://github.com/ThirteenAG/III.VC.SA.WindowedMode) - windowed and borderless
+  modes, which makes alt-tabbing to the Archipelago client much less painful.
+
 ### Using Starting point save files
 1. Download the `StartingPointSaves-vX.X.X.zip` from the latest
    [release](https://github.com/awakenbad/SanAndreasAP/releases)
