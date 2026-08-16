@@ -134,7 +134,8 @@ void Mod::sendChecksToAP(CheckEvent t_event)
     {
     case CheckEvent::Mission:
     {
-        std::string missionIDStr = m_checkListener.getMissionID();
+        std::string missionIDStr = std::to_string(
+            checkIdForMission(parseIntOr(m_checkListener.getMissionID(), -1), m_branchProgress));
         if (m_apSocket.sendToServer(APProtocol::missionCheck(missionIDStr)))
         {
             int missionID = parseIntOr(missionIDStr, -1);

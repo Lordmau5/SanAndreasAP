@@ -52,6 +52,12 @@ bool BranchProgress::missionCompleted(int t_missionId) const
 	return m_completedMissions.count(t_missionId) != 0;
 }
 
+int BranchProgress::completed(const std::string& t_branch) const
+{
+	auto completed = m_completed.find(t_branch);
+	return completed == m_completed.end() ? 0 : completed->second;
+}
+
 void BranchProgress::save(SaveDataManager& t_saveData)
 {
 	std::set<std::string> branches;

@@ -12,6 +12,8 @@ const std::string& branchDisplayName(const std::string& t_branch);
 
 const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_progress);
 
+int checkIdForMission(int t_missionId, const BranchProgress& t_progress);
+
 inline const char* const missionStartPosBranch[] = {
     nullptr,
     "Ryder",

@@ -28,6 +28,9 @@ namespace
 
     const std::string NO_BRANCH;
 
+    constexpr int FIRST_CATALINA_SLOT = 41;
+    constexpr int LAST_CATALINA_SLOT = 44;
+
     constexpr size_t ANGEL_PINE_TRAILER_MARKER = 9;
     constexpr size_t DOHERTY_GARAGE_MARKER = 15;
     constexpr size_t MADD_DOGG_MANSION_MARKER = 31;
@@ -63,6 +66,14 @@ namespace
         if (!t_progress.missionCompleted(106)) return "Sweet";   // Beat Down on B Dup
         return nullptr;
     }
+}
+
+int checkIdForMission(int t_missionId, const BranchProgress& t_progress)
+{
+	if (t_missionId < FIRST_CATALINA_SLOT || t_missionId > LAST_CATALINA_SLOT) return t_missionId;
+
+	int slot = FIRST_CATALINA_SLOT + t_progress.completed("Catalina");
+	return slot > LAST_CATALINA_SLOT ? LAST_CATALINA_SLOT : slot;
 }
 
 const std::string& branchOfMission(int t_missionId)
