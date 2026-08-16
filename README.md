@@ -16,7 +16,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.5.0)
+## Current scope (v0.6.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -73,6 +73,15 @@ the C++ mod.
 **To verify:** the bottom-left of the main menu shows
 `Archipelago: Connected` in green once the game is linked to the client.
 
+### Recommended (optional) mods
+Not required, but they improve the experience:
+- [SilentPatch](https://gtaforums.com/topic/669045-silentpatch/) - a large collection of bug
+  fixes, including mouse input not being detected.
+- [FramerateVigilante](https://www.moddb.com/downloads/iiivcsa-framerate-vigilante) - fixes the
+  framerate-dependent bugs that show up with the frame limiter off, so the game works correctly at 60 FPS.
+- [WindowedMode](https://github.com/ThirteenAG/III.VC.SA.WindowedMode) - windowed and borderless
+  modes, which makes alt-tabbing to the Archipelago client much less painful.
+
 ### Using Starting point save files
 1. Download the `StartingPointSaves-vX.X.X.zip` from the latest
    [release](https://github.com/awakenbad/SanAndreasAP/releases)
@@ -108,6 +117,7 @@ the C++ mod.
 
 - Some text may not scale correctly without Widescreen Fix installed.
 - Autosave titles longer than ~22 characters are truncated.
+- The Caligula's Casino Progressive Mission counter is misaligned.
 
 ## Troubleshooting
 
@@ -127,6 +137,10 @@ the C++ mod.
   while it is disconnected is sent automatically once it reconnects.
 - Connect the client to the room for the **same seed** as the save you load.
   Loading a save that belongs to a different seed will misapply items.
+
+## Support
+If you ever feel like supporting the project, there's a Sponsor button at the top of the
+repo. It's completely optional and not required for the mod's development.
 
 ## Roadmap
 
