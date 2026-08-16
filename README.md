@@ -16,7 +16,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.6.0)
+## Current scope (v0.6.1)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -28,8 +28,7 @@ the C++ mod.
   gated by Progressive Mission items
 - Spray tags, snapshots, horseshoes and oysters as individual locations (toggleable)
 - Side activities, paying out **per level** rather than once at the end:
-  Paramedic, Firefighter and Vigilante (12 levels each), Taxi Driver (one per
-  5 fares), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands) etc.
+  Paramedic, Firefighter and Vigilante (12 levels each), Taxi Driver (one per fare), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands) etc.
   The number of checks each activity sends is adjustable in the options.
 - 8 Ammu-Nation shop slots that sell checks (the menu shows what each
   purchase contains)
@@ -38,6 +37,7 @@ the C++ mod.
 - Autosave to slot 8 after every story mission and side-activity completion
 - Deathlink
 - Choosing a starting point (Badlands, San Fierro, Las Venturas)
+- Universal Tracker tab in `GTA SA Client`
 
 ## Setup
 
