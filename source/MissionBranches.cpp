@@ -23,14 +23,21 @@ namespace
         {90, "Caligula's Palace"}, {91, "Caligula's Palace"}, {92, "Caligula's Palace"},
         {93, "C.R.A.S.H."}, {94, "C.R.A.S.H."}, {95, "Madd Dogg"}, {102, "Four Dragons Casino"},
         {103, "Return"}, {104, "Return"}, {105, "Return"}, {106, "Sweet"}, {107, "Sweet"},
-        {108, "Sweet"}, {109, "Sweet"}, {112, "Sweet"}, {135, "Catalina"},
+        {108, "Sweet"}, {109, "Sweet"}, {112, "Sweet"}, {135, "Cesar"},
     };
 
     const std::string NO_BRANCH;
 
+    constexpr size_t ANGEL_PINE_TRAILER_MARKER = 9;
     constexpr size_t DOHERTY_GARAGE_MARKER = 15;
     constexpr size_t MADD_DOGG_MANSION_MARKER = 31;
     constexpr size_t JOHNSON_HOUSE_MARKER = 33;
+
+    const char* activeBranchAtAngelPineTrailer(const BranchProgress& t_progress)
+    {
+        if (!t_progress.missionCompleted(39)) return "C.R.A.S.H.";
+        return nullptr;
+    }
 
     const char* activeBranchAtDohertyGarage(const BranchProgress& t_progress)
     {
@@ -66,6 +73,7 @@ const std::string& branchOfMission(int t_missionId)
 
 const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_progress)
 {
+    if (t_markerIndex == ANGEL_PINE_TRAILER_MARKER) return activeBranchAtAngelPineTrailer(t_progress);
     if (t_markerIndex == DOHERTY_GARAGE_MARKER) return activeBranchAtDohertyGarage(t_progress);
     if (t_markerIndex == MADD_DOGG_MANSION_MARKER) return activeBranchAtMaddDoggMansion(t_progress);
     if (t_markerIndex == JOHNSON_HOUSE_MARKER) return activeBranchAtJohnsonHouse(t_progress);
