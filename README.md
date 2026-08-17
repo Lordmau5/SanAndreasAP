@@ -32,6 +32,8 @@ the C++ mod.
   The number of checks each activity sends is adjustable in the options.
 - 8 Ammu-Nation shop slots that sell checks (the menu shows what each
   purchase contains)
+- Taking over gang territories in RTLS sends checks per 5%
+- BMX, NRG-500 and Chiliad Challenges send checks on completion
 - Traps (wanted level, fat CJ, flat tires, car fire) and filler items
   (21 weapons, money, full armor, car repair, weapon mastery)
 - Autosave to slot 8 after every story mission and side-activity completion
