@@ -20,7 +20,7 @@ namespace
 		{ "kickboxing_style",    ItemEffect::SubmissionCheck,    LAS_VENTURAS_GYM_ID, nullptr,     "Archipelago: Received Kickboxing Style",    NotificationIcon::Boxing },
 
 		{ "max_cycling_skill",   ItemEffect::MaxSkill,           STAT_CYCLING_SKILL,  nullptr,     "Archipelago: Received Max Cycling Skill",   NotificationIcon::Stamina },
-		{ "max_bike_skill",      ItemEffect::MaxSkill,           STAT_BIKE_SKILL,     nullptr,     "Archipelago: Received Max Bike Skill",      NotificationIcon::Stamina },
+		{ "max_bike_skill",      ItemEffect::SubmissionCheck,    BIKE_SCHOOL_ID,      nullptr,     "Archipelago: Received Max Bike Skill",      NotificationIcon::Stamina },
 
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },

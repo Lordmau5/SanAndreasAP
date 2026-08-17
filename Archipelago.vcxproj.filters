@@ -123,6 +123,9 @@
     <ClInclude Include="header\SchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\BikeSchoolTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\BoatSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -306,6 +309,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\SchoolTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BikeSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\BoatSchoolTracker.cpp">

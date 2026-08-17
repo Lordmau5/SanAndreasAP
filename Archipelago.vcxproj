@@ -27,6 +27,7 @@
     <ClInclude Include="header\TruckingTracker.h" />
     <ClInclude Include="header\ValetTracker.h" />
     <ClInclude Include="header\SchoolTracker.h" />
+    <ClInclude Include="header\BikeSchoolTracker.h" />
     <ClInclude Include="header\BoatSchoolTracker.h" />
     <ClInclude Include="header\ExportListTracker.h" />
     <ClInclude Include="header\QuarryTracker.h" />
@@ -87,6 +88,7 @@
     <ClCompile Include="source\TruckingTracker.cpp" />
     <ClCompile Include="source\ValetTracker.cpp" />
     <ClCompile Include="source\SchoolTracker.cpp" />
+    <ClCompile Include="source\BikeSchoolTracker.cpp" />
     <ClCompile Include="source\BoatSchoolTracker.cpp" />
     <ClCompile Include="source\ExportListTracker.cpp" />
     <ClCompile Include="source\OysterTracker.cpp" />
