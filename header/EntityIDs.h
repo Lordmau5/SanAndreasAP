@@ -15,7 +15,6 @@ inline constexpr int PIMPING_ID = 127;
 inline constexpr int BOAT_SCHOOL_ID = 119;
 inline constexpr int BIKE_SCHOOL_ID = 120;
 inline constexpr int QUARRY_ID = 118;
-inline constexpr int VALET_ID = 136;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
 inline constexpr int GANG_TERRITORY_ID = 139;
@@ -24,6 +23,8 @@ inline constexpr int EIGHT_TRACK_ID = 140;
 inline constexpr int DIRT_TRACK_ID = 141;
 inline constexpr int BLOOD_RING_ID = 142;
 inline constexpr int KICKSTART_ID = 143;
+
+inline constexpr int VALET_ID = 144;
 
 inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
 	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
