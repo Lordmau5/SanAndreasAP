@@ -20,8 +20,6 @@ Mod::Mod()
 
 	GameStorageHook::setBeforeSaveCallback([this]
 	{
-		m_blockerManager.removeAll();
-
 		for (PersistentState* subsystem : m_persistentSubsystems)
 		{
 			subsystem->save(m_saveDataManager);
@@ -32,6 +30,9 @@ Mod::Mod()
 
 void Mod::start()
 {
+    MissionLocateBlocked::install(m_branchProgress);
+    BlockedMarkerTint::install(m_branchProgress);
+
     m_apSocket.update();
     pollDeathLink();
 
@@ -54,7 +55,6 @@ void Mod::start()
 
     sendChecksToAP(event);
     updateGameplaySystems();
-    m_blockerManager.update(m_branchProgress);
 
     parseIncomingMessages();
 }
@@ -497,7 +497,7 @@ void Mod::persistAndRestoreState(bool t_worldWiped, bool t_loadHooked)
 	{
 		spawnCollectiblePickups();
 
-		m_blockerManager.forget();
+		LegacyBlockerCleanup::removeStaleBlockers();
 	}
 
 	if (restoreNeeded)
@@ -521,7 +521,6 @@ void Mod::resetForNewGame()
 	}
 
 	m_blipManager.onWorldWiped();
-	m_blockerManager.forget();
 
 	m_firstInGameTickHandled = false;
 	m_newGameRegrantPending = true;

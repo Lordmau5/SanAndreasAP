@@ -6,7 +6,9 @@
 #include "CheckListener.h"
 #include "CheckGiver.h"
 #include "BranchProgress.h"
-#include "MissionBlockerManager.h"
+#include "MissionLocateBlocked.h"
+#include "BlockedMarkerTint.h"
+#include "LegacyBlockerCleanup.h"
 #include "CStats.h"
 #include "EntityIDs.h"
 #include "CRunningScript.h"
@@ -51,7 +53,6 @@ private:
 	CheckListener m_checkListener;
 	CheckGiver m_checkGiver;
 	BranchProgress m_branchProgress;
-	MissionBlockerManager m_blockerManager;
 	APSocket m_apSocket;
 	DeathLinkHandler m_deathLinkHandler;
 	SaveDataManager m_saveDataManager;

@@ -1,5 +1,6 @@
 #include "MissionBranches.h"
 #include "BranchProgress.h"
+#include "EntityIDs.h"
 #include <CRadar.h>
 #include <unordered_map>
 
@@ -66,6 +67,28 @@ namespace
         if (!t_progress.missionCompleted(106)) return "Sweet";   // Beat Down on B Dup
         return nullptr;
     }
+
+    constexpr float MARKER_TOLERANCE_SQ = 9.0f;
+}
+
+int missionMarkerIndexAt(float t_x, float t_y)
+{
+    size_t count = missionStartPos.size();
+    if (count > MISSION_START_POS_BRANCH_COUNT) count = MISSION_START_POS_BRANCH_COUNT;
+
+    for (size_t i = 0; i < count; ++i)
+    {
+        float dx = t_x - missionStartPos[i].x;
+        float dy = t_y - missionStartPos[i].y;
+        if (dx * dx + dy * dy <= MARKER_TOLERANCE_SQ) return static_cast<int>(i);
+    }
+    return -1;
+}
+
+bool markerIsBlocked(int t_markerIndex, const BranchProgress& t_progress)
+{
+    const char* branch = activeBranchAtMarker(static_cast<size_t>(t_markerIndex), t_progress);
+    return branch != nullptr && t_progress.isBlocked(branch);
 }
 
 int checkIdForMission(int t_missionId, const BranchProgress& t_progress)

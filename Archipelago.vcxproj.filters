@@ -81,7 +81,13 @@
     <ClInclude Include="header\BranchProgress.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\MissionBlockerManager.h">
+    <ClInclude Include="header\MissionLocateBlocked.h">
+      <Filter>Header\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="header\BlockedMarkerTint.h">
+      <Filter>Header\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="header\LegacyBlockerCleanup.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
     <ClInclude Include="header\PendingChecks.h">
@@ -263,7 +269,13 @@
     <ClCompile Include="source\BranchProgress.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\MissionBlockerManager.cpp">
+    <ClCompile Include="source\MissionLocateBlocked.cpp">
+      <Filter>Source\Checks</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BlockedMarkerTint.cpp">
+      <Filter>Source\Checks</Filter>
+    </ClCompile>
+    <ClCompile Include="source\LegacyBlockerCleanup.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
     <ClCompile Include="source\SubmissionTracker.cpp">
