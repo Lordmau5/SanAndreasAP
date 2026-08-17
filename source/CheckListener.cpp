@@ -1,4 +1,4 @@
-#include "CheckListener.h"
+﻿#include "CheckListener.h"
 #include "EntityIDs.h"
 #include "SaveDataManager.h"
 #include "ParseUtils.h"
@@ -27,14 +27,16 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<GymTracker>(LAS_VENTURAS_GYM_ID, STYLE_KNEE_HEAD, "gymlv", m_styleArbiter));
 	submissionTrackers.push_back(std::make_unique<TruckingTracker>(TRUCKING_ID));
 	submissionTrackers.push_back(std::make_unique<ValetTracker>(VALET_ID));
-	submissionTrackers.push_back(std::make_unique<SchoolTracker>(DRIVING_SCHOOL_ID, DRIVING_SCHOOL_TIERS, DRIVING_SCHOOL_SCORE_GLOBALS));
+	submissionTrackers.push_back(std::make_unique<DrivingSchoolTracker>(DRIVING_SCHOOL_ID));
 	submissionTrackers.push_back(std::make_unique<SchoolTracker>(FLYING_SCHOOL_ID, FLYING_SCHOOL_TIERS, FLYING_SCHOOL_SCORE_GLOBALS));
 	submissionTrackers.push_back(std::make_unique<BoatSchoolTracker>(BOAT_SCHOOL_ID));
 	submissionTrackers.push_back(std::make_unique<BikeSchoolTracker>(BIKE_SCHOOL_ID));
 	submissionTrackers.push_back(std::make_unique<PimpingTracker>(PIMPING_ID));
 	submissionTrackers.push_back(std::make_unique<QuarryTracker>(QUARRY_ID));
 	submissionTrackers.push_back(std::make_unique<GangTerritoryTracker>(GANG_TERRITORY_ID));
-	submissionTrackers.push_back(std::make_unique<ChiliadChallengeTracker>(CHILIAD_CHALLENGE_ID, CHILIAD_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(CHILIAD_CHALLENGE_ID, CHILIAD_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(BLOOD_RING_ID, BLOOD_RING_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(KICKSTART_ID, KICKSTART_PASSED_GLOBAL));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)
@@ -226,9 +228,7 @@ void CheckListener::initializeMissionList()
 		"LA1FIN1",   // 37  Reuniting The Families
 		"LA1FIN2",   // 38  The Green Sabre
 		"BCRASH1",   // 39  Badlands (verified in-game)
-		"CATALIN",   // 40  First Date - NEVER FIRES: cutscene-style mission, the game does not
-		             //     update LastMissionPassedName for it (verified in-game). Placeholder
-		             //     key kept so the ID numbering stays intact.
+		"CATALIN",   // 40  First Date - NEVER FIRES
 		"CAT_1",     // 41  Local Liquor Store (verified in-game)
 		"CAT_2",     // 42  Small Town Bank (verified in-game)
 		"CAT_3",     // 43  Tanker Commander (verified in-game)
@@ -325,6 +325,11 @@ void CheckListener::initializeMissionList()
 		"BUYPRO1",   // 134 Buy Properties Mission
 		"BCES4_2",   // 135 Farewell, My Love... (verified in-game; row 48 covers only Wu Zi Mu)
 		"NRG500",    // 136 NRG-500 Challenge
+		"-",         // 137 Driving School
+		"-",         // 138 Flying School
+		"-",         // 139 Gang Territories
+		"STAD_03",   // 140 8-Track
+		"STAD_01",   // 141 Dirt Track
 	};
 }
 

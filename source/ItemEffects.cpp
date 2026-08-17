@@ -1,4 +1,4 @@
-#include "ItemEffects.h"
+﻿#include "ItemEffects.h"
 #include "EntityIDs.h"
 #include <CStats.h>
 
@@ -20,6 +20,7 @@ namespace
 		{ "kickboxing_style",    ItemEffect::SubmissionCheck,    LAS_VENTURAS_GYM_ID, nullptr,     "Archipelago: Received Kickboxing Style",    NotificationIcon::Boxing },
 
 		{ "max_cycling_skill",   ItemEffect::MaxSkill,           STAT_CYCLING_SKILL,  nullptr,     "Archipelago: Received Max Cycling Skill",   NotificationIcon::Stamina },
+		{ "max_driving_skill",   ItemEffect::SubmissionCheck,    DRIVING_SCHOOL_ID,   nullptr,     "Archipelago: Received Max Driving Skill",   NotificationIcon::Taxi },
 		{ "max_bike_skill",      ItemEffect::SubmissionCheck,    BIKE_SCHOOL_ID,      nullptr,     "Archipelago: Received Max Bike Skill",      NotificationIcon::Stamina },
 
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },

@@ -1,10 +1,10 @@
 #pragma once
 #include "SubmissionTracker.h"
 
-class ChiliadChallengeTracker : public SubmissionTracker
+class GlobalFlagTracker : public SubmissionTracker
 {
 public:
-	ChiliadChallengeTracker(int t_locationId, int t_completedGlobal);
+	GlobalFlagTracker(int t_locationId, int t_completedGlobal);
 
 	void enforceSubmissionReward() override;
 	bool pollCompletion() override;

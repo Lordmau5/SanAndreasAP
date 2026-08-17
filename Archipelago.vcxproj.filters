@@ -126,6 +126,9 @@
     <ClInclude Include="header\BikeSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\DrivingSchoolTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
     <ClInclude Include="header\BoatSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -138,7 +141,7 @@
     <ClInclude Include="header\GangTerritoryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ChiliadChallengeTracker.h">
+    <ClInclude Include="header\GlobalFlagTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
     <ClInclude Include="header\ExportVehicles.h">
@@ -314,6 +317,9 @@
     <ClCompile Include="source\BikeSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
+    <ClCompile Include="source\DrivingSchoolTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
     <ClCompile Include="source\BoatSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
@@ -326,7 +332,7 @@
     <ClCompile Include="source\GangTerritoryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\ChiliadChallengeTracker.cpp">
+    <ClCompile Include="source\GlobalFlagTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\PimpingTracker.cpp">

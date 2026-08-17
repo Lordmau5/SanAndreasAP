@@ -2,9 +2,6 @@
 #include <vector>
 #include "Position.h"
 
-// AP mission/location IDs of the side-activity submissions (indices into CheckListener's missions
-// table). Shared between check detection (CheckListener) and item receipt (Mod), which must always
-// agree on them.
 inline constexpr int LOS_SANTOS_GYM_ID = 114;
 inline constexpr int SAN_FIERRO_GYM_ID = 115;
 inline constexpr int LAS_VENTURAS_GYM_ID = 116;
@@ -23,6 +20,11 @@ inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
 inline constexpr int GANG_TERRITORY_ID = 139;
 
+inline constexpr int EIGHT_TRACK_ID = 140;
+inline constexpr int DIRT_TRACK_ID = 141;
+inline constexpr int BLOOD_RING_ID = 142;
+inline constexpr int KICKSTART_ID = 143;
+
 inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
 	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
 };
@@ -39,10 +41,9 @@ inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
 inline constexpr int CHILIAD_CHALLENGE_ID = 132;
 inline constexpr int CHILIAD_PASSED_GLOBAL = 1801;
 
-// Missions that sit inside the story ID range but are optional side content: they send their
-// check like anything else, but spend no Progressive Mission, so running out never locks the
-// player out of them. A flat list rather than a range because the branches aren't contiguous.
-//
+inline constexpr int BLOOD_RING_PASSED_GLOBAL = 1941;
+inline constexpr int KICKSTART_PASSED_GLOBAL = 90;
+
 inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	67, 68, 69, 70,   // Wang Cars: Zeroing In, Test Drive, Customs Fast Track, Puncture Wounds
 
@@ -50,14 +51,10 @@ inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	72, 73, 74,       // Zero: Air Raid, Supply Lines, New Model Army
 
 	96, 97, 98, 99, 100, 101,
+
+	140, 141, 142, 143,   // Stadium: 8-Track, Dirt Track, Blood Ring, Kickstart
 };
 
-// Submissions that pay out in tiers rather than once on completion. The check slot sent to the
-// client is baseSlot + (tier - 1), and a tier is reached at progressPerTier * tier of whatever
-// the tracker measures (levels, fares, dollars) unless the tracker overrides currentTier().
-// Append new entries at the end - inserting in the middle renumbers every slot after it.
-//
-// MUST match worlds/gta_sa/submission_tier_list.py exactly.
 struct SubmissionTierSpec
 {
 	int baseSlot;
@@ -71,7 +68,6 @@ inline constexpr SubmissionTierSpec VIGILANTE_TIERS   { 24, 12, 1.0f };
 inline constexpr SubmissionTierSpec TAXI_TIERS        { 36, 50, 1.0f };
 inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 86, 10, 1000.0f };
 inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 96,  8, 1.0f };
-// progressPerTier unused - ValetTracker walks its own threshold table in currentTier().
 inline constexpr SubmissionTierSpec VALET_TIERS       { 104,  5, 0.0f };
 inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 109, 12, 1.0f };
 inline constexpr SubmissionTierSpec PIMPING_TIERS     { 121, 10, 1.0f };
