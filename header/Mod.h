@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include <APSocket.h>
 #include "EdgeTriggeredKey.h"
@@ -25,6 +25,7 @@
 #include "AmmuNationShop.h"
 #include "TrapHandler.h"
 #include "GameStorageHook.h"
+#include "WaypointTeleport.h"
 
 class Mod
 {
@@ -74,6 +75,7 @@ private:
 	static constexpr unsigned int NEW_GAME_REGRANT_DELAY_MS = 4000;
 
 	EdgeTriggeredKey m_tagBlipToggleKey{ VK_F8 };
+
 
 	void parseIncomingMessages();
 

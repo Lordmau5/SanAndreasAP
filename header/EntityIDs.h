@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include "Position.h"
 
@@ -26,6 +26,10 @@ inline constexpr int KICKSTART_ID = 143;
 
 inline constexpr int VALET_ID = 144;
 
+inline constexpr int COURIER_LS_ID = 145;
+inline constexpr int COURIER_SF_ID = 146;
+inline constexpr int COURIER_LV_ID = 147;
+
 inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
 	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
 };
@@ -44,6 +48,10 @@ inline constexpr int CHILIAD_PASSED_GLOBAL = 1801;
 
 inline constexpr int BLOOD_RING_PASSED_GLOBAL = 1941;
 inline constexpr int KICKSTART_PASSED_GLOBAL = 90;
+
+inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
+inline constexpr int COURIER_LV_PASSED_GLOBAL = 1993;
+inline constexpr int COURIER_SF_PASSED_GLOBAL = 1994;
 
 inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	67, 68, 69, 70,   // Wang Cars: Zeroing In, Test Drive, Customs Fast Track, Puncture Wounds
@@ -77,8 +85,11 @@ inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 141, 5, 1.0f };
 inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 146, 6, 1.0f };
 inline constexpr SubmissionTierSpec QUARRY_TIERS       { 152, 7, 1.0f };
 inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 159, 20, 5.0f };
+inline constexpr SubmissionTierSpec COURIER_LS_TIERS   { 179, 4, 1.0f };
+inline constexpr SubmissionTierSpec COURIER_SF_TIERS   { 183, 4, 1.0f };
+inline constexpr SubmissionTierSpec COURIER_LV_TIERS   { 187, 4, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 179;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 191;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

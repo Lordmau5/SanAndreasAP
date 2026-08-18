@@ -4,6 +4,9 @@
     <Filter Include="Header">
       <UniqueIdentifier>{d2737ed6-fe44-4e14-bdfa-12de75c1febf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header\Debug">
+      <UniqueIdentifier>{3f7a1c25-9d84-4e17-b6a2-71c0d9e4f5a1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header\Protocol">
       <UniqueIdentifier>{a1f0c3d2-4b5e-4a91-9c7d-0e1f2a3b4c50}</UniqueIdentifier>
     </Filter>
@@ -30,6 +33,9 @@
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{80eca0db-1570-4c8e-a998-44b61c8db291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Debug">
+      <UniqueIdentifier>{8c4e2b96-5a17-4d38-9f60-2b83e7c1a4d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Protocol">
       <UniqueIdentifier>{b8c7dae9-bc25-4b48-2d0e-7f8a9b0c1d27}</UniqueIdentifier>
@@ -140,6 +146,12 @@
     </ClInclude>
     <ClInclude Include="header\GangTerritoryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
+    <ClInclude Include="header\CourierTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
+    <ClInclude Include="header\WaypointTeleport.h">
+      <Filter>Header\Debug</Filter>
     </ClInclude>
     <ClInclude Include="header\GlobalFlagTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
@@ -331,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="source\GangTerritoryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\CourierTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\WaypointTeleport.cpp">
+      <Filter>Source\Debug</Filter>
     </ClCompile>
     <ClCompile Include="source\GlobalFlagTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>

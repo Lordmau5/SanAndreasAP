@@ -5,6 +5,7 @@
 #include "common.h"
 #include "CTheScripts.h"
 #include "CCutsceneMgr.h"
+#include "CZone.h"
 #include <algorithm>
 #include <cctype>
 #include <cstring>
@@ -37,6 +38,9 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(CHILIAD_CHALLENGE_ID, CHILIAD_PASSED_GLOBAL));
 	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(BLOOD_RING_ID, BLOOD_RING_PASSED_GLOBAL));
 	submissionTrackers.push_back(std::make_unique<GlobalFlagTracker>(KICKSTART_ID, KICKSTART_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_LS_ID, COURIER_LS_TIERS, LEVEL_NAME_LOS_SANTOS, COURIER_LS_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_SF_ID, COURIER_SF_TIERS, LEVEL_NAME_SAN_FIERRO, COURIER_SF_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_LV_ID, COURIER_LV_TIERS, LEVEL_NAME_LAS_VENTURAS, COURIER_LV_PASSED_GLOBAL));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)

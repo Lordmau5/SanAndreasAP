@@ -1,4 +1,4 @@
-#include "Mod.h"
+﻿#include "Mod.h"
 #include "PlayerControl.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
@@ -55,6 +55,7 @@ void Mod::start()
 
     sendChecksToAP(event);
     updateGameplaySystems();
+    WaypointTeleport::update();
 
     parseIncomingMessages();
 }
