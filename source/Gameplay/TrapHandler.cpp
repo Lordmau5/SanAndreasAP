@@ -8,6 +8,7 @@
 #include "CWanted.h"
 #include "CAutomobile.h"
 #include "CBike.h"
+#include "CWeather.h"
 #include "ScreenScale.h"
 #include <CFont.h>
 #include <CRGBA.h>
@@ -29,11 +30,15 @@ namespace
 	constexpr char FAT_SAVED_FAT_KEY[] = "trap_fat_saved_fat";
 	constexpr char FAT_SAVED_MUSCLE_KEY[] = "trap_fat_saved_muscle";
 	constexpr char FAT_REMAINING_KEY[] = "trap_fat_remaining_seconds";
+
+	constexpr short BAD_WEATHER_TYPES[] = { WEATHER_RAINY_SF, WEATHER_FOGGY_SF, WEATHER_SANDSTORM_DESERT };
+
+	constexpr short WEATHER_NOT_FORCED = -1;
 }
 
-int TrapHandler::randomDurationSeconds() const
+int TrapHandler::randomSeconds(int t_low, int t_high) const
 {
-	return 30 + std::rand() % 91; // 30-120s
+	return t_low + std::rand() % (t_high - t_low + 1);
 }
 
 int TrapHandler::randomWantedStars() const
@@ -46,8 +51,6 @@ int TrapHandler::randomWantedStars() const
 
 void TrapHandler::save(SaveDataManager& t_saveData)
 {
-	// Seconds left rather than an end time: steady_clock's epoch is arbitrary per process, so an
-	// absolute time point means nothing once the game restarts.
 	int remainingSeconds = 0;
 	if (m_fatTrapActive)
 	{
@@ -70,9 +73,6 @@ void TrapHandler::load(const SaveDataManager& t_saveData)
 
 	if (!m_fatTrapActive)
 	{
-		// Any trap still running belonged to whichever save we came from. Abandon it WITHOUT
-		// restoring: this save's stats are its own, and writing another save's pre-trap values
-		// over them would quietly rewrite CJ's build.
 		m_fatTrapEnd = Clock::time_point{};
 		return;
 	}
@@ -80,9 +80,6 @@ void TrapHandler::load(const SaveDataManager& t_saveData)
 	m_savedFat = parseFloatOr(t_saveData.getValue(FAT_SAVED_FAT_KEY, "0"), 0.0f);
 	m_savedMuscle = parseFloatOr(t_saveData.getValue(FAT_SAVED_MUSCLE_KEY, "0"), 0.0f);
 
-	// Resume with what was left, so quitting and reloading isn't a way to shrug the trap off.
-	// update() restores the stats the moment this expires, which is also what makes "fat forever"
-	// impossible now - even a zero or malformed value just restores on the next tick.
 	int remainingSeconds = parseIntOr(t_saveData.getValue(FAT_REMAINING_KEY, "0"), 0);
 	m_fatTrapEnd = Clock::now() + std::chrono::seconds(remainingSeconds);
 }
@@ -102,7 +99,7 @@ void TrapHandler::applyTrap(const std::string& t_trapType)
 {
 	if (t_trapType == "tires")
 	{
-		m_tireTrapEnd = Clock::now() + std::chrono::seconds(randomDurationSeconds());
+		m_tireTrapEnd = Clock::now() + std::chrono::seconds(randomSeconds(TRAP_MIN_SECONDS, TRAP_MAX_SECONDS));
 	}
 	else if (t_trapType == "fat")
 	{
@@ -112,7 +109,7 @@ void TrapHandler::applyTrap(const std::string& t_trapType)
 			m_savedMuscle = CStats::GetStatValue(STAT_MUSCLE);
 			m_fatTrapActive = true;
 		}
-		m_fatTrapEnd = Clock::now() + std::chrono::seconds(randomDurationSeconds());
+		m_fatTrapEnd = Clock::now() + std::chrono::seconds(randomSeconds(TRAP_MIN_SECONDS, TRAP_MAX_SECONDS));
 		CStats::SetStatValue(STAT_FAT, 1000.0f);
 		CStats::SetStatValue(STAT_MUSCLE, 0.0f);
 		if (CPlayerPed* player = FindPlayerPed())
@@ -136,12 +133,23 @@ void TrapHandler::applyTrap(const std::string& t_trapType)
 	{
 		m_carFirePending = true;
 	}
+	else if (t_trapType == "weather")
+	{
+		startWeatherTrap(BAD_WEATHER_TYPES[std::rand() % std::size(BAD_WEATHER_TYPES)]);
+	}
+}
+
+void TrapHandler::startWeatherTrap(short t_weather)
+{
+	m_forcedWeather = t_weather;
+	CWeather::ForceWeatherNow(m_forcedWeather);
+	m_weatherTrapActive = true;
+	m_weatherTrapEnd = Clock::now()
+		+ std::chrono::seconds(randomSeconds(WEATHER_MIN_SECONDS, WEATHER_MAX_SECONDS));
 }
 
 void TrapHandler::update()
 {
-	// Release anything that arrived mid-cutscene, in the order it arrived. Their timers start now
-	// rather than when they were received, which is what the player will perceive as fair.
 	if (!m_deferredTraps.empty() && PlayerControl::isInControl())
 	{
 		std::vector<std::string> toApply;
@@ -166,6 +174,23 @@ void TrapHandler::update()
 		}
 	}
 
+	if (m_weatherTrapActive)
+	{
+		if (now >= m_weatherTrapEnd)
+		{
+			m_weatherTrapActive = false;
+			if (CWeather::ForcedWeatherType == m_forcedWeather)
+			{
+				CWeather::ReleaseWeather();
+				CWeather::SetWeatherToAppropriateTypeNow();
+			}
+		}
+		else if (CWeather::ForcedWeatherType == WEATHER_NOT_FORCED)
+		{
+			CWeather::ForceWeatherNow(m_forcedWeather);
+		}
+	}
+
 	if (!player) return;
 	CVehicle* vehicle = player->bInVehicle ? player->m_pVehicle : nullptr;
 	if (!vehicle) return;
@@ -178,7 +203,6 @@ void TrapHandler::update()
 	if (m_carFirePending)
 	{
 		m_carFirePending = false;
-		// Engine health below 250 ignites the engine fire without an instant explosion.
 		if (vehicle->m_fHealth > 240.0f)
 		{
 			vehicle->m_fHealth = 240.0f;
@@ -186,14 +210,8 @@ void TrapHandler::update()
 	}
 }
 
-// Where a vehicle keeps its wheel status depends on which C++ class it actually is, so this
-// branches on m_nVehicleClass - the base type - rather than the subtype. Getting that wrong is not
-// a missed effect but memory corruption: a CBike has no CDamageManager, so reaching for one
-// through a CAutomobile pointer writes into whatever happens to sit at that offset.
 void TrapHandler::burstTires(CVehicle* t_vehicle)
 {
-	// Status 1 = burst (eCarWheelStatus, absent from plugin-sdk's headers). Confirmed live on
-	// cars; bikes use the same values in their own array.
 	const int WHEEL_STATUS_BURST = 1;
 
 	if (t_vehicle->m_nVehicleClass == VEHICLE_AUTOMOBILE)
@@ -206,8 +224,6 @@ void TrapHandler::burstTires(CVehicle* t_vehicle)
 	}
 	else if (t_vehicle->m_nVehicleClass == VEHICLE_BIKE)
 	{
-		// Bikes carry wheel status on the vehicle itself and have no damage manager at all, which
-		// is why the old CAutomobile-only check could never have reached them.
 		CBike* bike = reinterpret_cast<CBike*>(t_vehicle);
 		for (int wheel = 0; wheel < CBike::NUM_WHEELS; ++wheel)
 		{
@@ -229,11 +245,15 @@ void TrapHandler::drawTimers() const
 	{
 		lines.push_back("Fat CJ Trap: " + formatRemaining(m_fatTrapEnd - now));
 	}
+	if (m_weatherTrapActive && now < m_weatherTrapEnd)
+	{
+		lines.push_back("Bad Weather Trap: " + formatRemaining(m_weatherTrapEnd - now));
+	}
 	if (lines.empty()) return;
 
 	float scale = ScreenScale::factor();
 	float x = static_cast<float>(RsGlobal.maximumWidth) - ScreenScale::of(30.0f);
-	float y = ScreenScale::of(250.0f); // below the clock/money/health HUD block and wanted stars
+	float y = ScreenScale::of(250.0f);
 
 	for (const std::string& line : lines)
 	{

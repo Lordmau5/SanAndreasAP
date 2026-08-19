@@ -31,6 +31,7 @@ namespace
 		{ "trap_fat",            ItemEffect::Trap,               -1,                  "fat",       "Archipelago: Fat CJ Trap!",                 NotificationIcon::Trap },
 		{ "trap_wanted",         ItemEffect::Trap,               -1,                  "wanted",    "Archipelago: Wanted Level Trap!",           NotificationIcon::Trap },
 		{ "trap_carfire",        ItemEffect::Trap,               -1,                  "carfire",   "Archipelago: Car Fire Trap!",               NotificationIcon::Trap },
+		{ "trap_weather",        ItemEffect::Trap,               -1,                  "weather",   "Archipelago: Bad Weather Trap!",            NotificationIcon::Trap },
 	};
 
 	constexpr char VALUE_PLACEHOLDER[] = "{}";

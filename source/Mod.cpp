@@ -372,7 +372,6 @@ void Mod::drawMissionCountsOnMap()
 
 void Mod::drawMissionCountsImpl(bool t_menuMap)
 {
-    // 0.5625 x (960/1080) = 0.50 at 1280x960; 0.3 at 1920x1080 and above, where it stops growing.
     float aspect = static_cast<float>(RsGlobal.maximumWidth) / static_cast<float>(RsGlobal.maximumHeight);
     float base = aspect < 1.5f ? 0.5625f : 0.3f;
     float scaleX = t_menuMap ? ScreenScale::of(0.5f)
