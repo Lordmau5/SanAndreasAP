@@ -69,6 +69,17 @@ APProtocol::Message APProtocol::parse(const std::string& t_line)
 		return message;
 	}
 
+	if (stripPrefix(t_line, "SHOPFLAGS:", rest))
+	{
+		size_t colon = rest.find(':');
+		if (colon == std::string::npos) return message;
+
+		message.kind = MessageKind::ShopFlags;
+		message.index = parseIntOr(rest.substr(0, colon), -1);
+		message.text = rest.substr(colon + 1);
+		return message;
+	}
+
 	if (stripPrefix(t_line, "GIVE:", rest))
 	{
 		// GIVE:<index>:<effect>[:<value>] - the index is mandatory, since without it the item

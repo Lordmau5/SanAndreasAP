@@ -17,6 +17,7 @@ namespace APProtocol
 		Locate,    // LOCATE:<TYPE>:<index>          highlight one collectible on the map
 		ShopItem,  // SHOPITEM:<slot>:<text>         what an Ammu-Nation slot now contains
 		ShopSold,  // SHOPSOLD:<slot>:<0|1>
+		ShopFlags, // SHOPFLAGS:<slot>:<n>
 		Give,      // GIVE:<index>:<effect>[:<value>]  an item granted to us, at its list position
 		Control,   // CTRL:<name>[:<value>]          not an item - see below
 	};

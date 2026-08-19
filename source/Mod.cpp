@@ -227,6 +227,10 @@ void Mod::parseIncomingMessages()
             m_ammuNationShop.setSlotSold(message.index, message.text == "1");
             break;
 
+        case APProtocol::MessageKind::ShopFlags:
+            m_ammuNationShop.setSlotFlags(message.index, parseIntOr(message.text, 0));
+            break;
+
         case APProtocol::MessageKind::Give:
             m_receivedItemLog.recordDelivered(message.index, message.effect, message.text);
             break;

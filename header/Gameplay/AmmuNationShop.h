@@ -34,7 +34,9 @@ public:
 	int pollPurchasedSlot();
 	void setSlotContents(int t_slot, const std::string& t_text);
 	void setSlotSold(int t_slot, bool t_sold);
+	void setSlotFlags(int t_slot, int t_flags);
 	const char* shopItemName(const char* t_gxtKey) const;
+	int shopItemFlags(const char* t_gxtKey) const;
 
 
 private:
@@ -48,6 +50,7 @@ private:
 	int slotForKey(const char* t_gxtKey) const;
 
 	std::array<std::string, 16> m_slotContents;
+	std::array<int, 16> m_slotFlags{};
 	std::array<bool, 16> m_slotSold{};
 
 	int m_pendingPurchasedSlot = -1;

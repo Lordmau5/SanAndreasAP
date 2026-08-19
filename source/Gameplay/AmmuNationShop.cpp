@@ -182,6 +182,13 @@ void AmmuNationShop::setSlotContents(int t_slot, const std::string& t_text)
 	m_slotContents[t_slot] = plainText;
 }
 
+void AmmuNationShop::setSlotFlags(int t_slot, int t_flags)
+{
+	if (t_slot < 0 || t_slot >= static_cast<int>(m_slotFlags.size())) return;
+
+	m_slotFlags[t_slot] = t_flags;
+}
+
 int AmmuNationShop::slotForKey(const char* t_gxtKey) const
 {
 	for (int i = 0; i < static_cast<int>(shopItems.size()); ++i)
@@ -206,6 +213,14 @@ const char* AmmuNationShop::shopItemName(const char* t_gxtKey) const
 	if (m_slotContents[slot].empty()) return nullptr;
 
 	return m_slotContents[slot].c_str();
+}
+
+int AmmuNationShop::shopItemFlags(const char* t_gxtKey) const
+{
+	int slot = slotForKey(t_gxtKey);
+	if (slot < 0 || m_slotSold[slot] || m_slotContents[slot].empty()) return -1;
+
+	return m_slotFlags[slot];
 }
 
 void AmmuNationShop::allowArmourPurchase()
