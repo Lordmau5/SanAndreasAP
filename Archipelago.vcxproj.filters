@@ -162,6 +162,9 @@
     <ClInclude Include="header\Checks\Submissions\PimpingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\Common\RunningScripts.h">
+      <Filter>Header\Common</Filter>
+    </ClInclude>
     <ClInclude Include="header\Common\ScriptGlobals.h">
       <Filter>Header\Common</Filter>
     </ClInclude>

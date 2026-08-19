@@ -1,7 +1,7 @@
 ﻿#include "AmmuNationShop.h"
 #include "ScreenScale.h"
 #include "common.h"
-#include "CTheScripts.h"
+#include "RunningScripts.h"
 #include "CMenuSystem.h"
 #include "CStreaming.h"
 #include "WeaponData.h"
@@ -27,11 +27,7 @@ static int modelForWeaponType(int t_weaponType)
 
 bool AmmuNationShop::isShopScriptActive() const
 {
-	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
-	{
-		if (_strnicmp(script->m_szName, "amunat", 8) == 0) return true;
-	}
-	return false;
+	return RunningScripts::isActive("amunat");
 }
 
 void AmmuNationShop::snapshotPlayerState()

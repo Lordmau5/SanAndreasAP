@@ -1,7 +1,6 @@
 #include "GymTracker.h"
 #include "common.h"
-#include "CTheScripts.h"
-#include <cstring>
+#include "RunningScripts.h"
 
 GymTracker::GymTracker(int t_submissionID, eFightingStyle t_taughtStyle, const char* t_scriptName,
 	FightingStyleArbiter& t_arbiter)
@@ -12,8 +11,6 @@ GymTracker::GymTracker(int t_submissionID, eFightingStyle t_taughtStyle, const c
 
 namespace
 {
-	// The fighting-style slot also holds weapon-melee styles (8+) while a melee weapon is equipped;
-	// those are the game's to manage, so a reward only ever overwrites standard or another gym style.
 	bool isOverwritableStyle(eFightingStyle t_style)
 	{
 		return t_style == STYLE_STANDARD || t_style == STYLE_BOXING
@@ -23,12 +20,7 @@ namespace
 
 bool GymTracker::isGymScriptActive() const
 {
-	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
-	{
-		// Script names are 7 chars + null; the gym scripts ("gymls", "gymsf", "gymlv") all fit.
-		if (_strnicmp(script->m_szName, m_scriptName, 8) == 0) return true;
-	}
-	return false;
+	return RunningScripts::isActive(m_scriptName);
 }
 
 void GymTracker::enforceSubmissionReward()
@@ -50,9 +42,6 @@ void GymTracker::enforceSubmissionReward()
 	}
 	m_detectionArmed = false;
 
-	// Recency bookkeeping. Claim an order the first tick we observe our check received (covers both
-	// a live receipt and a save restore); drop it if the check is later undone by an older save, so
-	// a re-receipt claims a fresh, winning order.
 	if (!checkReceived)
 	{
 		m_receiptOrder = 0;
@@ -62,9 +51,6 @@ void GymTracker::enforceSubmissionReward()
 		m_receiptOrder = m_arbiter.claim();
 	}
 
-	// Only the gym that owns the style slot enforces, so the trackers never fight over it. Its style
-	// overwrites standard or any OTHER earned gym style - so a newly received style replaces an
-	// earlier one - but leaves weapon-melee styles alone.
 	bool ownsStyleSlot = checkReceived && m_receiptOrder == m_arbiter.latest();
 	if (ownsStyleSlot
 		&& player->m_nFightingStyle != m_taughtStyle
@@ -73,8 +59,6 @@ void GymTracker::enforceSubmissionReward()
 		player->m_nFightingStyle = m_taughtStyle;
 	}
 
-	// Rollback: our style is still on CJ but our check no longer is (an older save was loaded) -
-	// strip it back to standard.
 	if (!checkReceived && submissionCompleted && player->m_nFightingStyle == m_taughtStyle)
 	{
 		player->m_nFightingStyle = STYLE_STANDARD;

@@ -1,7 +1,6 @@
 ﻿#include "CourierTracker.h"
 #include "ScriptGlobals.h"
-#include "CTheScripts.h"
-#include <cstring>
+#include "RunningScripts.h"
 
 namespace
 {
@@ -27,11 +26,7 @@ void CourierTracker::enforceSubmissionReward()
 
 bool CourierTracker::isCourierScriptActive() const
 {
-	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
-	{
-		if (_strnicmp(script->m_szName, COURIER_SCRIPT, 8) == 0) return true;
-	}
-	return false;
+	return RunningScripts::isActive(COURIER_SCRIPT);
 }
 
 float CourierTracker::getProgress() const

@@ -41,6 +41,7 @@
     <ClInclude Include="header\Tags\OysterTracker.h" />
     <ClInclude Include="header\Tags\OysterPositions.h" />
     <ClInclude Include="header\Checks\Submissions\PimpingTracker.h" />
+    <ClInclude Include="header\Common\RunningScripts.h" />
     <ClInclude Include="header\Common\ScriptGlobals.h" />
     <ClInclude Include="header\Persistence\GameStorageHook.h" />
     <ClInclude Include="header\Checks\MissionBranches.h" />
