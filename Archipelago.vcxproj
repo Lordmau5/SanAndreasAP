@@ -34,6 +34,7 @@
     <ClInclude Include="header\QuarryTracker.h" />
     <ClInclude Include="header\GangTerritoryTracker.h" />
     <ClInclude Include="header\CourierTracker.h" />
+    <ClInclude Include="header\ShopMenuText.h" />
     <ClInclude Include="header\WaypointTeleport.h" />
     <ClInclude Include="header\GlobalFlagTracker.h" />
     <ClInclude Include="header\ExportVehicles.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="source\QuarryTracker.cpp" />
     <ClCompile Include="source\GangTerritoryTracker.cpp" />
     <ClCompile Include="source\CourierTracker.cpp" />
+    <ClCompile Include="source\ShopMenuText.cpp" />
     <ClCompile Include="source\WaypointTeleport.cpp" />
     <ClCompile Include="source\GlobalFlagTracker.cpp" />
     <ClCompile Include="source\PimpingTracker.cpp" />

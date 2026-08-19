@@ -23,6 +23,7 @@
 #include "CollectibleBlipsManager.h"
 #include "BlipTarget.h"
 #include "AmmuNationShop.h"
+#include "ShopMenuText.h"
 #include "TrapHandler.h"
 #include "GameStorageHook.h"
 #include "WaypointTeleport.h"
@@ -75,7 +76,6 @@ private:
 	static constexpr unsigned int NEW_GAME_REGRANT_DELAY_MS = 4000;
 
 	EdgeTriggeredKey m_tagBlipToggleKey{ VK_F8 };
-
 
 	void parseIncomingMessages();
 

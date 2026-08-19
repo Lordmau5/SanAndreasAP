@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include "BlipTarget.h"
 #include "PersistentState.h"
@@ -27,6 +27,7 @@ private:
 	int findExistingBlipAt(const CVector& t_pos, int t_sprite) const;
 
 	void reconcileWithPool();
+	void clearStaleSentinels();
 
 	std::vector<BlipTarget> m_targets;
 	std::vector<int> m_handles;

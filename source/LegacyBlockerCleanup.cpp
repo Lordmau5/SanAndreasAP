@@ -1,4 +1,4 @@
-#include "LegacyBlockerCleanup.h"
+﻿#include "LegacyBlockerCleanup.h"
 #include "EntityIDs.h"
 #include "common.h"
 #include "CPools.h"

@@ -32,6 +32,7 @@ void Mod::start()
 {
     MissionLocateBlocked::install(m_branchProgress);
     BlockedMarkerTint::install(m_branchProgress);
+    ShopMenuText::install(m_ammuNationShop);
 
     m_apSocket.update();
     pollDeathLink();
@@ -222,6 +223,10 @@ void Mod::parseIncomingMessages()
             m_ammuNationShop.setSlotContents(message.index, message.text);
             break;
 
+        case APProtocol::MessageKind::ShopSold:
+            m_ammuNationShop.setSlotSold(message.index, message.text == "1");
+            break;
+
         case APProtocol::MessageKind::Give:
             m_receivedItemLog.recordDelivered(message.index, message.effect, message.text);
             break;
@@ -333,7 +338,6 @@ void Mod::drawOverlay()
     m_notificationOverlay.draw();
     m_blipManager.drawNumbers();
     drawMissionCounts();
-    m_ammuNationShop.drawShopContents();
     m_trapHandler.drawTimers();
 }
 

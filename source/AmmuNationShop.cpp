@@ -1,4 +1,4 @@
-#include "AmmuNationShop.h"
+﻿#include "AmmuNationShop.h"
 #include "ScreenScale.h"
 #include "common.h"
 #include "CTheScripts.h"
@@ -7,7 +7,14 @@
 #include "WeaponData.h"
 #include <CFont.h>
 #include <CRGBA.h>
+#include <CWorld.h>
 #include <CSprite2d.h>
+
+namespace
+{
+	constexpr char SOLD_ROW_TEXT[] = "SOLD";
+	constexpr char ARMOUR_GXT_KEY[] = "ARMOUR";
+}
 
 static int modelForWeaponType(int t_weaponType)
 {
@@ -39,10 +46,11 @@ void AmmuNationShop::snapshotPlayerState()
 		m_weaponSnapshot[i].total = player->m_aWeapons[i].m_nAmmoTotal;
 	}
 	m_armourSnapshot = player->m_fArmour;
+	m_moneySnapshot = CWorld::Players[0].m_nMoney;
 	m_snapshotValid = true;
 }
 
-void AmmuNationShop::restorePlayerState()
+void AmmuNationShop::restorePlayerState(bool t_refundMoney)
 {
 	CPlayerPed* player = FindPlayerPed();
 	if (!player || !m_snapshotValid) return;
@@ -59,14 +67,10 @@ void AmmuNationShop::restorePlayerState()
 		}
 		else if (snap.type == WEAPONTYPE_UNARMED)
 		{
-			// The purchase put a brand-new weapon into a previously empty slot - take it away.
 			player->ClearWeapon(weapon.m_eWeaponType);
 		}
 		else
 		{
-			// The purchase REPLACED a different weapon in this slot (e.g. a Silenced Pistol
-			// bought while holding a Pistol). Remove the new one and stream the old one back
-			// in with its previous ammo.
 			player->ClearWeapon(weapon.m_eWeaponType);
 
 			int model = modelForWeaponType(snap.type);
@@ -82,6 +86,12 @@ void AmmuNationShop::restorePlayerState()
 		}
 	}
 	player->m_fArmour = m_armourSnapshot;
+
+	if (t_refundMoney)
+	{
+		CWorld::Players[0].m_nMoney = m_moneySnapshot;
+		CWorld::Players[0].m_nDisplayMoney = m_moneySnapshot;
+	}
 }
 
 void AmmuNationShop::update()
@@ -91,8 +101,11 @@ void AmmuNationShop::update()
 		m_confirmPanelItem = -1;
 		m_boughtVisible = false;
 		m_snapshotValid = false;
+		restoreMaxArmour();
 		return;
 	}
+
+	lockSoldRows();
 
 	for (int panel = 0; panel < 2; ++panel)
 	{
@@ -108,13 +121,15 @@ void AmmuNationShop::update()
 			if (!m_boughtVisible)
 			{
 				m_boughtVisible = true;
-				// Only slots the client has scouted contents for are AP locations - anything
-				// else (excluded stock, offline play, already-checked slots pushed as empty)
-				// stays a plain vanilla purchase.
-				if (m_confirmPanelItem >= 0 && !m_slotContents[m_confirmPanelItem].empty())
+				if (m_confirmPanelItem >= 0 && m_slotSold[m_confirmPanelItem])
 				{
-					restorePlayerState();
+					restorePlayerState(true);
+				}
+				else if (m_confirmPanelItem >= 0 && !m_slotContents[m_confirmPanelItem].empty())
+				{
+					restorePlayerState(false);
 					m_pendingPurchasedSlot = m_confirmPanelItem;
+					m_slotSold[m_confirmPanelItem] = true;
 				}
 			}
 		}
@@ -130,11 +145,21 @@ void AmmuNationShop::update()
 					break;
 				}
 			}
-			// Pre-purchase baseline, refreshed every tick the confirm panel shows an un-bought
-			// item, so the restore on the BOUGHT edge reverts exactly this purchase.
 			snapshotPlayerState();
 		}
 	}
+
+	updateArmourCeiling();
+}
+
+void AmmuNationShop::updateArmourCeiling()
+{
+	bool armourCheckOnOffer = m_confirmPanelItem >= 0 && !m_boughtVisible
+		&& !m_slotSold[m_confirmPanelItem] && !m_slotContents[m_confirmPanelItem].empty()
+		&& _strnicmp(shopItems[m_confirmPanelItem].gxtKey, ARMOUR_GXT_KEY, 10) == 0;
+
+	if (armourCheckOnOffer) allowArmourPurchase();
+	else restoreMaxArmour();
 }
 
 int AmmuNationShop::pollPurchasedSlot()
@@ -147,7 +172,14 @@ int AmmuNationShop::pollPurchasedSlot()
 void AmmuNationShop::setSlotContents(int t_slot, const std::string& t_text)
 {
 	if (t_slot < 0 || t_slot >= static_cast<int>(m_slotContents.size())) return;
-	m_slotContents[t_slot] = t_text;
+
+	std::string plainText;
+	plainText.reserve(t_text.size());
+	for (char character : t_text)
+	{
+		if (character != '~') plainText.push_back(character);
+	}
+	m_slotContents[t_slot] = plainText;
 }
 
 int AmmuNationShop::slotForKey(const char* t_gxtKey) const
@@ -159,61 +191,57 @@ int AmmuNationShop::slotForKey(const char* t_gxtKey) const
 	return -1;
 }
 
-void AmmuNationShop::drawContentsLine(float t_x, float t_y, const std::string& t_text) const
+void AmmuNationShop::setSlotSold(int t_slot, bool t_sold)
 {
-	float scale = ScreenScale::factor();
-
-	CFont::SetFontStyle(FONT_SUBTITLES);
-	CFont::SetScale(0.5f * scale, 1.0f * scale);
-	CFont::SetColor(CRGBA(180, 230, 180, 255));
-	CFont::SetProportional(true);
-	CFont::SetOrientation(ALIGN_LEFT);
-	CFont::SetDropShadowPosition(1);
-	CFont::SetBackground(false, false);
-	CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
-
-	float textWidth = CFont::GetStringWidth(const_cast<char*>(t_text.c_str()), true);
-	CRect box(t_x - 8.0f * scale, t_y - 2.0f * scale, t_x + textWidth + 8.0f * scale, t_y + 30.0f * scale);
-	CSprite2d::DrawRect(box, CRGBA(0, 0, 0, 150));
-
-	CFont::PrintString(t_x, t_y, t_text.c_str());
+	if (t_slot < 0 || t_slot >= static_cast<int>(m_slotSold.size())) return;
+	m_slotSold[t_slot] = t_sold;
 }
 
-void AmmuNationShop::drawShopContents()
+const char* AmmuNationShop::shopItemName(const char* t_gxtKey) const
 {
-	if (!isShopScriptActive()) return;
+	int slot = slotForKey(t_gxtKey);
+	if (slot < 0) return nullptr;
 
-	float scale = ScreenScale::factor();
+	if (m_slotSold[slot]) return SOLD_ROW_TEXT;
+	if (m_slotContents[slot].empty()) return nullptr;
 
+	return m_slotContents[slot].c_str();
+}
+
+void AmmuNationShop::allowArmourPurchase()
+{
+	CPlayerPed* player = FindPlayerPed();
+	if (!player || m_maxArmourRaised) return;
+
+	CPlayerInfo& info = CWorld::Players[0];
+	if (player->m_fArmour < static_cast<float>(info.m_nMaxArmour)) return; // vanilla already allows it
+
+	m_maxArmourOriginal = info.m_nMaxArmour;
+	info.m_nMaxArmour = static_cast<unsigned char>(player->m_fArmour) + 1;
+	m_maxArmourRaised = true;
+}
+
+void AmmuNationShop::restoreMaxArmour()
+{
+	if (!m_maxArmourRaised) return;
+
+	CWorld::Players[0].m_nMaxArmour = m_maxArmourOriginal;
+	m_maxArmourRaised = false;
+}
+
+void AmmuNationShop::lockSoldRows() const
+{
 	for (int panel = 0; panel < 2; ++panel)
 	{
 		if (!CMenuSystem::MenuInUse[panel]) continue;
+
 		tMenuPanel* menu = MenuNumber[panel];
-		if (!menu) continue;
+		if (!menu || menu->m_nNumColumns != 1) continue;
 
-		if (menu->m_nNumColumns == 2)
-		{
-			// Confirm panel: one line under it for the single item on offer. Slots without
-			// scouted contents aren't AP locations and get no line - they're vanilla stock.
-			if (m_confirmPanelItem >= 0 && !m_slotContents[m_confirmPanelItem].empty())
-			{
-				drawContentsLine(menu->m_vPosn.x, menu->m_vPosn.y + 130.0f * scale,
-					"Contains: " + m_slotContents[m_confirmPanelItem]);
-			}
-			continue;
-		}
-
-		// Weapon list: a contents column to the right of the native menu, one line per row
-		// whose GXT key is a shop item with scouted contents. Category menus have no matching
-		// keys, so nothing is drawn over them. Offsets tuned against the menu layout at 1080p.
 		for (int row = 0; row < menu->m_nNumRows && row < 12; ++row)
 		{
 			int slot = slotForKey(menu->m_aaacRowTitles[0][row]);
-			if (slot < 0 || m_slotContents[slot].empty()) continue;
-
-			drawContentsLine(menu->m_vPosn.x + 620.0f * scale,
-				menu->m_vPosn.y + (58.0f + 30.0f * static_cast<float>(row)) * scale,
-				m_slotContents[slot]);
+			if (slot >= 0 && m_slotSold[slot]) menu->m_abRowSelectable[row] = false;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 
 // The wire protocol spoken with the Python AP client, both directions in one place. Every literal
@@ -16,6 +16,7 @@ namespace APProtocol
 		ItemSent,  // SENT:<text>                    an item we found for some other player's world
 		Locate,    // LOCATE:<TYPE>:<index>          highlight one collectible on the map
 		ShopItem,  // SHOPITEM:<slot>:<text>         what an Ammu-Nation slot now contains
+		ShopSold,  // SHOPSOLD:<slot>:<0|1>
 		Give,      // GIVE:<index>:<effect>[:<value>]  an item granted to us, at its list position
 		Control,   // CTRL:<name>[:<value>]          not an item - see below
 	};

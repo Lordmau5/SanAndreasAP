@@ -171,6 +171,9 @@
     <ClInclude Include="header\FightingStyleArbiter.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\ShopMenuText.h">
+      <Filter>Header\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="header\AmmuNationShop.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="source\GymTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ShopMenuText.cpp">
+      <Filter>Source\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="source\AmmuNationShop.cpp">
       <Filter>Source\Gameplay</Filter>
