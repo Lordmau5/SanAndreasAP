@@ -66,196 +66,196 @@
     <ClInclude Include="header\Mod.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="header\APSocket.h">
+    <ClInclude Include="header\Protocol\APSocket.h">
       <Filter>Header\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="header\APProtocol.h">
+    <ClInclude Include="header\Protocol\APProtocol.h">
       <Filter>Header\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="header\ItemEffects.h">
+    <ClInclude Include="header\Protocol\ItemEffects.h">
       <Filter>Header\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="header\CheckListener.h">
+    <ClInclude Include="header\Checks\CheckListener.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\CheckGiver.h">
+    <ClInclude Include="header\Checks\CheckGiver.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\MissionBranches.h">
+    <ClInclude Include="header\Checks\MissionBranches.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\BranchProgress.h">
+    <ClInclude Include="header\Checks\BranchProgress.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\MissionLocateBlocked.h">
+    <ClInclude Include="header\Checks\MissionLocateBlocked.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\BlockedMarkerTint.h">
+    <ClInclude Include="header\Checks\BlockedMarkerTint.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\LegacyBlockerCleanup.h">
+    <ClInclude Include="header\Checks\LegacyBlockerCleanup.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\PendingChecks.h">
+    <ClInclude Include="header\Checks\PendingChecks.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\SubmissionTracker.h">
+    <ClInclude Include="header\Checks\Submissions\SubmissionTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\TieredSubmissionTracker.h">
+    <ClInclude Include="header\Checks\Submissions\TieredSubmissionTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ParamedicTracker.h">
+    <ClInclude Include="header\Checks\Submissions\ParamedicTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\FirefighterTracker.h">
+    <ClInclude Include="header\Checks\Submissions\FirefighterTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\VigilanteTracker.h">
+    <ClInclude Include="header\Checks\Submissions\VigilanteTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\TaxiTracker.h">
+    <ClInclude Include="header\Checks\Submissions\TaxiTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\BurglaryTracker.h">
+    <ClInclude Include="header\Checks\Submissions\BurglaryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\TruckingTracker.h">
+    <ClInclude Include="header\Checks\Submissions\TruckingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ValetTracker.h">
+    <ClInclude Include="header\Checks\Submissions\ValetTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\SchoolTracker.h">
+    <ClInclude Include="header\Checks\Submissions\SchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\BikeSchoolTracker.h">
+    <ClInclude Include="header\Checks\Submissions\BikeSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\DrivingSchoolTracker.h">
+    <ClInclude Include="header\Checks\Submissions\DrivingSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\BoatSchoolTracker.h">
+    <ClInclude Include="header\Checks\Submissions\BoatSchoolTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ExportListTracker.h">
+    <ClInclude Include="header\Checks\Submissions\ExportListTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\QuarryTracker.h">
+    <ClInclude Include="header\Checks\Submissions\QuarryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\GangTerritoryTracker.h">
+    <ClInclude Include="header\Checks\Submissions\GangTerritoryTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\CourierTracker.h">
+    <ClInclude Include="header\Checks\Submissions\CourierTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\WaypointTeleport.h">
+    <ClInclude Include="header\Debug\WaypointTeleport.h">
       <Filter>Header\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="header\GlobalFlagTracker.h">
+    <ClInclude Include="header\Checks\Submissions\GlobalFlagTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ExportVehicles.h">
+    <ClInclude Include="header\Checks\Submissions\ExportVehicles.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\PimpingTracker.h">
+    <ClInclude Include="header\Checks\Submissions\PimpingTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ScriptGlobals.h">
+    <ClInclude Include="header\Common\ScriptGlobals.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\GymTracker.h">
+    <ClInclude Include="header\Checks\Submissions\GymTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\FightingStyleArbiter.h">
+    <ClInclude Include="header\Checks\Submissions\FightingStyleArbiter.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\ShopMenuText.h">
+    <ClInclude Include="header\Gameplay\ShopMenuText.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="header\AmmuNationShop.h">
+    <ClInclude Include="header\Gameplay\AmmuNationShop.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="header\TrapHandler.h">
+    <ClInclude Include="header\Gameplay\TrapHandler.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="header\DeathLinkHandler.h">
+    <ClInclude Include="header\Gameplay\DeathLinkHandler.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="header\CollectibleBlipsManager.h">
+    <ClInclude Include="header\Tags\CollectibleBlipsManager.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\BlipTarget.h">
+    <ClInclude Include="header\Tags\BlipTarget.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\TagPositions.h">
+    <ClInclude Include="header\Tags\TagPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\Collectible.h">
+    <ClInclude Include="header\Tags\Collectible.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\TagTracker.h">
+    <ClInclude Include="header\Tags\TagTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\SnapshotTracker.h">
+    <ClInclude Include="header\Tags\SnapshotTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\HorseshoeTracker.h">
+    <ClInclude Include="header\Tags\HorseshoeTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\OysterTracker.h">
+    <ClInclude Include="header\Tags\OysterTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\OysterPositions.h">
+    <ClInclude Include="header\Tags\OysterPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\HorseshoePositions.h">
+    <ClInclude Include="header\Tags\HorseshoePositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\SnapshotPositions.h">
+    <ClInclude Include="header\Tags\SnapshotPositions.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
-    <ClInclude Include="header\PersistentState.h">
+    <ClInclude Include="header\Persistence\PersistentState.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
-    <ClInclude Include="header\SaveDataManager.h">
+    <ClInclude Include="header\Persistence\SaveDataManager.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
-    <ClInclude Include="header\GameStorageHook.h">
+    <ClInclude Include="header\Persistence\GameStorageHook.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
-    <ClInclude Include="header\ReceivedItemLog.h">
+    <ClInclude Include="header\Protocol\ReceivedItemLog.h">
       <Filter>Header\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="header\AutoSaveManager.h">
+    <ClInclude Include="header\Persistence\AutoSaveManager.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
-    <ClInclude Include="header\NotificationOverlay.h">
+    <ClInclude Include="header\HUD\NotificationOverlay.h">
       <Filter>Header\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="header\ScreenScale.h">
+    <ClInclude Include="header\HUD\ScreenScale.h">
       <Filter>Header\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="header\MenuMap.h">
+    <ClInclude Include="header\HUD\MenuMap.h">
       <Filter>Header\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="header\EntityIDs.h">
+    <ClInclude Include="header\Common\EntityIDs.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\WeaponData.h">
+    <ClInclude Include="header\Common\WeaponData.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\Position.h">
+    <ClInclude Include="header\Common\Position.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\ParseUtils.h">
+    <ClInclude Include="header\Common\ParseUtils.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\PlayerControl.h">
+    <ClInclude Include="header\Common\PlayerControl.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
-    <ClInclude Include="header\EdgeTriggeredKey.h">
+    <ClInclude Include="header\Common\EdgeTriggeredKey.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -266,148 +266,148 @@
     <ClCompile Include="source\Mod.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="source\APSocket.cpp">
+    <ClCompile Include="source\Protocol\APSocket.cpp">
       <Filter>Source\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="source\APProtocol.cpp">
+    <ClCompile Include="source\Protocol\APProtocol.cpp">
       <Filter>Source\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="source\ItemEffects.cpp">
+    <ClCompile Include="source\Protocol\ItemEffects.cpp">
       <Filter>Source\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="source\ReceivedItemLog.cpp">
+    <ClCompile Include="source\Protocol\ReceivedItemLog.cpp">
       <Filter>Source\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="source\CheckListener.cpp">
+    <ClCompile Include="source\Checks\CheckListener.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\CheckGiver.cpp">
+    <ClCompile Include="source\Checks\CheckGiver.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\MissionBranches.cpp">
+    <ClCompile Include="source\Checks\MissionBranches.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\BranchProgress.cpp">
+    <ClCompile Include="source\Checks\BranchProgress.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\MissionLocateBlocked.cpp">
+    <ClCompile Include="source\Checks\MissionLocateBlocked.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\BlockedMarkerTint.cpp">
+    <ClCompile Include="source\Checks\BlockedMarkerTint.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\LegacyBlockerCleanup.cpp">
+    <ClCompile Include="source\Checks\LegacyBlockerCleanup.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
-    <ClCompile Include="source\SubmissionTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\SubmissionTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\TieredSubmissionTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\TieredSubmissionTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\ParamedicTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\ParamedicTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\FirefighterTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\FirefighterTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\VigilanteTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\VigilanteTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\TaxiTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\TaxiTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\BurglaryTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\BurglaryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\TruckingTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\TruckingTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\ValetTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\ValetTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\SchoolTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\SchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\BikeSchoolTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\BikeSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\DrivingSchoolTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\DrivingSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\BoatSchoolTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\BoatSchoolTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\ExportListTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\ExportListTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\QuarryTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\QuarryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\GangTerritoryTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\GangTerritoryTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\CourierTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\CourierTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\WaypointTeleport.cpp">
+    <ClCompile Include="source\Debug\WaypointTeleport.cpp">
       <Filter>Source\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="source\GlobalFlagTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\GlobalFlagTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\PimpingTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\PimpingTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\GymTracker.cpp">
+    <ClCompile Include="source\Checks\Submissions\GymTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\ShopMenuText.cpp">
+    <ClCompile Include="source\Gameplay\ShopMenuText.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="source\AmmuNationShop.cpp">
+    <ClCompile Include="source\Gameplay\AmmuNationShop.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="source\TrapHandler.cpp">
+    <ClCompile Include="source\Gameplay\TrapHandler.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="source\DeathLinkHandler.cpp">
+    <ClCompile Include="source\Gameplay\DeathLinkHandler.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="source\CollectibleBlipsManager.cpp">
+    <ClCompile Include="source\Tags\CollectibleBlipsManager.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\BlipTarget.cpp">
+    <ClCompile Include="source\Tags\BlipTarget.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\TagTracker.cpp">
+    <ClCompile Include="source\Tags\TagTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\SnapshotTracker.cpp">
+    <ClCompile Include="source\Tags\SnapshotTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\HorseshoeTracker.cpp">
+    <ClCompile Include="source\Tags\HorseshoeTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\OysterTracker.cpp">
+    <ClCompile Include="source\Tags\OysterTracker.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
-    <ClCompile Include="source\SaveDataManager.cpp">
+    <ClCompile Include="source\Persistence\SaveDataManager.cpp">
       <Filter>Source\Persistence</Filter>
     </ClCompile>
-    <ClCompile Include="source\GameStorageHook.cpp">
+    <ClCompile Include="source\Persistence\GameStorageHook.cpp">
       <Filter>Source\Persistence</Filter>
     </ClCompile>
-    <ClCompile Include="source\AutoSaveManager.cpp">
+    <ClCompile Include="source\Persistence\AutoSaveManager.cpp">
       <Filter>Source\Persistence</Filter>
     </ClCompile>
-    <ClCompile Include="source\NotificationOverlay.cpp">
+    <ClCompile Include="source\HUD\NotificationOverlay.cpp">
       <Filter>Source\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="source\Position.cpp">
+    <ClCompile Include="source\Common\Position.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
-    <ClCompile Include="source\PlayerControl.cpp">
+    <ClCompile Include="source\Common\PlayerControl.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
   </ItemGroup>

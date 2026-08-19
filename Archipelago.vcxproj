@@ -11,123 +11,123 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\AmmuNationShop.h" />
-    <ClInclude Include="header\AutoSaveManager.h" />
-    <ClInclude Include="header\APSocket.h" />
-    <ClInclude Include="header\BurglaryTracker.h" />
-    <ClInclude Include="header\CheckGiver.h" />
-    <ClInclude Include="header\BranchProgress.h" />
-    <ClInclude Include="header\CheckListener.h" />
-    <ClInclude Include="header\DeathLinkHandler.h" />
-    <ClInclude Include="header\EntityIDs.h" />
-    <ClInclude Include="header\FirefighterTracker.h" />
-    <ClInclude Include="header\GymTracker.h" />
-    <ClInclude Include="header\FightingStyleArbiter.h" />
-    <ClInclude Include="header\TieredSubmissionTracker.h" />
-    <ClInclude Include="header\TruckingTracker.h" />
-    <ClInclude Include="header\ValetTracker.h" />
-    <ClInclude Include="header\SchoolTracker.h" />
-    <ClInclude Include="header\BikeSchoolTracker.h" />
-    <ClInclude Include="header\DrivingSchoolTracker.h" />
-    <ClInclude Include="header\BoatSchoolTracker.h" />
-    <ClInclude Include="header\ExportListTracker.h" />
-    <ClInclude Include="header\QuarryTracker.h" />
-    <ClInclude Include="header\GangTerritoryTracker.h" />
-    <ClInclude Include="header\CourierTracker.h" />
-    <ClInclude Include="header\ShopMenuText.h" />
-    <ClInclude Include="header\WaypointTeleport.h" />
-    <ClInclude Include="header\GlobalFlagTracker.h" />
-    <ClInclude Include="header\ExportVehicles.h" />
-    <ClInclude Include="header\OysterTracker.h" />
-    <ClInclude Include="header\OysterPositions.h" />
-    <ClInclude Include="header\PimpingTracker.h" />
-    <ClInclude Include="header\ScriptGlobals.h" />
-    <ClInclude Include="header\GameStorageHook.h" />
-    <ClInclude Include="header\MissionBranches.h" />
-    <ClInclude Include="header\MissionLocateBlocked.h" />
-    <ClInclude Include="header\BlockedMarkerTint.h" />
-    <ClInclude Include="header\LegacyBlockerCleanup.h" />
+    <ClInclude Include="header\Gameplay\AmmuNationShop.h" />
+    <ClInclude Include="header\Persistence\AutoSaveManager.h" />
+    <ClInclude Include="header\Protocol\APSocket.h" />
+    <ClInclude Include="header\Checks\Submissions\BurglaryTracker.h" />
+    <ClInclude Include="header\Checks\CheckGiver.h" />
+    <ClInclude Include="header\Checks\BranchProgress.h" />
+    <ClInclude Include="header\Checks\CheckListener.h" />
+    <ClInclude Include="header\Gameplay\DeathLinkHandler.h" />
+    <ClInclude Include="header\Common\EntityIDs.h" />
+    <ClInclude Include="header\Checks\Submissions\FirefighterTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\GymTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\FightingStyleArbiter.h" />
+    <ClInclude Include="header\Checks\Submissions\TieredSubmissionTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\TruckingTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\ValetTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\SchoolTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\BikeSchoolTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\DrivingSchoolTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\BoatSchoolTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\ExportListTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\QuarryTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\GangTerritoryTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\CourierTracker.h" />
+    <ClInclude Include="header\Gameplay\ShopMenuText.h" />
+    <ClInclude Include="header\Debug\WaypointTeleport.h" />
+    <ClInclude Include="header\Checks\Submissions\GlobalFlagTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\ExportVehicles.h" />
+    <ClInclude Include="header\Tags\OysterTracker.h" />
+    <ClInclude Include="header\Tags\OysterPositions.h" />
+    <ClInclude Include="header\Checks\Submissions\PimpingTracker.h" />
+    <ClInclude Include="header\Common\ScriptGlobals.h" />
+    <ClInclude Include="header\Persistence\GameStorageHook.h" />
+    <ClInclude Include="header\Checks\MissionBranches.h" />
+    <ClInclude Include="header\Checks\MissionLocateBlocked.h" />
+    <ClInclude Include="header\Checks\BlockedMarkerTint.h" />
+    <ClInclude Include="header\Checks\LegacyBlockerCleanup.h" />
     <ClInclude Include="header\Mod.h" />
-    <ClInclude Include="header\NotificationOverlay.h" />
-    <ClInclude Include="header\ParamedicTracker.h" />
-    <ClInclude Include="header\APProtocol.h" />
-    <ClInclude Include="header\ItemEffects.h" />
-    <ClInclude Include="header\ParseUtils.h" />
-    <ClInclude Include="header\PersistentState.h" />
-    <ClInclude Include="header\PlayerControl.h" />
-    <ClInclude Include="header\ReceivedItemLog.h" />
-    <ClInclude Include="header\PendingChecks.h" />
-    <ClInclude Include="header\Position.h" />
-    <ClInclude Include="header\SaveDataManager.h" />
-    <ClInclude Include="header\ScreenScale.h" />
-    <ClInclude Include="header\MenuMap.h" />
-    <ClInclude Include="header\SubmissionTracker.h" />
-    <ClInclude Include="header\CollectibleBlipsManager.h" />
-    <ClInclude Include="header\BlipTarget.h" />
-    <ClInclude Include="header\TrapHandler.h" />
-    <ClInclude Include="header\TagPositions.h" />
-    <ClInclude Include="header\Collectible.h" />
-    <ClInclude Include="header\TagTracker.h" />
-    <ClInclude Include="header\SnapshotTracker.h" />
-    <ClInclude Include="header\HorseshoeTracker.h" />
-    <ClInclude Include="header\HorseshoePositions.h" />
-    <ClInclude Include="header\SnapshotPositions.h" />
-    <ClInclude Include="header\TaxiTracker.h" />
-    <ClInclude Include="header\VigilanteTracker.h" />
-    <ClInclude Include="header\WeaponData.h" />
-    <ClInclude Include="header\EdgeTriggeredKey.h" />
+    <ClInclude Include="header\HUD\NotificationOverlay.h" />
+    <ClInclude Include="header\Checks\Submissions\ParamedicTracker.h" />
+    <ClInclude Include="header\Protocol\APProtocol.h" />
+    <ClInclude Include="header\Protocol\ItemEffects.h" />
+    <ClInclude Include="header\Common\ParseUtils.h" />
+    <ClInclude Include="header\Persistence\PersistentState.h" />
+    <ClInclude Include="header\Common\PlayerControl.h" />
+    <ClInclude Include="header\Protocol\ReceivedItemLog.h" />
+    <ClInclude Include="header\Checks\PendingChecks.h" />
+    <ClInclude Include="header\Common\Position.h" />
+    <ClInclude Include="header\Persistence\SaveDataManager.h" />
+    <ClInclude Include="header\HUD\ScreenScale.h" />
+    <ClInclude Include="header\HUD\MenuMap.h" />
+    <ClInclude Include="header\Checks\Submissions\SubmissionTracker.h" />
+    <ClInclude Include="header\Tags\CollectibleBlipsManager.h" />
+    <ClInclude Include="header\Tags\BlipTarget.h" />
+    <ClInclude Include="header\Gameplay\TrapHandler.h" />
+    <ClInclude Include="header\Tags\TagPositions.h" />
+    <ClInclude Include="header\Tags\Collectible.h" />
+    <ClInclude Include="header\Tags\TagTracker.h" />
+    <ClInclude Include="header\Tags\SnapshotTracker.h" />
+    <ClInclude Include="header\Tags\HorseshoeTracker.h" />
+    <ClInclude Include="header\Tags\HorseshoePositions.h" />
+    <ClInclude Include="header\Tags\SnapshotPositions.h" />
+    <ClInclude Include="header\Checks\Submissions\TaxiTracker.h" />
+    <ClInclude Include="header\Checks\Submissions\VigilanteTracker.h" />
+    <ClInclude Include="header\Common\WeaponData.h" />
+    <ClInclude Include="header\Common\EdgeTriggeredKey.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\AmmuNationShop.cpp" />
-    <ClCompile Include="source\AutoSaveManager.cpp" />
-    <ClCompile Include="source\APSocket.cpp" />
-    <ClCompile Include="source\BurglaryTracker.cpp" />
-    <ClCompile Include="source\CheckGiver.cpp" />
-    <ClCompile Include="source\BranchProgress.cpp" />
-    <ClCompile Include="source\CheckListener.cpp" />
-    <ClCompile Include="source\DeathLinkHandler.cpp" />
-    <ClCompile Include="source\FirefighterTracker.cpp" />
-    <ClCompile Include="source\GymTracker.cpp" />
-    <ClCompile Include="source\TieredSubmissionTracker.cpp" />
-    <ClCompile Include="source\TruckingTracker.cpp" />
-    <ClCompile Include="source\ValetTracker.cpp" />
-    <ClCompile Include="source\SchoolTracker.cpp" />
-    <ClCompile Include="source\BikeSchoolTracker.cpp" />
-    <ClCompile Include="source\DrivingSchoolTracker.cpp" />
-    <ClCompile Include="source\BoatSchoolTracker.cpp" />
-    <ClCompile Include="source\ExportListTracker.cpp" />
-    <ClCompile Include="source\OysterTracker.cpp" />
-    <ClCompile Include="source\QuarryTracker.cpp" />
-    <ClCompile Include="source\GangTerritoryTracker.cpp" />
-    <ClCompile Include="source\CourierTracker.cpp" />
-    <ClCompile Include="source\ShopMenuText.cpp" />
-    <ClCompile Include="source\WaypointTeleport.cpp" />
-    <ClCompile Include="source\GlobalFlagTracker.cpp" />
-    <ClCompile Include="source\PimpingTracker.cpp" />
+    <ClCompile Include="source\Gameplay\AmmuNationShop.cpp" />
+    <ClCompile Include="source\Persistence\AutoSaveManager.cpp" />
+    <ClCompile Include="source\Protocol\APSocket.cpp" />
+    <ClCompile Include="source\Checks\Submissions\BurglaryTracker.cpp" />
+    <ClCompile Include="source\Checks\CheckGiver.cpp" />
+    <ClCompile Include="source\Checks\BranchProgress.cpp" />
+    <ClCompile Include="source\Checks\CheckListener.cpp" />
+    <ClCompile Include="source\Gameplay\DeathLinkHandler.cpp" />
+    <ClCompile Include="source\Checks\Submissions\FirefighterTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\GymTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\TieredSubmissionTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\TruckingTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\ValetTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\SchoolTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\BikeSchoolTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\DrivingSchoolTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\BoatSchoolTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\ExportListTracker.cpp" />
+    <ClCompile Include="source\Tags\OysterTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\QuarryTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\GangTerritoryTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\CourierTracker.cpp" />
+    <ClCompile Include="source\Gameplay\ShopMenuText.cpp" />
+    <ClCompile Include="source\Debug\WaypointTeleport.cpp" />
+    <ClCompile Include="source\Checks\Submissions\GlobalFlagTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\PimpingTracker.cpp" />
     <ClCompile Include="source\Main.cpp" />
-    <ClCompile Include="source\GameStorageHook.cpp" />
-    <ClCompile Include="source\MissionBranches.cpp" />
-    <ClCompile Include="source\MissionLocateBlocked.cpp" />
-    <ClCompile Include="source\BlockedMarkerTint.cpp" />
-    <ClCompile Include="source\LegacyBlockerCleanup.cpp" />
+    <ClCompile Include="source\Persistence\GameStorageHook.cpp" />
+    <ClCompile Include="source\Checks\MissionBranches.cpp" />
+    <ClCompile Include="source\Checks\MissionLocateBlocked.cpp" />
+    <ClCompile Include="source\Checks\BlockedMarkerTint.cpp" />
+    <ClCompile Include="source\Checks\LegacyBlockerCleanup.cpp" />
     <ClCompile Include="source\Mod.cpp" />
-    <ClCompile Include="source\NotificationOverlay.cpp" />
-    <ClCompile Include="source\ParamedicTracker.cpp" />
-    <ClCompile Include="source\APProtocol.cpp" />
-    <ClCompile Include="source\ItemEffects.cpp" />
-    <ClCompile Include="source\PlayerControl.cpp" />
-    <ClCompile Include="source\Position.cpp" />
-    <ClCompile Include="source\ReceivedItemLog.cpp" />
-    <ClCompile Include="source\SaveDataManager.cpp" />
-    <ClCompile Include="source\SubmissionTracker.cpp" />
-    <ClCompile Include="source\CollectibleBlipsManager.cpp" />
-    <ClCompile Include="source\BlipTarget.cpp" />
-    <ClCompile Include="source\TagTracker.cpp" />
-    <ClCompile Include="source\SnapshotTracker.cpp" />
-    <ClCompile Include="source\HorseshoeTracker.cpp" />
-    <ClCompile Include="source\TrapHandler.cpp" />
-    <ClCompile Include="source\TaxiTracker.cpp" />
-    <ClCompile Include="source\VigilanteTracker.cpp" />
+    <ClCompile Include="source\HUD\NotificationOverlay.cpp" />
+    <ClCompile Include="source\Checks\Submissions\ParamedicTracker.cpp" />
+    <ClCompile Include="source\Protocol\APProtocol.cpp" />
+    <ClCompile Include="source\Protocol\ItemEffects.cpp" />
+    <ClCompile Include="source\Common\PlayerControl.cpp" />
+    <ClCompile Include="source\Common\Position.cpp" />
+    <ClCompile Include="source\Protocol\ReceivedItemLog.cpp" />
+    <ClCompile Include="source\Persistence\SaveDataManager.cpp" />
+    <ClCompile Include="source\Checks\Submissions\SubmissionTracker.cpp" />
+    <ClCompile Include="source\Tags\CollectibleBlipsManager.cpp" />
+    <ClCompile Include="source\Tags\BlipTarget.cpp" />
+    <ClCompile Include="source\Tags\TagTracker.cpp" />
+    <ClCompile Include="source\Tags\SnapshotTracker.cpp" />
+    <ClCompile Include="source\Tags\HorseshoeTracker.cpp" />
+    <ClCompile Include="source\Gameplay\TrapHandler.cpp" />
+    <ClCompile Include="source\Checks\Submissions\TaxiTracker.cpp" />
+    <ClCompile Include="source\Checks\Submissions\VigilanteTracker.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A4DCCB3A-1092-4430-9986-3E07053B3B34}</ProjectGuid>
@@ -167,7 +167,7 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Release\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>$(ProjectDir)header;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Debug;$(ProjectDir)header\Gameplay;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug GTA-SA|Win32'">
@@ -177,7 +177,7 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Debug\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>$(ProjectDir)header;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Debug;$(ProjectDir)header\Gameplay;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release GTA-SA|Win32'">
