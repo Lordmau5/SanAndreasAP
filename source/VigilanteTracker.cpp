@@ -7,11 +7,11 @@ VigilanteTracker::VigilanteTracker(int t_submissionID)
 
 void VigilanteTracker::enforceSubmissionReward()
 {
-	if (checkReceived && !submissionCompleted)
+	if (checkReceived)
 	{
 		CWorld::Players[0].m_nMaxArmour = 150;
 	}
-	if (!checkReceived && submissionCompleted)
+	else if (submissionCompleted)
 	{
 		CWorld::Players[0].m_nMaxArmour = 100;
 	}

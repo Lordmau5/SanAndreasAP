@@ -7,11 +7,11 @@ ParamedicTracker::ParamedicTracker(int t_submissionID)
 
 void ParamedicTracker::enforceSubmissionReward()
 {
-	if (checkReceived && !submissionCompleted)
+	if (checkReceived)
 	{
 		CWorld::Players[0].m_nMaxHealth = 176;
 	}
-	if (!checkReceived && submissionCompleted)
+	else if (submissionCompleted)
 	{
 		CWorld::Players[0].m_nMaxHealth = 100;
 	}

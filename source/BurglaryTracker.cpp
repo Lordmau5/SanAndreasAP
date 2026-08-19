@@ -7,11 +7,11 @@ BurglaryTracker::BurglaryTracker(int t_submissionID)
 
 void BurglaryTracker::enforceSubmissionReward()
 {
-	if (checkReceived && !submissionCompleted)
+	if (checkReceived)
 	{
 		CWorld::Players[0].m_bDoesNotGetTired = true;
 	}
-	if (!checkReceived && submissionCompleted)
+	else if (submissionCompleted)
 	{
 		CWorld::Players[0].m_bDoesNotGetTired = false;
 	}

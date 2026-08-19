@@ -211,14 +211,18 @@ const char* AmmuNationShop::shopItemName(const char* t_gxtKey) const
 void AmmuNationShop::allowArmourPurchase()
 {
 	CPlayerPed* player = FindPlayerPed();
-	if (!player || m_maxArmourRaised) return;
+	if (!player) return;
 
 	CPlayerInfo& info = CWorld::Players[0];
-	if (player->m_fArmour < static_cast<float>(info.m_nMaxArmour)) return; // vanilla already allows it
+	if (!m_maxArmourRaised)
+	{
+		if (player->m_fArmour < static_cast<float>(info.m_nMaxArmour)) return; // vanilla already allows it
 
-	m_maxArmourOriginal = info.m_nMaxArmour;
+		m_maxArmourOriginal = info.m_nMaxArmour;
+		m_maxArmourRaised = true;
+	}
+
 	info.m_nMaxArmour = static_cast<unsigned char>(player->m_fArmour) + 1;
-	m_maxArmourRaised = true;
 }
 
 void AmmuNationShop::restoreMaxArmour()

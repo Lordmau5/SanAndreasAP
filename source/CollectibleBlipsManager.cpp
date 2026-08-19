@@ -288,8 +288,9 @@ void CollectibleBlipsManager::drawMapOverlay()
 		CVector2D screenPos;
 		if (!MenuMap::worldToScreen(target.position, screenPos)) continue;
 
+		CVector2D iconPos = MenuMap::clampToMap(screenPos, half);
 		CRadar::RadarBlipSprites[target.sprite].Draw(
-			CRect(screenPos.x - half, screenPos.y - half, screenPos.x + half, screenPos.y + half),
+			CRect(iconPos.x - half, iconPos.y - half, iconPos.x + half, iconPos.y + half),
 			CRGBA(255, 255, 255, 255));
 	}
 
@@ -303,6 +304,7 @@ void CollectibleBlipsManager::drawMapOverlay()
 	CFont::SetBackground(false, false);
 
 	const float offset = ScreenScale::of(7.0f);
+	const float numberInset = ScreenScale::of(10.0f);
 	for (const BlipTarget& target : m_targets)
 	{
 		if (target.claimed) continue;
@@ -310,7 +312,9 @@ void CollectibleBlipsManager::drawMapOverlay()
 		CVector2D screenPos;
 		if (!MenuMap::worldToScreen(target.position, screenPos)) continue;
 
-		CFont::PrintString(screenPos.x + offset, screenPos.y + offset, std::to_string(target.number).c_str());
+		CVector2D iconPos = MenuMap::clampToMap(screenPos, half);
+		CVector2D numberPos = MenuMap::clampToMap(CVector2D(iconPos.x + offset, iconPos.y + offset), numberInset);
+		CFont::PrintString(numberPos.x, numberPos.y, std::to_string(target.number).c_str());
 	}
 }
 
