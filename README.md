@@ -101,11 +101,9 @@ Not required, but they improve the experience:
 
 - Story missions require Progressive Mission items. When you run out, every
   mission start marker is physically blocked until you unlock more.
-- Spray tags, Ammu-Nation purchases, and side-activity levels all send
-  checks. The Ammu-Nation menu shows what each slot contains; already-checked
-  slots revert to selling their normal weapons.
-- Collectible locations appear on the radar and map (nearest ones only, to keep the
-  radar readable). Press **F8** in the pause menu to toggle them off
+- Collectibles, Ammu-Nation purchases, and side-activity levels all send
+  checks. The Ammu-Nation menu shows what each slot contains.
+- Collectible locations appear on the radar and map. Press **F8** in the pause menu to toggle them off
 - Client commands `/tag <1-100>`, `/snapshot <1-50>` etc. highlight a specific collectible on the radar so you
   can find it from anywhere.
 - A respawning spray can with plenty of paint sits outside CJ's house.
