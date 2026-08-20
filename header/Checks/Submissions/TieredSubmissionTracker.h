@@ -3,12 +3,6 @@
 #include "EntityIDs.h"
 #include <vector>
 
-// Base for submissions that pay out in tiers instead of once on completion - Paramedic /
-// Firefighter / Vigilante per level, Taxi per 5 fares, Burglary per $1000 stolen.
-//
-// Subclasses supply only where their progress comes from (getProgress), so a stat, a raw
-// address or anything else works; the tier arithmetic, the sent-tier bookkeeping and the
-// completion latch live here.
 class TieredSubmissionTracker : public SubmissionTracker
 {
 public:
@@ -16,17 +10,16 @@ public:
 
 	void pollNewTierSlots(std::vector<int>& t_outSlots) override;
 
-	int getSentTier() const override;
-	void restoreSentTier(int t_tier) override;
+	std::string getSentState() const override;
+	void restoreSentState(const std::string& t_state) override;
 
 protected:
-	// Current raw progress: levels reached, fares driven, dollars stolen...
 	virtual float getProgress() const = 0;
 
-	// Tiers reached; defaults to the uniform progressPerTier model, overridden by unevenly spaced ones.
 	virtual int currentTier() const;
 
-private:
 	const SubmissionTierSpec SPEC;
+
+private:
 	int m_sentTier = 0;
 };

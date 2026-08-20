@@ -1,4 +1,5 @@
 #include "TieredSubmissionTracker.h"
+#include "ParseUtils.h"
 
 TieredSubmissionTracker::TieredSubmissionTracker(int t_submissionID, const SubmissionTierSpec& t_spec)
 	: SubmissionTracker(t_submissionID), SPEC(t_spec)
@@ -34,12 +35,12 @@ int TieredSubmissionTracker::currentTier() const
 	return static_cast<int>(getProgress() / SPEC.progressPerTier);
 }
 
-int TieredSubmissionTracker::getSentTier() const
+std::string TieredSubmissionTracker::getSentState() const
 {
-	return m_sentTier;
+	return std::to_string(m_sentTier);
 }
 
-void TieredSubmissionTracker::restoreSentTier(int t_tier)
+void TieredSubmissionTracker::restoreSentState(const std::string& t_state)
 {
-	m_sentTier = t_tier;
+	m_sentTier = parseIntOr(t_state, 0);
 }

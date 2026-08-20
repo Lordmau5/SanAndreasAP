@@ -1,10 +1,16 @@
 #pragma once
 #include "TieredSubmissionTracker.h"
+#include <array>
 #include <span>
 
-// Driving and flying school both keep one best percentage per test in a script global and both pass
-// at 70%, so only the slot list and the tier spec differ. Neither has an AP reward item - they pay
-// out in vehicles and story progress, not player abilities.
+enum class TestMedal
+{
+	None = 0,
+	Bronze = 1,
+	Silver = 2,
+	Gold = 3,
+};
+
 class SchoolTracker : public TieredSubmissionTracker
 {
 public:
@@ -12,17 +18,27 @@ public:
 		std::span<const int> t_scoreGlobals);
 	void enforceSubmissionReward() override;
 
+	void pollNewTierSlots(std::vector<int>& t_outSlots) override;
+
+	std::string getSentState() const override;
+	void restoreSentState(const std::string& t_state) override;
+
 protected:
-	// Counts the tests that passed. Which is left to isTestPassed.
 	float getProgress() const override;
 
-	// Whether one test's stored value counts as a pass. Defaults to the game's own 70% mark, which
-	// covers every school scored on percentage - boat school scores on time and distance instead.
-	virtual bool isTestPassed(int t_testIndex, int t_value) const;
+	virtual TestMedal medalForTest(int t_testIndex) const;
+
+	int testCount() const;
 
 private:
-	// The game's own pass mark, stated in its flight school text.
-	static constexpr int PASS_SCORE = 70;
+	static constexpr int MEDALS_PER_TEST = 3;
 
+	static constexpr int BRONZE_SCORE = 70;
+	static constexpr int SILVER_SCORE = 85;
+	static constexpr int GOLD_SCORE = 100;
+
+	static constexpr int MAX_TESTS = 12;
+
+	std::array<TestMedal, MAX_TESTS> m_sent{};
 	std::span<const int> m_scoreGlobals;
 };

@@ -43,6 +43,8 @@ inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
 	1963, 1964, 1965, 1966, 1967,
 };
 
+inline constexpr int BOAT_SCHOOL_MEDAL_GLOBALS_BASE = 1970;
+
 inline constexpr int CHILIAD_CHALLENGE_ID = 132;
 inline constexpr int CHILIAD_PASSED_GLOBAL = 1801;
 
@@ -78,18 +80,18 @@ inline constexpr SubmissionTierSpec TAXI_TIERS        { 36, 50, 1.0f };
 inline constexpr SubmissionTierSpec BURGLARY_TIERS    { 86, 10, 1000.0f };
 inline constexpr SubmissionTierSpec TRUCKING_TIERS    { 96,  8, 1.0f };
 inline constexpr SubmissionTierSpec VALET_TIERS       { 104,  5, 0.0f };
-inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 109, 12, 1.0f };
-inline constexpr SubmissionTierSpec PIMPING_TIERS     { 121, 10, 1.0f };
-inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 131, 10, 1.0f };
-inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 141, 5, 1.0f };
-inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 146, 6, 1.0f };
-inline constexpr SubmissionTierSpec QUARRY_TIERS       { 152, 7, 1.0f };
-inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 159, 20, 5.0f };
-inline constexpr SubmissionTierSpec COURIER_LS_TIERS   { 179, 4, 1.0f };
-inline constexpr SubmissionTierSpec COURIER_SF_TIERS   { 183, 4, 1.0f };
-inline constexpr SubmissionTierSpec COURIER_LV_TIERS   { 187, 4, 1.0f };
+inline constexpr SubmissionTierSpec DRIVING_SCHOOL_TIERS { 109, 36, 1.0f };
+inline constexpr SubmissionTierSpec PIMPING_TIERS     { 145, 10, 1.0f };
+inline constexpr SubmissionTierSpec FLYING_SCHOOL_TIERS { 155, 30, 1.0f };
+inline constexpr SubmissionTierSpec BOAT_SCHOOL_TIERS  { 185, 15, 1.0f };
+inline constexpr SubmissionTierSpec BIKE_SCHOOL_TIERS  { 200, 18, 1.0f };
+inline constexpr SubmissionTierSpec QUARRY_TIERS       { 218, 7, 1.0f };
+inline constexpr SubmissionTierSpec GANG_TERRITORY_TIERS { 225, 20, 5.0f };
+inline constexpr SubmissionTierSpec COURIER_LS_TIERS   { 245, 4, 1.0f };
+inline constexpr SubmissionTierSpec COURIER_SF_TIERS   { 249, 4, 1.0f };
+inline constexpr SubmissionTierSpec COURIER_LV_TIERS   { 253, 4, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 191;
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 257;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

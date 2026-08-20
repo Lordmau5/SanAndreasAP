@@ -34,7 +34,7 @@ void GymTracker::enforceSubmissionReward()
 		{
 			if (player->m_nFightingStyle == m_taughtStyle)
 			{
-				player->m_nFightingStyle = STYLE_STANDARD;
+				player->m_nFightingStyle = STYLE_GRAB_KICK;
 			}
 			m_detectionArmed = true;
 		}

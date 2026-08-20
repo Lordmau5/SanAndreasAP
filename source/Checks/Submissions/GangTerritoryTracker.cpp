@@ -1,4 +1,5 @@
 #include "GangTerritoryTracker.h"
+#include "ParseUtils.h"
 #include <CGangWars.h>
 
 GangTerritoryTracker::GangTerritoryTracker(int t_submissionID)
@@ -19,8 +20,8 @@ float GangTerritoryTracker::getProgress() const
 	return m_armed ? pct : 0.0f;
 }
 
-void GangTerritoryTracker::restoreSentTier(int t_tier)
+void GangTerritoryTracker::restoreSentState(const std::string& t_state)
 {
-	TieredSubmissionTracker::restoreSentTier(t_tier);
-	m_armed = t_tier > 0;
+	TieredSubmissionTracker::restoreSentState(t_state);
+	m_armed = parseIntOr(t_state, 0) > 0;
 }

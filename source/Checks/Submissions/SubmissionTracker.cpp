@@ -1,6 +1,5 @@
 #include "SubmissionTracker.h"
 #include "SaveDataManager.h"
-#include "ParseUtils.h"
 
 SubmissionTracker::SubmissionTracker(int t_submissionID)
 	: SUBMISSION_ID(t_submissionID)
@@ -43,7 +42,7 @@ void SubmissionTracker::save(SaveDataManager& t_saveData)
 	std::string prefix = keyPrefix();
 	t_saveData.setValue(prefix + "received", checkReceived ? "1" : "0");
 	t_saveData.setValue(prefix + "completed", submissionCompleted ? "1" : "0");
-	t_saveData.setValue(prefix + "tier", std::to_string(getSentTier()));
+	t_saveData.setValue(prefix + "tier", getSentState());
 }
 
 void SubmissionTracker::load(const SaveDataManager& t_saveData)
@@ -51,5 +50,5 @@ void SubmissionTracker::load(const SaveDataManager& t_saveData)
 	std::string prefix = keyPrefix();
 	restoreState(t_saveData.getValue(prefix + "received", "0") == "1",
 		t_saveData.getValue(prefix + "completed", "0") == "1");
-	restoreSentTier(parseIntOr(t_saveData.getValue(prefix + "tier", "0"), 0));
+	restoreSentState(t_saveData.getValue(prefix + "tier", ""));
 }
