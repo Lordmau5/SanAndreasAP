@@ -163,14 +163,26 @@ void TrapHandler::update()
 	CPlayerPed* player = FindPlayerPed();
 	Clock::time_point now = Clock::now();
 
-	if (m_fatTrapActive && now >= m_fatTrapEnd)
+	if (m_fatTrapActive)
 	{
-		m_fatTrapActive = false;
-		CStats::SetStatValue(STAT_FAT, m_savedFat);
-		CStats::SetStatValue(STAT_MUSCLE, m_savedMuscle);
-		if (player)
+		if (now >= m_fatTrapEnd)
 		{
-			CClothes::RebuildPlayer(player, false);
+			m_fatTrapActive = false;
+			CStats::SetStatValue(STAT_FAT, m_savedFat);
+			CStats::SetStatValue(STAT_MUSCLE, m_savedMuscle);
+			if (player)
+			{
+				CClothes::RebuildPlayer(player, false);
+			}
+		}
+		else if (CStats::GetStatValue(STAT_MUSCLE) > m_savedMuscle)
+		{
+			m_savedMuscle = CStats::GetStatValue(STAT_MUSCLE);
+			CStats::SetStatValue(STAT_MUSCLE, 0.0f);
+			if (player)
+			{
+				CClothes::RebuildPlayer(player, false);
+			}
 		}
 	}
 

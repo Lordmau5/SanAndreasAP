@@ -22,6 +22,7 @@ namespace
 		{ "max_cycling_skill",   ItemEffect::MaxSkill,           STAT_CYCLING_SKILL,  nullptr,     "Archipelago: Received Max Cycling Skill",   NotificationIcon::Stamina },
 		{ "max_driving_skill",   ItemEffect::SubmissionCheck,    DRIVING_SCHOOL_ID,   nullptr,     "Archipelago: Received Max Driving Skill",   NotificationIcon::Taxi },
 		{ "max_bike_skill",      ItemEffect::SubmissionCheck,    BIKE_SCHOOL_ID,      nullptr,     "Archipelago: Received Max Bike Skill",      NotificationIcon::Stamina },
+		{ "max_muscle",          ItemEffect::MaxSkill,           STAT_MUSCLE,         nullptr,     "Archipelago: Received Max Muscle",          NotificationIcon::Boxing },
 
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },

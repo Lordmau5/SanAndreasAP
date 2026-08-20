@@ -2,6 +2,8 @@
 #include "common.h"
 #include "CStreaming.h"
 #include "WeaponData.h"
+#include "PlayerControl.h"
+#include "CClothes.h"
 #include <CStats.h>
 #include <map>
 
@@ -63,6 +65,13 @@ void CheckGiver::giveWeaponMastery(const std::string& t_weaponName)
 void CheckGiver::giveMaxSkill(int t_statId)
 {
 	CStats::SetStatValue(static_cast<unsigned short>(t_statId), MAX_SKILL);
+
+	if (t_statId != STAT_MUSCLE || !PlayerControl::isInControl()) return;
+
+	if (CPlayerPed* player = FindPlayerPed())
+	{
+		CClothes::RebuildPlayer(player, false);
+	}
 }
 
 void CheckGiver::giveArmorRefill()
