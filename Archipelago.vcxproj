@@ -34,6 +34,7 @@
     <ClInclude Include="header\Checks\Submissions\QuarryTracker.h" />
     <ClInclude Include="header\Checks\Submissions\GangTerritoryTracker.h" />
     <ClInclude Include="header\Checks\Submissions\CourierTracker.h" />
+    <ClInclude Include="header\Gameplay\StreetRaceUnlock.h" />
     <ClInclude Include="header\Gameplay\ShopMenuText.h" />
     <ClInclude Include="header\Debug\WaypointTeleport.h" />
     <ClInclude Include="header\Checks\Submissions\GlobalFlagTracker.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="source\Checks\Submissions\QuarryTracker.cpp" />
     <ClCompile Include="source\Checks\Submissions\GangTerritoryTracker.cpp" />
     <ClCompile Include="source\Checks\Submissions\CourierTracker.cpp" />
+    <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp" />
     <ClCompile Include="source\Gameplay\ShopMenuText.cpp" />
     <ClCompile Include="source\Debug\WaypointTeleport.cpp" />
     <ClCompile Include="source\Checks\Submissions\GlobalFlagTracker.cpp" />

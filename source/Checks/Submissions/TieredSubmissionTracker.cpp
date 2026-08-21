@@ -8,8 +8,6 @@ TieredSubmissionTracker::TieredSubmissionTracker(int t_submissionID, const Submi
 
 void TieredSubmissionTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 {
-	// Progress only ever climbs, so emit every tier crossed since the last poll - normally one,
-	// but loading a save (or a single lucrative burglary run) can cross several at once.
 	int tier = currentTier();
 	if (tier > SPEC.tierCount) tier = SPEC.tierCount;
 
@@ -22,8 +20,6 @@ void TieredSubmissionTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 		m_sentTier = tier;
 	}
 
-	// Completion latches on the final tier - enforceSubmissionReward() uses it to decide whether
-	// vanilla's reward should stay suppressed until the AP item arrives.
 	if (tier >= SPEC.tierCount && !submissionCompleted)
 	{
 		submissionWasCompleted();

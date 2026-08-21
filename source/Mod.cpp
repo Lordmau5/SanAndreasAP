@@ -33,6 +33,7 @@ void Mod::start()
     MissionLocateBlocked::install(m_branchProgress);
     BlockedMarkerTint::install(m_branchProgress);
     ShopMenuText::install(m_ammuNationShop);
+    StreetRaceUnlock::update();
 
     m_apSocket.update();
     pollDeathLink();

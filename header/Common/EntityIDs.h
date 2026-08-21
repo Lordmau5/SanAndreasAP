@@ -51,6 +51,10 @@ inline constexpr int CHILIAD_PASSED_GLOBAL = 1801;
 inline constexpr int BLOOD_RING_PASSED_GLOBAL = 1941;
 inline constexpr int KICKSTART_PASSED_GLOBAL = 90;
 
+inline constexpr int DRIVING_SCHOOL_UNLOCKED_GLOBAL = 1397;
+inline constexpr int STREET_RACES_UNLOCKED_GLOBAL = 1398;
+inline constexpr int TRACE_MARKER_X_GLOBAL = 562;
+
 inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
 inline constexpr int COURIER_LV_PASSED_GLOBAL = 1993;
 inline constexpr int COURIER_SF_PASSED_GLOBAL = 1994;
