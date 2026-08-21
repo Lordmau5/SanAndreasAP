@@ -18,7 +18,7 @@ namespace
 	void runScript(CRunningScript& t_script, unsigned char* t_from, unsigned char* t_to)
 	{
 		t_script.m_pCurrentIP = t_from;
-		for (int scriptLine = 0; scriptLine < MAX_LINES && t_script.m_pCurrentIP != t_to; ++scriptLine)
+		while (t_script.m_pCurrentIP < t_to)
 		{
 			t_script.ProcessOneCommand();
 		}
