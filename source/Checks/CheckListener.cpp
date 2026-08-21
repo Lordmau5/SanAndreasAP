@@ -41,6 +41,9 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_LS_ID, COURIER_LS_TIERS, LEVEL_NAME_LOS_SANTOS, COURIER_LS_PASSED_GLOBAL));
 	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_SF_ID, COURIER_SF_TIERS, LEVEL_NAME_SAN_FIERRO, COURIER_SF_PASSED_GLOBAL));
 	submissionTrackers.push_back(std::make_unique<CourierTracker>(COURIER_LV_ID, COURIER_LV_TIERS, LEVEL_NAME_LAS_VENTURAS, COURIER_LV_PASSED_GLOBAL));
+	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_LS_ID, RACES_LS_TIERS, 0));
+	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_SF_ID, RACES_SF_TIERS, 9));
+	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_LV_ID, RACES_LV_TIERS, 15));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)

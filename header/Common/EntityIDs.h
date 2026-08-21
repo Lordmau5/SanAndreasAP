@@ -53,6 +53,11 @@ inline constexpr int KICKSTART_PASSED_GLOBAL = 90;
 
 inline constexpr int DRIVING_SCHOOL_UNLOCKED_GLOBAL = 1397;
 inline constexpr int STREET_RACES_UNLOCKED_GLOBAL = 1398;
+inline constexpr int RACE_BEST_POSITION_GLOBALS_BASE = 2210;
+
+inline constexpr int RACES_LS_ID = 150;
+inline constexpr int RACES_SF_ID = 151;
+inline constexpr int RACES_LV_ID = 152;
 inline constexpr int TRACE_MARKER_X_GLOBAL = 562;
 
 inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
@@ -95,7 +100,11 @@ inline constexpr SubmissionTierSpec COURIER_LS_TIERS   { 245, 4, 1.0f };
 inline constexpr SubmissionTierSpec COURIER_SF_TIERS   { 249, 4, 1.0f };
 inline constexpr SubmissionTierSpec COURIER_LV_TIERS   { 253, 4, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 257;
+inline constexpr SubmissionTierSpec RACES_LS_TIERS      { 257, 9, 1.0f };
+inline constexpr SubmissionTierSpec RACES_SF_TIERS      { 266, 6, 1.0f };
+inline constexpr SubmissionTierSpec RACES_LV_TIERS      { 272, 10, 1.0f };
+
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 282;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

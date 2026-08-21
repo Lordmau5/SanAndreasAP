@@ -2,5 +2,7 @@
 
 namespace StreetRaceUnlock
 {
-	void update();
+	void update(bool t_itemReceived);
+
+	void blockVanillaUnlock();
 }

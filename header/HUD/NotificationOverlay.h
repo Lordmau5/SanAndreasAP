@@ -17,6 +17,7 @@ enum class NotificationIcon
 	Weapon,
 	Trap,
 	ItemSent,
+	StreetRaces
 };
 
 class NotificationOverlay

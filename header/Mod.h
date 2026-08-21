@@ -71,6 +71,7 @@ private:
 
 	bool m_firstInGameTickHandled = false;
 
+	bool m_streetRacesUnlocked = false;
 	bool m_newGameRegrantPending = false;
 	bool m_newGameRegrantClockStarted = false;
 	unsigned int m_newGameRegrantControlStartMs = 0;

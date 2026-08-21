@@ -16,6 +16,7 @@ enum class ItemEffect
 	WeaponMastery,   // maxes one weapon's skill; which one arrives as the value
 	ArmorRefill,
 	CarRepair,
+	StreetRaces,
 	Trap,
 };
 

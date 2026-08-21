@@ -26,6 +26,7 @@
 #include "BoatSchoolTracker.h"
 #include "BikeSchoolTracker.h"
 #include "CourierTracker.h"
+#include "RaceTracker.h"
 #include "DrivingSchoolTracker.h"
 #include "ExportListTracker.h"
 #include "OysterTracker.h"

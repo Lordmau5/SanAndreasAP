@@ -33,7 +33,7 @@ void Mod::start()
     MissionLocateBlocked::install(m_branchProgress);
     BlockedMarkerTint::install(m_branchProgress);
     ShopMenuText::install(m_ammuNationShop);
-    StreetRaceUnlock::update();
+    StreetRaceUnlock::update(m_streetRacesUnlocked);
 
     m_apSocket.update();
     pollDeathLink();
@@ -262,6 +262,10 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
     {
         m_checkListener.setIncludedCollectibles(t_value);
     }
+    else if (t_name == "street_races" && t_value == "1")
+    {
+        StreetRaceUnlock::blockVanillaUnlock();
+    }
 }
 
 void Mod::applyPendingItems()
@@ -322,6 +326,7 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     case ItemEffect::WeaponMastery:      m_checkGiver.giveWeaponMastery(t_value); break;
     case ItemEffect::ArmorRefill:        m_checkGiver.giveArmorRefill(); break;
     case ItemEffect::CarRepair:          m_checkGiver.giveCarRepair(); break;
+    case ItemEffect::StreetRaces:        m_streetRacesUnlocked = true; break;
     case ItemEffect::Trap:               m_trapHandler.giveTrap(spec->trapName); break;
     }
 

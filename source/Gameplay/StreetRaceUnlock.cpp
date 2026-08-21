@@ -2,12 +2,13 @@
 #include "EntityIDs.h"
 #include "ScriptGlobals.h"
 #include <CRunningScript.h>
+#include <eScriptCommands.h>
+#include <Patch.h>
 #include <cstring>
 
 namespace
 {
 	constexpr int SCRIPT_BASE_OFFSET = 183113;
-	constexpr int MAX_LINES = 64;
 
 	constexpr int SCHOOL_BODY_OFFSET = 757;
 	constexpr int SCHOOL_BODY_END = 867;
@@ -23,10 +24,44 @@ namespace
 			t_script.ProcessOneCommand();
 		}
 	}
+
+	constexpr size_t COMPARE_COMMAND_BLOCK = COMMAND_IS_INT_VAR_GREATER_THAN_NUMBER / 100;
+	constexpr int DESERT_MISSIONS_REQUIRED = 3;
+
+	using CommandHandler = unsigned char(__thiscall*)(CRunningScript*, unsigned short);
+	CommandHandler g_original = nullptr;
+	bool g_blockVanillaUnlock = false;
+
+	unsigned char __fastcall onCompareCommandBlock(CRunningScript* t_script, void*, unsigned short t_commandId)
+	{
+		unsigned char result = g_original(t_script, t_commandId);
+
+		if (g_blockVanillaUnlock
+			&& t_commandId == COMMAND_IS_INT_VAR_GREATER_THAN_NUMBER
+			&& ScriptParams[1] == DESERT_MISSIONS_REQUIRED
+			&& _strnicmp(t_script->m_szName, "MOB_SF", 8) == 0)
+		{
+			t_script->m_bCondResult = false;
+		}
+		return result;
+	}
 }
 
-void StreetRaceUnlock::update()
+void StreetRaceUnlock::blockVanillaUnlock()
 {
+	g_blockVanillaUnlock = true;
+	if (g_original) return;
+
+	g_original = CRunningScript::CommandHandlerTable[COMPARE_COMMAND_BLOCK];
+
+	plugin::patch::SetPointer(
+		reinterpret_cast<uintptr_t>(&CRunningScript::CommandHandlerTable[COMPARE_COMMAND_BLOCK]),
+		reinterpret_cast<void*>(&onCompareCommandBlock));
+}
+
+void StreetRaceUnlock::update(bool t_itemReceived)
+{
+	if (!t_itemReceived) return;
 	if (ScriptGlobals::read(STREET_RACES_UNLOCKED_GLOBAL) != 0) return;
 	if (ScriptGlobals::read(TRACE_MARKER_X_GLOBAL) == 0) return;
 
