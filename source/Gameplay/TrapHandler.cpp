@@ -31,9 +31,21 @@ namespace
 	constexpr char FAT_SAVED_MUSCLE_KEY[] = "trap_fat_saved_muscle";
 	constexpr char FAT_REMAINING_KEY[] = "trap_fat_remaining_seconds";
 
+	constexpr char WEATHER_ACTIVE_KEY[] = "trap_weather_active";
+	constexpr char WEATHER_FORCED_KEY[] = "trap_weather_forced_type";
+	constexpr char WEATHER_REMAINING_KEY[] = "trap_weather_remaining_seconds";
+
 	constexpr short BAD_WEATHER_TYPES[] = { WEATHER_RAINY_SF, WEATHER_FOGGY_SF, WEATHER_SANDSTORM_DESERT };
 
 	constexpr short WEATHER_NOT_FORCED = -1;
+
+	int remainingSeconds(bool t_active, std::chrono::steady_clock::time_point t_end)
+	{
+		if (!t_active) return 0;
+		auto remaining = t_end - std::chrono::steady_clock::now();
+		if (remaining <= std::chrono::steady_clock::duration::zero()) return 0;
+		return static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(remaining).count());
+	}
 }
 
 int TrapHandler::randomSeconds(int t_low, int t_high) const
@@ -51,37 +63,38 @@ int TrapHandler::randomWantedStars() const
 
 void TrapHandler::save(SaveDataManager& t_saveData)
 {
-	int remainingSeconds = 0;
-	if (m_fatTrapActive)
-	{
-		Clock::duration remaining = m_fatTrapEnd - Clock::now();
-		if (remaining > Clock::duration::zero())
-		{
-			remainingSeconds = static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(remaining).count());
-		}
-	}
-
 	t_saveData.setValue(FAT_ACTIVE_KEY, m_fatTrapActive ? "1" : "0");
 	t_saveData.setValue(FAT_SAVED_FAT_KEY, std::to_string(m_savedFat));
 	t_saveData.setValue(FAT_SAVED_MUSCLE_KEY, std::to_string(m_savedMuscle));
-	t_saveData.setValue(FAT_REMAINING_KEY, std::to_string(remainingSeconds));
+	t_saveData.setValue(FAT_REMAINING_KEY, std::to_string(remainingSeconds(m_fatTrapActive, m_fatTrapEnd)));
+
+	t_saveData.setValue(WEATHER_ACTIVE_KEY, m_weatherTrapActive ? "1" : "0");
+	t_saveData.setValue(WEATHER_FORCED_KEY, std::to_string(m_forcedWeather));
+	t_saveData.setValue(WEATHER_REMAINING_KEY, std::to_string(remainingSeconds(m_weatherTrapActive, m_weatherTrapEnd)));
 }
 
 void TrapHandler::load(const SaveDataManager& t_saveData)
 {
 	m_fatTrapActive = t_saveData.getValue(FAT_ACTIVE_KEY, "0") == "1";
+	m_fatTrapEnd = Clock::time_point{};
 
-	if (!m_fatTrapActive)
+	if (m_fatTrapActive)
 	{
-		m_fatTrapEnd = Clock::time_point{};
-		return;
+		m_savedFat = parseFloatOr(t_saveData.getValue(FAT_SAVED_FAT_KEY, "0"), 0.0f);
+		m_savedMuscle = parseFloatOr(t_saveData.getValue(FAT_SAVED_MUSCLE_KEY, "0"), 0.0f);
+		m_fatTrapEnd = Clock::now()
+			+ std::chrono::seconds(parseIntOr(t_saveData.getValue(FAT_REMAINING_KEY, "0"), 0));
 	}
 
-	m_savedFat = parseFloatOr(t_saveData.getValue(FAT_SAVED_FAT_KEY, "0"), 0.0f);
-	m_savedMuscle = parseFloatOr(t_saveData.getValue(FAT_SAVED_MUSCLE_KEY, "0"), 0.0f);
+	m_weatherTrapActive = t_saveData.getValue(WEATHER_ACTIVE_KEY, "0") == "1";
+	m_weatherTrapEnd = Clock::time_point{};
 
-	int remainingSeconds = parseIntOr(t_saveData.getValue(FAT_REMAINING_KEY, "0"), 0);
-	m_fatTrapEnd = Clock::now() + std::chrono::seconds(remainingSeconds);
+	if (m_weatherTrapActive)
+	{
+		m_forcedWeather = static_cast<short>(parseIntOr(t_saveData.getValue(WEATHER_FORCED_KEY, "0"), 0));
+		m_weatherTrapEnd = Clock::now()
+			+ std::chrono::seconds(parseIntOr(t_saveData.getValue(WEATHER_REMAINING_KEY, "0"), 0));
+	}
 }
 
 void TrapHandler::giveTrap(const std::string& t_trapType)

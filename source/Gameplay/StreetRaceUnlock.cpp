@@ -26,6 +26,7 @@ namespace
 	}
 
 	constexpr size_t COMPARE_COMMAND_BLOCK = COMMAND_IS_INT_VAR_GREATER_THAN_NUMBER / 100;
+	constexpr short COMPARE_PARAM_COUNT = 2;
 	constexpr int DESERT_MISSIONS_REQUIRED = 3;
 
 	using CommandHandler = unsigned char(__thiscall*)(CRunningScript*, unsigned short);
@@ -34,15 +35,21 @@ namespace
 
 	unsigned char __fastcall onCompareCommandBlock(CRunningScript* t_script, void*, unsigned short t_commandId)
 	{
-		unsigned char result = g_original(t_script, t_commandId);
+		bool isGate = false;
 
 		if (g_blockVanillaUnlock
 			&& t_commandId == COMMAND_IS_INT_VAR_GREATER_THAN_NUMBER
-			&& ScriptParams[1] == DESERT_MISSIONS_REQUIRED
 			&& _strnicmp(t_script->m_szName, "MOB_SF", 8) == 0)
 		{
-			t_script->m_bCondResult = false;
+			unsigned char* resumeIP = t_script->m_pCurrentIP;
+			t_script->CollectParameters(COMPARE_PARAM_COUNT);
+			isGate = ScriptParams[1] == DESERT_MISSIONS_REQUIRED;
+			t_script->m_pCurrentIP = resumeIP;
 		}
+
+		unsigned char result = g_original(t_script, t_commandId);
+
+		if (isGate) t_script->m_bCondResult = false;
 		return result;
 	}
 }
