@@ -16,7 +16,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.6.1)
+## Current scope (v0.7.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -34,6 +34,7 @@ the C++ mod.
   purchase contains)
 - Taking over gang territories in RTLS sends checks per 5%
 - BMX, NRG-500 and Chiliad Challenges send checks on completion
+- Stadium Events, Courier missions and Street Races send checks.
 - Traps (wanted level, fat CJ, flat tires, car fire) and filler items
   (21 weapons, money, full armor, car repair, weapon mastery)
 - Autosave to slot 8 after every story mission and side-activity completion
@@ -100,7 +101,7 @@ Not required, but they improve the experience:
 ## How does this mod work?
 
 - Story missions require Progressive Mission items. When you run out, every
-  mission start marker is physically blocked until you unlock more.
+  mission start marker is greyed out and blocked until you unlock more.
 - Collectibles, Ammu-Nation purchases, and side-activity levels all send
   checks. The Ammu-Nation menu shows what each slot contains.
 - Collectible locations appear on the radar and map. Press **F8** in the pause menu to toggle them off
