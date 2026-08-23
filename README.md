@@ -35,8 +35,8 @@ the C++ mod.
 - Taking over gang territories in RTLS sends checks per 5%
 - BMX, NRG-500 and Chiliad Challenges send checks on completion
 - Stadium Events, Courier missions and Street Races send checks.
-- Traps (wanted level, fat CJ, flat tires, car fire) and filler items
-  (21 weapons, money, full armor, car repair, weapon mastery)
+- Traps (wanted level, fat CJ, flat tires, car fire, bad weather) and filler items
+  (21 weapons, money, full armor, car repair, weapon mastery, driving skill)
 - Autosave to slot 8 after every story mission and side-activity completion
 - Deathlink
 - Choosing a starting point (Badlands, San Fierro, Las Venturas)
