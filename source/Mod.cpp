@@ -1,4 +1,5 @@
 ﻿#include "Mod.h"
+#include "ModSettings.h"
 #include "PlayerControl.h"
 #include "APProtocol.h"
 #include "ItemEffects.h"
@@ -14,6 +15,8 @@
 
 Mod::Mod()
 {
+	ModSettings::load();
+
 	m_apSocket.connectToServer("127.0.0.1", 12345);
 
 	m_persistentSubsystems = { &m_checkListener, &m_branchProgress, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
@@ -379,10 +382,7 @@ void Mod::drawMissionCountsOnMap()
 
 void Mod::drawMissionCountsImpl(bool t_menuMap)
 {
-    float aspect = static_cast<float>(RsGlobal.maximumWidth) / static_cast<float>(RsGlobal.maximumHeight);
-    float base = aspect < 1.5f ? 0.5625f : 0.3f;
-    float scaleX = t_menuMap ? ScreenScale::of(0.5f)
-                             : (RsGlobal.maximumHeight < 1080 ? ScreenScale::of(base) : base);
+    float scaleX = t_menuMap ? ScreenScale::of(0.5f) : ModSettings::missionCounterScale();
     CFont::SetFontStyle(FONT_SUBTITLES);
     CFont::SetScale(scaleX, scaleX * 2.0f);
     CFont::SetProportional(true);

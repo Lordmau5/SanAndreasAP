@@ -2,6 +2,7 @@
 #include "AmmuNationShop.h"
 #include "CMenuSystem.h"
 #include "ScreenScale.h"
+#include "ModSettings.h"
 #include <CText.h>
 #include <CFont.h>
 #include <CRGBA.h>
@@ -19,24 +20,19 @@ namespace
 	constexpr int FLAG_USEFUL = 2;
 	constexpr int FLAG_TRAP = 4;
 
-	const CRGBA PLUM(0xAF, 0x99, 0xEF, 255);
-	const CRGBA SLATEBLUE(0x6D, 0x8B, 0xE8, 255);
-	const CRGBA SALMON(0xFA, 0x80, 0x72, 255);
-	const CRGBA CYAN(0x00, 0xEE, 0xEE, 255);
-
-	constexpr int UNSELECTED_DIM_PERCENT = 60;
+	using ModSettings::ItemColour;
 
 	CRGBA colourForFlags(int t_flags)
 	{
-		if (t_flags & FLAG_PROGRESSION) return PLUM;
-		if (t_flags & FLAG_USEFUL) return SLATEBLUE;
-		if (t_flags & FLAG_TRAP) return SALMON;
-		return CYAN;
+		if (t_flags & FLAG_PROGRESSION) return ModSettings::itemColour(ItemColour::Progression);
+		if (t_flags & FLAG_USEFUL) return ModSettings::itemColour(ItemColour::Useful);
+		if (t_flags & FLAG_TRAP) return ModSettings::itemColour(ItemColour::Trap);
+		return ModSettings::itemColour(ItemColour::Filler);
 	}
 
 	unsigned char dimChannel(unsigned char t_channel)
 	{
-		return static_cast<unsigned char>(t_channel * UNSELECTED_DIM_PERCENT / 100);
+		return static_cast<unsigned char>(t_channel * ModSettings::unselectedDimPercent() / 100);
 	}
 
 	CRGBA dimmed(const CRGBA& t_colour)

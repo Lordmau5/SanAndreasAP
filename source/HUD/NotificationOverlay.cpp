@@ -1,5 +1,6 @@
 #include "NotificationOverlay.h"
 #include "ScreenScale.h"
+#include "ModSettings.h"
 #include <algorithm>
 #include <CFont.h>
 #include <CRGBA.h>
@@ -31,10 +32,15 @@ void NotificationOverlay::show(const std::string& text, NotificationIcon icon, i
 	m_notifications.push_back(notification);
 }
 
+std::chrono::milliseconds NotificationOverlay::displayDuration()
+{
+	return std::chrono::milliseconds(static_cast<long long>(ModSettings::notificationSeconds() * 1000.0f));
+}
+
 void NotificationOverlay::showAboveRadar(const std::string& text)
 {
 	m_radarMessage = text;
-	m_radarMessageExpiresAt = std::chrono::steady_clock::now() + DISPLAY_DURATION;
+	m_radarMessageExpiresAt = std::chrono::steady_clock::now() + displayDuration();
 
 	AudioEngine.ReportFrontendAudioEvent(AE_FRONTEND_PICKUP_INFO, 1.0f, 1.0f);
 }
@@ -115,9 +121,7 @@ void NotificationOverlay::draw()
 		Notification& admitted = m_notifications[visibleCount];
 		admitted.started = true;
 		admitted.fades = !backlogged;
-		admitted.expiresAt = now + (backlogged
-			? BACKLOG_DISPLAY_DURATION
-			: std::chrono::duration_cast<std::chrono::milliseconds>(DISPLAY_DURATION));
+		admitted.expiresAt = now + (backlogged ? BACKLOG_DISPLAY_DURATION : displayDuration());
 
 		AudioEngine.ReportFrontendAudioEvent(AE_FRONTEND_PICKUP_INFO, 1.0f, 1.0f);
 

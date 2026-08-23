@@ -1,5 +1,6 @@
 ﻿#include "CollectibleBlipsManager.h"
 #include "ScreenScale.h"
+#include "ModSettings.h"
 #include "MenuMap.h"
 #include "SaveDataManager.h"
 #include "common.h"
@@ -236,7 +237,8 @@ void CollectibleBlipsManager::drawNumbers() const
 	if (!m_blipsEnabled) return;
 
 	CFont::SetFontStyle(FONT_SUBTITLES);
-	CFont::SetScale(ScreenScale::of(0.3f), ScreenScale::of(0.6f));
+	const float numberScale = ModSettings::collectibleNumberScale();
+	CFont::SetScale(numberScale, numberScale * 2.0f);
 	CFont::SetColor(CRGBA(255, 255, 255, 255));
 	CFont::SetProportional(true);
 	CFont::SetOrientation(ALIGN_CENTER);

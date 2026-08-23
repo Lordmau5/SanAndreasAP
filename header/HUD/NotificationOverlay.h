@@ -30,7 +30,8 @@ public:
 	void draw();
 
 private:
-	static constexpr std::chrono::seconds DISPLAY_DURATION{ 8 };
+	static std::chrono::milliseconds displayDuration();
+
 	static constexpr std::chrono::milliseconds FADE_DURATION{ 600 };
 	static constexpr size_t MAX_VISIBLE = 5;
 
