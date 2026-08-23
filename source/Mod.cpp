@@ -34,6 +34,7 @@ void Mod::start()
     BlockedMarkerTint::install(m_branchProgress);
     ShopMenuText::install(m_ammuNationShop);
     StreetRaceUnlock::update(m_streetRacesUnlocked);
+    StreetRaceUnlock::updateDrivingSchoolBlip();
 
     m_apSocket.update();
     pollDeathLink();

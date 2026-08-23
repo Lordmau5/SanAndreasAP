@@ -11,6 +11,8 @@ namespace
 	constexpr int SCRIPT_BASE_OFFSET = 183113;
 
 	constexpr int SCHOOL_BODY_OFFSET = 757;
+	constexpr int DSCHOOL_BLIP_OFFSET = 772;
+	constexpr int DSCHOOL_BLIP_END = 795;
 	constexpr int SCHOOL_BODY_END = 867;
 
 	constexpr int RACE_BODY_OFFSET = 988;
@@ -83,9 +85,30 @@ void StreetRaceUnlock::update(bool t_itemReceived)
 
 	if (ScriptGlobals::read(DRIVING_SCHOOL_UNLOCKED_GLOBAL) == 0)
 	{
-		runScript(script, scriptBase + SCHOOL_BODY_OFFSET, scriptBase + SCHOOL_BODY_END);
+		runScript(script, scriptBase + SCHOOL_BODY_OFFSET, scriptBase + DSCHOOL_BLIP_OFFSET);
+		runScript(script, scriptBase + DSCHOOL_BLIP_END, scriptBase + SCHOOL_BODY_END);
 	}
 	runScript(script, scriptBase + RACE_BODY_OFFSET, scriptBase + RACE_BODY_END);
+
+	memcpy(ScriptParams, savedParams, sizeof(savedParams));
+}
+
+void StreetRaceUnlock::updateDrivingSchoolBlip()
+{
+	if (ScriptGlobals::read(DRIVING_SCHOOL_BLIP_GLOBAL) != 0) return;
+	if (ScriptGlobals::read(DRIVING_SCHOOL_UNLOCKED_GLOBAL) == 0) return;
+	if (ScriptGlobals::read(GARAGE_MISSIONS_GLOBAL) == 0) return;
+
+	unsigned char* scriptSpace = reinterpret_cast<unsigned char*>(CTheScripts::ScriptSpace);
+
+	int savedParams[32];
+	memcpy(savedParams, ScriptParams, sizeof(savedParams));
+
+	CRunningScript script;
+	script.Init();
+	script.m_pBaseIP = scriptSpace;
+	runScript(script, scriptSpace + SCRIPT_BASE_OFFSET + DSCHOOL_BLIP_OFFSET,
+		scriptSpace + SCRIPT_BASE_OFFSET + DSCHOOL_BLIP_END);
 
 	memcpy(ScriptParams, savedParams, sizeof(savedParams));
 }

@@ -59,6 +59,8 @@ inline constexpr int RACES_LS_ID = 150;
 inline constexpr int RACES_SF_ID = 151;
 inline constexpr int RACES_LV_ID = 152;
 inline constexpr int TRACE_MARKER_X_GLOBAL = 562;
+inline constexpr int DRIVING_SCHOOL_BLIP_GLOBAL = 596;
+inline constexpr int GARAGE_MISSIONS_GLOBAL = 541;
 
 inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
 inline constexpr int COURIER_LV_PASSED_GLOBAL = 1993;
