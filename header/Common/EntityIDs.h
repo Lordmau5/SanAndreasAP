@@ -58,6 +58,10 @@ inline constexpr int RACE_BEST_POSITION_GLOBALS_BASE = 2210;
 inline constexpr int RACES_LS_ID = 150;
 inline constexpr int RACES_SF_ID = 151;
 inline constexpr int RACES_LV_ID = 152;
+inline constexpr int SHOOTING_RANGE_PISTOL_ID = 153;
+inline constexpr int SHOOTING_RANGE_UZI_ID = 154;
+inline constexpr int SHOOTING_RANGE_SHOTGUN_ID = 155;
+inline constexpr int SHOOTING_RANGE_AK47_ID = 156;
 inline constexpr int TRACE_MARKER_X_GLOBAL = 562;
 inline constexpr int DRIVING_SCHOOL_BLIP_GLOBAL = 596;
 inline constexpr int GARAGE_MISSIONS_GLOBAL = 541;
@@ -106,7 +110,12 @@ inline constexpr SubmissionTierSpec RACES_LS_TIERS      { 257, 9, 1.0f };
 inline constexpr SubmissionTierSpec RACES_SF_TIERS      { 266, 6, 1.0f };
 inline constexpr SubmissionTierSpec RACES_LV_TIERS      { 272, 10, 1.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 282;
+inline constexpr SubmissionTierSpec SHOOTING_RANGE_PISTOL_TIERS  { 282, 1, 3.0f };
+inline constexpr SubmissionTierSpec SHOOTING_RANGE_UZI_TIERS     { 283, 1, 3.0f };
+inline constexpr SubmissionTierSpec SHOOTING_RANGE_SHOTGUN_TIERS { 284, 1, 3.0f };
+inline constexpr SubmissionTierSpec SHOOTING_RANGE_AK47_TIERS    { 285, 1, 3.0f };
+
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 286;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

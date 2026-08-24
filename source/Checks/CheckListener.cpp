@@ -44,6 +44,10 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_LS_ID, RACES_LS_TIERS, 0));
 	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_SF_ID, RACES_SF_TIERS, 9));
 	submissionTrackers.push_back(std::make_unique<RaceTracker>(RACES_LV_ID, RACES_LV_TIERS, 15));
+	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_PISTOL_ID, SHOOTING_RANGE_PISTOL_TIERS, 0));
+	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_UZI_ID, SHOOTING_RANGE_UZI_TIERS, 1));
+	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_SHOTGUN_ID, SHOOTING_RANGE_SHOTGUN_TIERS, 2));
+	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_AK47_ID, SHOOTING_RANGE_AK47_TIERS, 3));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)

@@ -327,7 +327,7 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     case ItemEffect::ProgressiveMap:     m_checkGiver.giveProgressiveMap(); break;
     case ItemEffect::SubmissionCheck:    m_checkListener.submissionCheckWasReceived(spec->submissionId); break;
     case ItemEffect::MaxSkill:           m_checkGiver.giveMaxSkill(spec->submissionId); break;
-    case ItemEffect::WeaponMastery:      m_checkGiver.giveWeaponMastery(t_value); break;
+    case ItemEffect::WeaponMastery:      m_checkListener.submissionCheckWasReceived(shootingRangeSubmissionForWeapon(t_value)); m_checkGiver.giveWeaponMastery(t_value); break;
     case ItemEffect::ArmorRefill:        m_checkGiver.giveArmorRefill(); break;
     case ItemEffect::CarRepair:          m_checkGiver.giveCarRepair(); break;
     case ItemEffect::StreetRaces:        m_streetRacesUnlocked = true; break;
