@@ -5,7 +5,7 @@
 #include <eScriptCommands.h>
 #include <extensions/ScriptCommands.h>
 
-// Taken from ChaosModComplimentaries. Thanks to Lordmau5 for letting me use this!
+// Taken from ChaosModComplementaries. Thanks to Lordmau5 for letting me use this!
 
 using namespace plugin;
 
