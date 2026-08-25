@@ -32,7 +32,5 @@ bool VigilanteTracker::locksVehicleModel(int t_modelId) const
 		|| t_modelId == MODEL_ENFORCER
 		|| t_modelId == MODEL_FBIRANCH
 		|| t_modelId == MODEL_SWATVAN
-		|| t_modelId == MODEL_POLMAV
-		|| t_modelId == MODEL_COPBIKE
-		|| t_modelId == MODEL_HUNTER;
+		|| t_modelId == MODEL_COPBIKE;
 }
