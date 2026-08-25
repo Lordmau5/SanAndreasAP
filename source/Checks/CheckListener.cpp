@@ -453,6 +453,17 @@ std::string CheckListener::getMissionID()
 	return std::to_string(NO_MISSION);
 }
 
+void CheckListener::collectibleUnlockWasReceived(const std::string& t_checkType)
+{
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		if (t_checkType != collectible->checkType()) continue;
+
+		collectible->unlock();
+		return;
+	}
+}
+
 void CheckListener::submissionUnlockWasReceived(int t_submissionID)
 {
 	if (SubmissionTracker* st = findTracker(t_submissionID))

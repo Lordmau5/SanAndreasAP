@@ -10,6 +10,7 @@ enum class NotificationIcon
 	ProgressiveMission,
 	HealthUpgrade,
 	Hospital,
+	Spray,
 	ArmorUpgrade,
 	Taxi,
 	Stamina,

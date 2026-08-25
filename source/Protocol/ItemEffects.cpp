@@ -28,6 +28,7 @@ namespace
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },
 		{ "weapon_mastery",      ItemEffect::WeaponMastery,      -1,                  nullptr,     "Archipelago: Received {} Mastery",          NotificationIcon::Weapon },
 		{ "street_races",        ItemEffect::StreetRaces,        -1,                  nullptr,     "Archipelago: Received Street Races Unlock", NotificationIcon::StreetRaces },
+		{ "unlock_tags",           ItemEffect::CollectibleUnlock,  -1,                  "TAG",       "Archipelago: Unlocked Tags",                 NotificationIcon::Spray },
 		{ "unlock_paramedic",       ItemEffect::SubmissionUnlock,   PARAMEDIC_ID,        nullptr,     "Archipelago: Unlocked Paramedic",            NotificationIcon::Hospital },
 		{ "unlock_firefighter",     ItemEffect::SubmissionUnlock,   FIREFIGHTER_ID,      nullptr,     "Archipelago: Unlocked Firefighter",          NotificationIcon::FireImmunity },
 		{ "unlock_vigilante",       ItemEffect::SubmissionUnlock,   VIGILANTE_ID,        nullptr,     "Archipelago: Unlocked Vigilante",            NotificationIcon::ArmorUpgrade },

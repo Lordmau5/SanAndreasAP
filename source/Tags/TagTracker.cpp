@@ -1,4 +1,7 @@
 #include "TagTracker.h"
+#include "common.h"
+#include <CTheScripts.h>
+#include <eWeaponType.h>
 #include "TagPositions.h"
 #include "common.h"
 #include <CRadar.h>
@@ -11,8 +14,6 @@ TagTracker::TagTracker()
 
 float TagTracker::readCount() const
 {
-	// Read raw rather than through CStats: STAT_TAGS_SPRAYED never updated during real gameplay
-	// See TagPositions.h.
 	return static_cast<float>(*reinterpret_cast<int32_t*>(TAGS_SPRAYED_ADDR));
 }
 
@@ -35,4 +36,30 @@ int TagTracker::identifyCollected() const
 		}
 	}
 	return best;
+}
+
+bool TagTracker::update()
+{
+	if (!isUnlocked() && !CTheScripts::IsPlayerOnAMission())
+	{
+		if (CPlayerPed* player = FindPlayerPed())
+		{
+			int slot = player->GetWeaponSlot(WEAPONTYPE_SPRAYCAN);
+			if (slot >= 0 && player->m_aWeapons[slot].m_eWeaponType == WEAPONTYPE_SPRAYCAN)
+			{
+				player->ClearWeapon(WEAPONTYPE_SPRAYCAN);
+				m_noticePending = true;
+			}
+		}
+	}
+
+	return Collectible<100>::update();
+}
+
+const char* TagTracker::consumeLockedNotice()
+{
+	if (!m_noticePending) return nullptr;
+
+	m_noticePending = false;
+	return "Archipelago: Spray can removed - Tags are locked";
 }

@@ -59,6 +59,7 @@ public:
 	std::string getMissionID();
 	void submissionCheckWasReceived(int t_submissionID);
 	void submissionUnlockWasReceived(int t_submissionID);
+	void collectibleUnlockWasReceived(const std::string& t_checkType);
 	bool isSubmissionUnlocked(int t_submissionID) const;
 
 	void confirmPickUpSent();

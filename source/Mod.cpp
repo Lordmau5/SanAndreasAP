@@ -118,6 +118,14 @@ void Mod::updateGameplaySystems()
         m_notificationOverlay.showAboveRadar("Archipelago: Autosaved (slot 8)");
     }
 
+    for (CollectibleTracker* collectible : m_checkListener.getCollectibles())
+    {
+        if (const char* notice = collectible->consumeLockedNotice())
+        {
+            m_notificationOverlay.show(notice);
+        }
+    }
+
     int purchasedSlot = m_ammuNationShop.pollPurchasedSlot();
     if (purchasedSlot >= 0)
     {
@@ -326,6 +334,7 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
     case ItemEffect::ProgressiveMission: m_branchProgress.receiveItem(t_value); break;
     case ItemEffect::ProgressiveMap:     m_checkGiver.giveProgressiveMap(); break;
     case ItemEffect::SubmissionCheck:    m_checkListener.submissionCheckWasReceived(spec->submissionId); break;
+    case ItemEffect::CollectibleUnlock:  m_checkListener.collectibleUnlockWasReceived(spec->trapName); break;
     case ItemEffect::SubmissionUnlock:   m_checkListener.submissionUnlockWasReceived(spec->submissionId); break;
     case ItemEffect::MaxSkill:           m_checkGiver.giveMaxSkill(spec->submissionId); break;
     case ItemEffect::WeaponMastery:      m_checkListener.submissionCheckWasReceived(shootingRangeSubmissionForWeapon(t_value)); m_checkGiver.giveWeaponMastery(t_value); break;

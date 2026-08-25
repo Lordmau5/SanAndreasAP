@@ -9,6 +9,7 @@ enum class ItemEffect
 	ProgressiveMission,
 	ProgressiveMap,
 	SubmissionCheck, // unlocks one submission's checks; which one is in submissionId
+	CollectibleUnlock,
 	SubmissionUnlock,
 	MaxSkill,
 	WeaponMastery,   // maxes one weapon's skill; which one arrives as the value
