@@ -49,6 +49,7 @@
     <ClInclude Include="header\Checks\Submissions\PimpingTracker.h" />
     <ClInclude Include="header\Common\ModSettings.h" />
     <ClInclude Include="header\Common\RunningScripts.h" />
+    <ClInclude Include="header\Common\ScriptCommandHook.h" />
     <ClInclude Include="header\Common\ScriptGlobals.h" />
     <ClInclude Include="header\Persistence\GameStorageHook.h" />
     <ClInclude Include="header\Checks\MissionBranches.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="source\Protocol\APProtocol.cpp" />
     <ClCompile Include="source\Protocol\ItemEffects.cpp" />
     <ClCompile Include="source\Common\ModSettings.cpp" />
+    <ClCompile Include="source\Common\ScriptCommandHook.cpp" />
     <ClCompile Include="source\Common\PlayerControl.cpp" />
     <ClCompile Include="source\Common\Position.cpp" />
     <ClCompile Include="source\Protocol\ReceivedItemLog.cpp" />

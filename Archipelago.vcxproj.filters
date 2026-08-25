@@ -168,6 +168,9 @@
     <ClInclude Include="header\Common\RunningScripts.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
+    <ClInclude Include="header\Common\ScriptCommandHook.h">
+      <Filter>Header\Common</Filter>
+    </ClInclude>
     <ClInclude Include="header\Common\ScriptGlobals.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
@@ -450,6 +453,9 @@
       <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="source\Common\ModSettings.cpp">
+      <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Common\ScriptCommandHook.cpp">
       <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="source\Common\PlayerControl.cpp">
