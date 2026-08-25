@@ -176,6 +176,7 @@ void NotificationOverlay::drawOne(const Notification& notification, int slot, st
 	case NotificationIcon::Money: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_CASH]; break;
 	case NotificationIcon::ProgressiveMission: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_CJ]; break;
 	case NotificationIcon::HealthUpgrade: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_GIRLFRIEND]; break;
+	case NotificationIcon::Hospital: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_HOSTPITAL]; break;
 	case NotificationIcon::ArmorUpgrade: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_POLICE]; break;
 	case NotificationIcon::Taxi: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_SPRAY]; break;
 	case NotificationIcon::Stamina: iconSprite = &CRadar::RadarBlipSprites[RADAR_SPRITE_TRUCK]; break;

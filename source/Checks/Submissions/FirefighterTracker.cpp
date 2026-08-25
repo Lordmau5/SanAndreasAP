@@ -1,4 +1,5 @@
 #include "FirefighterTracker.h"
+#include <eModelID.h>
 
 FirefighterTracker::FirefighterTracker(int t_submissionID)
 	: TieredSubmissionTracker(t_submissionID, FIREFIGHTER_TIERS)
@@ -20,4 +21,9 @@ void FirefighterTracker::enforceSubmissionReward()
 float FirefighterTracker::getProgress() const
 {
 	return CStats::GetStatValue(STAT_HIGHEST_FIREFIGHTER_MISSION_LEVEL);
+}
+
+bool FirefighterTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_FIRETRUK;
 }

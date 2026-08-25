@@ -27,6 +27,8 @@
 #include "BikeSchoolTracker.h"
 #include "CourierTracker.h"
 #include "RaceTracker.h"
+#include "SubmissionVehicleLock.h"
+#include "SubmissionStartBlocked.h"
 #include "ShootingRangeTracker.h"
 #include "DrivingSchoolTracker.h"
 #include "ExportListTracker.h"
@@ -56,6 +58,8 @@ public:
 	CheckEvent update();
 	std::string getMissionID();
 	void submissionCheckWasReceived(int t_submissionID);
+	void submissionUnlockWasReceived(int t_submissionID);
+	bool isSubmissionUnlocked(int t_submissionID) const;
 
 	void confirmPickUpSent();
 	void confirmMissionSent();

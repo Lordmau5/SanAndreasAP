@@ -9,6 +9,7 @@ enum class NotificationIcon
 	Money,
 	ProgressiveMission,
 	HealthUpgrade,
+	Hospital,
 	ArmorUpgrade,
 	Taxi,
 	Stamina,

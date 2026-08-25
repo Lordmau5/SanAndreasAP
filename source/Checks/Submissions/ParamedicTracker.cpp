@@ -1,4 +1,5 @@
 #include "ParamedicTracker.h"
+#include <eModelID.h>
 
 ParamedicTracker::ParamedicTracker(int t_submissionID)
 	: TieredSubmissionTracker(t_submissionID, PARAMEDIC_TIERS)
@@ -20,4 +21,9 @@ void ParamedicTracker::enforceSubmissionReward()
 float ParamedicTracker::getProgress() const
 {
 	return CStats::GetStatValue(STAT_HIGHEST_PARAMEDIC_MISSION_LEVEL);
+}
+
+bool ParamedicTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_AMBULAN;
 }

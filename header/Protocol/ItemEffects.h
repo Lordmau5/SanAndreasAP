@@ -2,9 +2,6 @@
 #include <string>
 #include "NotificationOverlay.h"
 
-// What an incoming GIVE: effect actually does. Mod switches on this, so adding an item means
-// adding an enumerator and a table row - and the compiler can point at a switch that hasn't
-// handled the new one yet.
 enum class ItemEffect
 {
 	Money,
@@ -12,6 +9,7 @@ enum class ItemEffect
 	ProgressiveMission,
 	ProgressiveMap,
 	SubmissionCheck, // unlocks one submission's checks; which one is in submissionId
+	SubmissionUnlock,
 	MaxSkill,
 	WeaponMastery,   // maxes one weapon's skill; which one arrives as the value
 	ArmorRefill,

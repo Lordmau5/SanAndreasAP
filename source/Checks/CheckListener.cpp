@@ -354,12 +354,9 @@ void CheckListener::enforceSubmissionRewards()
 
 CheckEvent CheckListener::update()
 {
-	// Baselines captured in the constructor are meaningless - nothing is loaded at process
-	// start, so every polled counter reads its pre-game value. And the session's first Load
-	// Game can slip past SaveDataManager's change detection entirely (the game pre-populates
-	// the last-used slot name at startup, so re-loading that same slot changes nothing
-	// observable). Waiting until the player actually exists and resyncing right then stops
-	// the menu-to-loaded-save jump in those counters from firing phantom checks.
+	SubmissionStartBlocked::install(submissionTrackers);
+	SubmissionVehicleLock::update(submissionTrackers);
+
 	if (!m_baselinesInitialized)
 	{
 		if (!FindPlayerPed()) return CheckEvent::None;
@@ -376,8 +373,6 @@ CheckEvent CheckListener::update()
 	{
 		event = CheckEvent::Mission;
 	}
-	// Collectibles queue their own checks; Mod drains them off getCollectibles(), so they don't
-	// need a CheckEvent of their own.
 	for (CollectibleTracker* collectible : m_collectibles)
 	{
 		collectible->update();
@@ -393,8 +388,6 @@ CheckEvent CheckListener::update()
 
 bool CheckListener::submissionLevelChecker()
 {
-	// Tiered submissions report their own newly reached tiers; each tracker owns where its
-	// progress comes from and its tier layout, so nothing here needs to know which are tiered.
 	std::vector<int> newTierSlots;
 	for (const auto& tracker : submissionTrackers)
 	{
@@ -405,7 +398,6 @@ bool CheckListener::submissionLevelChecker()
 		m_pendingSubmissionLevels.push(slot);
 	}
 
-	// One-shot submissions that watch live game state for their own completion (the gyms).
 	for (const auto& tracker : submissionTrackers)
 	{
 		if (!tracker->getSubmissionCompleted() && tracker->pollCompletion())
@@ -461,6 +453,14 @@ std::string CheckListener::getMissionID()
 	return std::to_string(NO_MISSION);
 }
 
+void CheckListener::submissionUnlockWasReceived(int t_submissionID)
+{
+	if (SubmissionTracker* st = findTracker(t_submissionID))
+	{
+		st->unlockVehicles();
+	}
+}
+
 void CheckListener::submissionCheckWasReceived(int t_submissionID)
 {
 	if (SubmissionTracker* st = findTracker(t_submissionID))
@@ -478,9 +478,6 @@ SubmissionTracker* CheckListener::findTracker(int t_submissionID)
 	return nullptr;
 }
 
-// Only story missions spend a Progressive Mission. Optional side missions still send their check
-// like anything else - they just cost nothing to play, so running out of Progressive Missions
-// never locks the player out of them.
 bool CheckListener::isStoryMission(int missionId)
 {
 	if (missionId == 35) return false;
@@ -490,10 +487,9 @@ bool CheckListener::isStoryMission(int missionId)
 		if (missionId == optionalId) return false;
 	}
 
-	// End of the Line is reported as three completions; only the last one spends a mission.
 	if (missionId == 110 || missionId == 111) return false;
 
-	if (missionId == 135) return true; // Farewell, My Love... - appended past the original range
+	if (missionId == 135) return true; // Farewell, My Love...
 	return missionId >= 11 && missionId <= 112;
 }
 

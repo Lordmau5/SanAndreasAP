@@ -37,6 +37,9 @@
     <ClInclude Include="header\Checks\Submissions\RaceTracker.h" />
     <ClInclude Include="header\Checks\Submissions\ShootingRangeTracker.h" />
     <ClInclude Include="header\Gameplay\StreetRaceUnlock.h" />
+    <ClInclude Include="header\Checks\SubmissionStartBlocked.h" />
+    <ClInclude Include="header\Checks\SubmissionVehicleLock.h" />
+    <ClInclude Include="header\Checks\Submissions\Lockable.h" />
     <ClInclude Include="header\Gameplay\ShopMenuText.h" />
     <ClInclude Include="header\Debug\WaypointTeleport.h" />
     <ClInclude Include="header\Checks\Submissions\GlobalFlagTracker.h" />
@@ -108,6 +111,9 @@
     <ClCompile Include="source\Checks\Submissions\RaceTracker.cpp" />
     <ClCompile Include="source\Checks\Submissions\ShootingRangeTracker.cpp" />
     <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp" />
+    <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp" />
+    <ClCompile Include="source\Checks\SubmissionVehicleLock.cpp" />
+    <ClCompile Include="source\Checks\Submissions\Lockable.cpp" />
     <ClCompile Include="source\Gameplay\ShopMenuText.cpp" />
     <ClCompile Include="source\Debug\WaypointTeleport.cpp" />
     <ClCompile Include="source\Checks\Submissions\GlobalFlagTracker.cpp" />

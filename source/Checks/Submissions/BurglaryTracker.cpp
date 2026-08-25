@@ -1,4 +1,5 @@
 #include "BurglaryTracker.h"
+#include <eModelID.h>
 
 BurglaryTracker::BurglaryTracker(int t_submissionID)
 	: TieredSubmissionTracker(t_submissionID, BURGLARY_TIERS)
@@ -20,4 +21,9 @@ void BurglaryTracker::enforceSubmissionReward()
 float BurglaryTracker::getProgress() const
 {
 	return CStats::GetStatValue(STAT_MONEY_MADE_FROM_BURGLARY);
+}
+
+bool BurglaryTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_BOXBURG;
 }

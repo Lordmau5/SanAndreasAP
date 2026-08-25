@@ -8,6 +8,7 @@ class FirefighterTracker : public TieredSubmissionTracker
 public:
 	FirefighterTracker(int t_submissionID);
 	void enforceSubmissionReward() override;
+	bool locksVehicleModel(int t_modelId) const override;
 
 protected:
 	float getProgress() const override;

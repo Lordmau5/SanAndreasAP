@@ -28,6 +28,12 @@ namespace
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },
 		{ "weapon_mastery",      ItemEffect::WeaponMastery,      -1,                  nullptr,     "Archipelago: Received {} Mastery",          NotificationIcon::Weapon },
 		{ "street_races",        ItemEffect::StreetRaces,        -1,                  nullptr,     "Archipelago: Received Street Races Unlock", NotificationIcon::StreetRaces },
+		{ "unlock_paramedic",       ItemEffect::SubmissionUnlock,   PARAMEDIC_ID,        nullptr,     "Archipelago: Unlocked Paramedic",            NotificationIcon::Hospital },
+		{ "unlock_firefighter",     ItemEffect::SubmissionUnlock,   FIREFIGHTER_ID,      nullptr,     "Archipelago: Unlocked Firefighter",          NotificationIcon::FireImmunity },
+		{ "unlock_vigilante",       ItemEffect::SubmissionUnlock,   VIGILANTE_ID,        nullptr,     "Archipelago: Unlocked Vigilante",            NotificationIcon::ArmorUpgrade },
+		{ "unlock_taxi",            ItemEffect::SubmissionUnlock,   TAXI_ID,             nullptr,     "Archipelago: Unlocked Taxi",                 NotificationIcon::Taxi },
+		{ "unlock_pimping",         ItemEffect::SubmissionUnlock,   PIMPING_ID,          nullptr,     "Archipelago: Unlocked Pimping",              NotificationIcon::Stamina },
+		{ "unlock_burglary",        ItemEffect::SubmissionUnlock,   BURGLARY_ID,         nullptr,     "Archipelago: Unlocked Burglary",             NotificationIcon::Stamina },
 
 		{ "trap_tires",          ItemEffect::Trap,               -1,                  "tires",     "Archipelago: Flat Tires Trap!",             NotificationIcon::Trap },
 		{ "trap_fat",            ItemEffect::Trap,               -1,                  "fat",       "Archipelago: Fat CJ Trap!",                 NotificationIcon::Trap },

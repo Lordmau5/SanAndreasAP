@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
+#include "Lockable.h"
 #include <string>
 
 class SaveDataManager;
 
-class SubmissionTracker
+class SubmissionTracker : public Lockable
 {
 public:
 	SubmissionTracker(int t_submissionID);
