@@ -189,6 +189,9 @@
     <ClInclude Include="header\Gameplay\StreetRaceUnlock.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="header\Gameplay\CityUnlock.h">
+      <Filter>Header\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
@@ -396,6 +399,9 @@
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
     <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\CityUnlock.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp">

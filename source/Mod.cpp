@@ -112,6 +112,7 @@ void Mod::updateGameplaySystems()
     m_ammuNationShop.update();
     m_trapHandler.update();
     m_checkGiver.update();
+    CityUnlock::update();
 
     if (m_autoSaveManager.update())
     {
