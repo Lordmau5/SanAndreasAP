@@ -195,6 +195,9 @@
     <ClInclude Include="header\Gameplay\FastTravel.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="header\Gameplay\BranchControllers.h">
+      <Filter>Header\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="header\Common\Teleport.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
@@ -411,6 +414,9 @@
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="source\Gameplay\FastTravel.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\BranchControllers.cpp">
       <Filter>Source\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="source\Common\Teleport.cpp">

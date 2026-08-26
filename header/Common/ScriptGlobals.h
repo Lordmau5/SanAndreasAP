@@ -12,4 +12,21 @@ namespace ScriptGlobals
 		if (t_index < 0 || t_index >= COUNT) return 0;
 		return *reinterpret_cast<int*>(CTheScripts::ScriptSpace + t_index * 4);
 	}
+
+	inline float readFloat(int t_index)
+	{
+		if (t_index < 0 || t_index >= COUNT) return 0.0f;
+		return *reinterpret_cast<float*>(CTheScripts::ScriptSpace + t_index * 4);
+	}
+
+	inline void write(int t_index, int t_value)
+	{
+		if (t_index < 0 || t_index >= COUNT) return;
+		*reinterpret_cast<int*>(CTheScripts::ScriptSpace + t_index * 4) = t_value;
+	}
+
+	inline constexpr int slotOf(int t_byteOffset)
+	{
+		return t_byteOffset / 4;
+	}
 }

@@ -39,6 +39,7 @@
     <ClInclude Include="header\Gameplay\StreetRaceUnlock.h" />
     <ClInclude Include="header\Gameplay\CityUnlock.h" />
     <ClInclude Include="header\Gameplay\FastTravel.h" />
+    <ClInclude Include="header\Gameplay\BranchControllers.h" />
     <ClInclude Include="header\Common\Teleport.h" />
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h" />
     <ClInclude Include="header\Checks\SubmissionVehicleLock.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp" />
     <ClCompile Include="source\Gameplay\CityUnlock.cpp" />
     <ClCompile Include="source\Gameplay\FastTravel.cpp" />
+    <ClCompile Include="source\Gameplay\BranchControllers.cpp" />
     <ClCompile Include="source\Common\Teleport.cpp" />
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp" />
     <ClCompile Include="source\Checks\SubmissionVehicleLock.cpp" />

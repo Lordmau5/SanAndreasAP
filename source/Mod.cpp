@@ -114,6 +114,7 @@ void Mod::updateGameplaySystems()
     m_checkGiver.update();
     CityUnlock::update();
     FastTravel::update();
+    //BranchControllers::update(m_branchProgress);
 
     if (m_autoSaveManager.update())
     {
