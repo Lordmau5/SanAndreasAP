@@ -4,7 +4,7 @@
     <Filter Include="Header">
       <UniqueIdentifier>{d2737ed6-fe44-4e14-bdfa-12de75c1febf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Debug">
+    <Filter Include="Header\Dev">
       <UniqueIdentifier>{3f7a1c25-9d84-4e17-b6a2-71c0d9e4f5a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header\Protocol">
@@ -34,7 +34,7 @@
     <Filter Include="Source">
       <UniqueIdentifier>{80eca0db-1570-4c8e-a998-44b61c8db291}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Debug">
+    <Filter Include="Source\Dev">
       <UniqueIdentifier>{8c4e2b96-5a17-4d38-9f60-2b83e7c1a4d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Protocol">
@@ -150,8 +150,8 @@
     <ClInclude Include="header\Checks\Submissions\CourierTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
-    <ClInclude Include="header\Debug\WaypointTeleport.h">
-      <Filter>Header\Debug</Filter>
+    <ClInclude Include="header\Dev\WaypointTeleport.h">
+      <Filter>Header\Dev</Filter>
     </ClInclude>
     <ClInclude Include="header\Checks\Submissions\GlobalFlagTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
@@ -191,6 +191,12 @@
     </ClInclude>
     <ClInclude Include="header\Gameplay\CityUnlock.h">
       <Filter>Header\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Gameplay\FastTravel.h">
+      <Filter>Header\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Common\Teleport.h">
+      <Filter>Header\Common</Filter>
     </ClInclude>
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h">
       <Filter>Header\Checks</Filter>
@@ -380,8 +386,8 @@
     <ClCompile Include="source\Checks\Submissions\CourierTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
-    <ClCompile Include="source\Debug\WaypointTeleport.cpp">
-      <Filter>Source\Debug</Filter>
+    <ClCompile Include="source\Dev\WaypointTeleport.cpp">
+      <Filter>Source\Dev</Filter>
     </ClCompile>
     <ClCompile Include="source\Checks\Submissions\GlobalFlagTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
@@ -403,6 +409,12 @@
     </ClCompile>
     <ClCompile Include="source\Gameplay\CityUnlock.cpp">
       <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\FastTravel.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Common\Teleport.cpp">
+      <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp">
       <Filter>Source\Checks</Filter>

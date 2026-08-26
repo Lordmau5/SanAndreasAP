@@ -26,6 +26,7 @@
 #include "ShopMenuText.h"
 #include "StreetRaceUnlock.h"
 #include "CityUnlock.h"
+#include "FastTravel.h"
 #include "TrapHandler.h"
 #include "GameStorageHook.h"
 #include "WaypointTeleport.h"
