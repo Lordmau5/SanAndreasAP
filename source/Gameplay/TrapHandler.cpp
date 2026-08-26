@@ -13,7 +13,7 @@
 #include <CFont.h>
 #include <CRGBA.h>
 #include <CSprite2d.h>
-#include <cstdlib>
+#include <random>
 #include <vector>
 
 static std::string formatRemaining(std::chrono::steady_clock::duration t_remaining)
@@ -39,6 +39,12 @@ namespace
 
 	constexpr short WEATHER_NOT_FORCED = -1;
 
+	int randomBetween(int t_low, int t_high)
+	{
+		static std::mt19937 generator{ std::random_device{}() };
+		return std::uniform_int_distribution<int>(t_low, t_high)(generator);
+	}
+
 	int remainingSeconds(bool t_active, std::chrono::steady_clock::time_point t_end)
 	{
 		if (!t_active) return 0;
@@ -50,7 +56,7 @@ namespace
 
 int TrapHandler::randomSeconds(int t_low, int t_high) const
 {
-	return t_low + std::rand() % (t_high - t_low + 1);
+	return randomBetween(t_low, t_high);
 }
 
 int TrapHandler::randomWantedStars() const
@@ -58,7 +64,7 @@ int TrapHandler::randomWantedStars() const
 	int maxStars = static_cast<int>(CWanted::MaximumWantedLevel);
 	if (maxStars <= WANTED_TRAP_MIN_STARS) return maxStars;
 
-	return WANTED_TRAP_MIN_STARS + std::rand() % (maxStars - WANTED_TRAP_MIN_STARS + 1);
+	return randomBetween(WANTED_TRAP_MIN_STARS, maxStars);
 }
 
 void TrapHandler::save(SaveDataManager& t_saveData)
@@ -148,7 +154,7 @@ void TrapHandler::applyTrap(const std::string& t_trapType)
 	}
 	else if (t_trapType == "weather")
 	{
-		startWeatherTrap(BAD_WEATHER_TYPES[std::rand() % std::size(BAD_WEATHER_TYPES)]);
+		startWeatherTrap(BAD_WEATHER_TYPES[randomBetween(0, static_cast<int>(std::size(BAD_WEATHER_TYPES)) - 1)]);
 	}
 }
 
