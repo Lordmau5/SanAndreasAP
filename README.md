@@ -1,3 +1,5 @@
+<img width="1200" height="287" alt="sanandreasap short" src="https://github.com/user-attachments/assets/798c85bf-3415-4400-b931-c2777475073a" />
+
 # GTA San Andreas Archipelago
 
 An [Archipelago](https://archipelago.gg) multiworld randomizer for Grand Theft
