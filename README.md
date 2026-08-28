@@ -1,6 +1,6 @@
-<img width="1200" height="287" alt="sanandreasap short" src="https://github.com/user-attachments/assets/798c85bf-3415-4400-b931-c2777475073a" />
-
 # GTA San Andreas Archipelago
+
+<img width="1200" height="287" alt="sanandreasap short" src="https://github.com/user-attachments/assets/798c85bf-3415-4400-b931-c2777475073a" />
 
 An [Archipelago](https://archipelago.gg) multiworld randomizer for Grand Theft
 Auto: San Andreas (PC, v1.0). Story missions are gated behind Progressive
