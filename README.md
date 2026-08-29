@@ -156,11 +156,10 @@ repo. It's completely optional and not required for the mod's development.
 
 ## Credits
 
-- The [Archipelago](https://archipelago.gg) project and contributors
+- [Archipelago](https://archipelago.gg) project and contributors
 - [plugin-sdk](https://github.com/DK22Pac/plugin-sdk) — the modding SDK this
   mod is built on
-- [Rainbomizer](https://github.com/Parik27/SA.Rainbomizer) — mission ID
-  numbering and the autosave approach
+- [Rainbomizer](https://github.com/Parik27/SA.Rainbomizer) — mission starting positions and autosave approach
 - [gta-reversed](https://github.com/gta-reversed/gta-reversed) and the
   [GTAMods wiki](https://gtamods.com) — save format and memory research
 - [Sanny Builder's map tool](https://gtag.sannybuilder.com/maps/gtasa/) —
