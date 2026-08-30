@@ -8,7 +8,7 @@
 #include <cstdint>
 
 TagTracker::TagTracker()
-	: Collectible<100>(tagPositions, RADAR_SPRITE_SPRAY, "tags_claimed", "TAG", STARTS_LOCKED)
+	: Collectible<100>(tagPositions, RADAR_SPRITE_SPRAY, "tags_claimed", "TAG")
 {
 }
 

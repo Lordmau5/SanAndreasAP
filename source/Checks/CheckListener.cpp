@@ -1,6 +1,7 @@
 ﻿#include "CheckListener.h"
 #include "EntityIDs.h"
 #include "SaveDataManager.h"
+#include "ItemEffects.h"
 #include "ParseUtils.h"
 #include "common.h"
 #include "CTheScripts.h"
@@ -63,26 +64,15 @@ void CheckListener::setIncludedCollectibles(const std::string& t_config)
 {
 	std::map<std::string, std::vector<int>> byType;
 
-	size_t start = 0;
-	while (start < t_config.size())
+	for (const std::string& entry : APProtocol::splitList(t_config, ';'))
 	{
-		size_t semicolon = t_config.find(';', start);
-		if (semicolon == std::string::npos) semicolon = t_config.size();
-		std::string entry = t_config.substr(start, semicolon - start);
-		start = semicolon + 1;
-
 		size_t equals = entry.find('=');
 		if (equals == std::string::npos) continue;
 
 		std::vector<int>& indices = byType[entry.substr(0, equals)];
-		std::string list = entry.substr(equals + 1);
-		size_t pos = 0;
-		while (pos < list.size())
+		for (const std::string& index : APProtocol::splitList(entry.substr(equals + 1), ','))
 		{
-			size_t comma = list.find(',', pos);
-			if (comma == std::string::npos) comma = list.size();
-			indices.push_back(parseIntOr(list.substr(pos, comma - pos), -1));
-			pos = comma + 1;
+			indices.push_back(parseIntOr(index, -1));
 		}
 	}
 
@@ -457,6 +447,36 @@ void CheckListener::collectibleUnlockWasReceived(const std::string& t_checkType)
 
 		collectible->unlock();
 		return;
+	}
+}
+
+void CheckListener::setGatedContent(const std::string& t_effectNames)
+{
+	for (CollectibleTracker* collectible : m_collectibles)
+	{
+		collectible->setGated(false);
+	}
+	for (const auto& tracker : submissionTrackers)
+	{
+		tracker->setVehiclesGated(false);
+	}
+
+	for (const std::string& name : APProtocol::splitList(t_effectNames, ';'))
+	{
+		const ItemEffectSpec* spec = findItemEffect(name);
+		if (!spec) continue;
+
+		if (spec->effect == ItemEffect::SubmissionUnlock)
+		{
+			if (SubmissionTracker* st = findTracker(spec->submissionId)) st->setVehiclesGated(true);
+		}
+		else if (spec->effect == ItemEffect::CollectibleUnlock && spec->trapName)
+		{
+			for (CollectibleTracker* collectible : m_collectibles)
+			{
+				if (std::strcmp(spec->trapName, collectible->checkType()) == 0) collectible->setGated(true);
+			}
+		}
 	}
 }
 

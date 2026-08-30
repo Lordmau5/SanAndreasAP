@@ -60,6 +60,7 @@ public:
 	void submissionCheckWasReceived(int t_submissionID);
 	void submissionUnlockWasReceived(int t_submissionID);
 	void collectibleUnlockWasReceived(const std::string& t_checkType);
+	void setGatedContent(const std::string& t_effectNames);
 
 	void confirmPickUpSent();
 	void confirmMissionSent();

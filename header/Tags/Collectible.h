@@ -8,8 +8,6 @@
 #include "APProtocol.h"
 #include "BlipTarget.h"
 
-inline constexpr bool STARTS_LOCKED = true;
-
 class CollectibleTracker
 {
 public:
@@ -30,6 +28,7 @@ public:
 	virtual const char* checkType() const = 0;
 
 	virtual void unlock() {}
+	virtual void setGated(bool t_gated) {}
 	virtual bool isUnlocked() const { return true; }
 	virtual const char* consumeLockedNotice() { return nullptr; }
 
@@ -99,7 +98,8 @@ public:
 	const std::array<bool, N>& getClaimed() const { return m_claimed; }
 
 	void unlock() override { m_unlocked = true; }
-	bool isUnlocked() const override { return m_unlocked; }
+	void setGated(bool t_gated) override { m_gated = t_gated; }
+	bool isUnlocked() const override { return !m_gated || m_unlocked; }
 
 	const char* checkType() const override { return m_checkType; }
 
@@ -138,15 +138,13 @@ public:
 		{
 			m_claimed[i] = i < static_cast<int>(bits.size()) && bits[i] == '1';
 		}
-		m_unlocked = !m_startsLocked
-			|| t_saveData.getValue(std::string(m_saveKey) + "_unlocked", "0") == "1";
+		m_unlocked = t_saveData.getValue(std::string(m_saveKey) + "_unlocked", "0") == "1";
 	}
 
 protected:
 	Collectible(std::span<const CVector> t_positions, int t_sprite,
-		const char* t_saveKey, const char* t_checkType, bool t_startsLocked = false)
-		: m_positions(t_positions), m_sprite(t_sprite), m_saveKey(t_saveKey), m_checkType(t_checkType),
-		m_startsLocked(t_startsLocked), m_unlocked(!t_startsLocked) {}
+		const char* t_saveKey, const char* t_checkType)
+		: m_positions(t_positions), m_sprite(t_sprite), m_saveKey(t_saveKey), m_checkType(t_checkType) {}
 
 	virtual float readCount() const = 0;
 	virtual int identifyCollected() const = 0;
@@ -166,6 +164,6 @@ private:
 	int m_located = -1;
 	float m_lastCount = 0.0f;
 	bool m_countInitialized = false;
-	bool m_startsLocked;
-	bool m_unlocked;
+	bool m_gated = false;
+	bool m_unlocked = false;
 };

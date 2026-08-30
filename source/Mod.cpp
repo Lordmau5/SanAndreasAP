@@ -277,6 +277,10 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
     {
         m_checkListener.setIncludedCollectibles(t_value);
     }
+    else if (t_name == "gated")
+    {
+        m_checkListener.setGatedContent(t_value);
+    }
     else if (t_name == "street_races" && t_value == "1")
     {
         StreetRaceUnlock::blockVanillaUnlock();

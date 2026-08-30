@@ -1,10 +1,7 @@
 ﻿#pragma once
 #include <string>
+#include <vector>
 
-// The wire protocol spoken with the Python AP client, both directions in one place. Every literal
-// here is also hard-coded on the client side, so this file is the contract between the two halves
-// of the project - and nothing in it touches the game, so it can be read (and corrected) without
-// launching GTA.
 namespace APProtocol
 {
 	// ---- Inbound -----------------------------------------------------------------------------
@@ -22,36 +19,23 @@ namespace APProtocol
 		Control,   // CTRL:<name>[:<value>]          not an item - see below
 	};
 
-	// Control messages are kept separate from items on purpose. The server replays every item on
-	// every connect, so items must be deduplicated by index; a control message is an event with
-	// no position in that list, and deduplicating one would silently drop it.
-	//
-	// A parsed inbound line. Which fields carry meaning depends on kind; the rest stay empty,
-	// so reading the wrong one is harmless rather than undefined.
 	class Message
 	{
 	public:
 		MessageKind kind = MessageKind::Unknown;
-		// Status/ItemSent: the text to display. ShopItem: the slot's contents.
-		// Give/Control: the value.
 		std::string text;
-		// Give: the effect name ("money", "trap_fat", ...). Control: the control name.
-		// Locate: the collectible type ("TAG", "SNAPSHOT", ...).
 		std::string effect;
-		// Locate/ShopItem: the index. Give: position in the client's items_received list.
-		// -1 when absent or not a number.
 		int index = -1;
 	};
 
 	Message parse(const std::string& t_line);
+	std::vector<std::string> splitList(const std::string& t_value, char t_separator);
 
 	// ---- Outbound ----------------------------------------------------------------------------
-	// Each returns a complete newline-terminated line ready for APSocket::sendToServer.
 
 	std::string missionCheck(const std::string& t_missionId);
 	std::string missionCheck(int t_missionId);
 	std::string pickUpCheck();
-	// "CHECK:<type>:<index>\n" for any scattered collectible - t_type is "TAG", "SNAPSHOT", ...
 	std::string collectibleCheck(const char* t_type, int t_index);
 	std::string submissionLevelCheck(int t_slot);
 	std::string shopCheck(int t_slot);

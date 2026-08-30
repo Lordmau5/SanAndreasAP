@@ -111,6 +111,22 @@ APProtocol::Message APProtocol::parse(const std::string& t_line)
 	return message;
 }
 
+std::vector<std::string> APProtocol::splitList(const std::string& t_value, char t_separator)
+{
+	std::vector<std::string> parts;
+
+	size_t start = 0;
+	while (start < t_value.size())
+	{
+		size_t separator = t_value.find(t_separator, start);
+		if (separator == std::string::npos) separator = t_value.size();
+
+		parts.push_back(t_value.substr(start, separator - start));
+		start = separator + 1;
+	}
+	return parts;
+}
+
 std::string APProtocol::missionCheck(const std::string& t_missionId)
 {
 	return "CHECK:MISSION:" + t_missionId + "\n";
