@@ -8,6 +8,8 @@
 #include "APProtocol.h"
 #include "BlipTarget.h"
 
+inline constexpr bool STARTS_LOCKED = true;
+
 class CollectibleTracker
 {
 public:
@@ -136,13 +138,15 @@ public:
 		{
 			m_claimed[i] = i < static_cast<int>(bits.size()) && bits[i] == '1';
 		}
-		m_unlocked = t_saveData.getValue(std::string(m_saveKey) + "_unlocked", "0") == "1";
+		m_unlocked = !m_startsLocked
+			|| t_saveData.getValue(std::string(m_saveKey) + "_unlocked", "0") == "1";
 	}
 
 protected:
 	Collectible(std::span<const CVector> t_positions, int t_sprite,
-		const char* t_saveKey, const char* t_checkType)
-		: m_positions(t_positions), m_sprite(t_sprite), m_saveKey(t_saveKey), m_checkType(t_checkType) {}
+		const char* t_saveKey, const char* t_checkType, bool t_startsLocked = false)
+		: m_positions(t_positions), m_sprite(t_sprite), m_saveKey(t_saveKey), m_checkType(t_checkType),
+		m_startsLocked(t_startsLocked), m_unlocked(!t_startsLocked) {}
 
 	virtual float readCount() const = 0;
 	virtual int identifyCollected() const = 0;
@@ -162,5 +166,6 @@ private:
 	int m_located = -1;
 	float m_lastCount = 0.0f;
 	bool m_countInitialized = false;
-	bool m_unlocked = false;
+	bool m_startsLocked;
+	bool m_unlocked;
 };
