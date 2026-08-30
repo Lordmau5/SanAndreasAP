@@ -48,6 +48,7 @@ CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
 	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_UZI_ID, SHOOTING_RANGE_UZI_TIERS, 1));
 	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_SHOTGUN_ID, SHOOTING_RANGE_SHOTGUN_TIERS, 2));
 	submissionTrackers.push_back(std::make_unique<ShootingRangeTracker>(SHOOTING_RANGE_AK47_ID, SHOOTING_RANGE_AK47_TIERS, 3));
+	submissionTrackers.push_back(std::make_unique<TrainTracker>(TRAIN_ID));
 }
 
 void CheckListener::locateCollectible(const std::string& t_type, int t_index)
@@ -107,9 +108,6 @@ void CheckListener::save(SaveDataManager& t_saveData)
 
 void CheckListener::load(const SaveDataManager& t_saveData)
 {
-	// Baselines first: everything below restores what has already been checked, and detection
-	// diffs live counters against these. Re-taking them after a load is what stops the jump from
-	// the old session's values to the loaded save's being read as fresh progress.
 	resyncBaselines();
 	m_endingFired = false;
 
@@ -162,7 +160,6 @@ bool CheckListener::missionChecker()
 	{
 		lastMission = currentMission;
 
-		// The key finally arriving is the same completion the cutscene already reported.
 		bool alreadySent = m_endingFired && END_OF_THE_LINE_ID < static_cast<int>(missions.size())
 			&& currentMission == missions[END_OF_THE_LINE_ID];
 
@@ -185,7 +182,6 @@ bool CheckListener::missionChecker()
 
 			m_pendingMissions.push(currentMission);
 		}
-		// Unknown GXT keys fall through unqueued instead of sending CHECK:MISSION:-1.
 	}
 	return m_pendingMissions.hasPending();
 }

@@ -89,8 +89,10 @@
     <ClInclude Include="header\Checks\Submissions\VigilanteTracker.h" />
     <ClInclude Include="header\Common\WeaponData.h" />
     <ClInclude Include="header\Common\EdgeTriggeredKey.h" />
+    <ClInclude Include="header\Checks\Submissions\TrainTracker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Checks\Submissions\TrainTracker.cpp" />
     <ClCompile Include="source\Gameplay\AmmuNationShop.cpp" />
     <ClCompile Include="source\Persistence\AutoSaveManager.cpp" />
     <ClCompile Include="source\Protocol\APSocket.cpp" />

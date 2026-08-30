@@ -36,15 +36,10 @@ class Mod
 {
 public:
 	Mod();
-
 	void start();
-
 	void drawOverlay();
-
 	void drawMenuOverlay();
-
 	void drawMissionCountsOnMap();
-
 	void drawCollectiblesOnMap();
 
 private:

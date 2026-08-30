@@ -15,9 +15,6 @@ bool DeathLinkHandler::update()
 		CWorld::Players[0].m_bGetOutOfHospitalFree = true;
 	}
 
-	// Release a kill that arrived mid-cutscene, now that CJ is the player's again. Done before
-	// the death detection below so the kill and the state change it causes are seen in the same
-	// order as an immediate one - the suppression flag has to be set before justDied goes true.
 	if (m_killDeferred && PlayerControl::isInControl())
 	{
 		m_killDeferred = false;
@@ -28,8 +25,6 @@ bool DeathLinkHandler::update()
 	bool justDied = isDead && !m_wasDead;
 	m_wasDead = isDead;
 
-	// Being busted refills health at the police station the same way dying does at the
-	// hospital, so the respawn edge tracks both states.
 	bool deadOrArrested = isDead || CWorld::Players[0].m_nPlayerState == PLAYERSTATE_HASBEENARRESTED;
 	if (m_wasDeadOrArrested && !deadOrArrested)
 	{

@@ -15,6 +15,7 @@ inline constexpr int PIMPING_ID = 127;
 inline constexpr int BOAT_SCHOOL_ID = 119;
 inline constexpr int BIKE_SCHOOL_ID = 120;
 inline constexpr int QUARRY_ID = 118;
+inline constexpr int TRAIN_ID = 126;
 inline constexpr int DRIVING_SCHOOL_ID = 137;
 inline constexpr int FLYING_SCHOOL_ID = 138;
 inline constexpr int GANG_TERRITORY_ID = 139;
@@ -70,6 +71,9 @@ inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
 inline constexpr int COURIER_LV_PASSED_GLOBAL = 1993;
 inline constexpr int COURIER_SF_PASSED_GLOBAL = 1994;
 
+inline constexpr int TRAIN_LEVEL_GLOBAL = 163;
+inline constexpr int TRAIN_COMPLETED_GLOBAL = 8239;
+
 inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	67, 68, 69, 70,   // Wang Cars: Zeroing In, Test Drive, Customs Fast Track, Puncture Wounds
 
@@ -115,7 +119,9 @@ inline constexpr SubmissionTierSpec SHOOTING_RANGE_UZI_TIERS     { 283, 1, 3.0f 
 inline constexpr SubmissionTierSpec SHOOTING_RANGE_SHOTGUN_TIERS { 284, 1, 3.0f };
 inline constexpr SubmissionTierSpec SHOOTING_RANGE_AK47_TIERS    { 285, 1, 3.0f };
 
-inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 286;
+inline constexpr SubmissionTierSpec TRAIN_TIERS{ 286, 2, 1.0f };
+
+inline constexpr int SUBMISSION_TIER_SLOT_COUNT = 288;
 
 inline std::vector<Position> missionStartPos = {
     { 700, -3328, 20, 180 },

@@ -297,6 +297,9 @@
     <ClInclude Include="header\Common\EdgeTriggeredKey.h">
       <Filter>Header\Common</Filter>
     </ClInclude>
+    <ClInclude Include="header\Checks\Submissions\TrainTracker.h">
+      <Filter>Header\Checks\Submissions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Main.cpp">
@@ -484,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="source\Common\PlayerControl.cpp">
       <Filter>Source\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Checks\Submissions\TrainTracker.cpp">
+      <Filter>Source\Checks\Submissions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
