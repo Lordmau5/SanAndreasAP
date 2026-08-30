@@ -36,6 +36,7 @@ void Mod::start()
     MissionLocateBlocked::install(m_branchProgress);
     BlockedMarkerTint::install(m_branchProgress);
     ShopMenuText::install(m_ammuNationShop);
+    SubmissionResumeLevel::install();
     StreetRaceUnlock::update(m_streetRacesUnlocked);
     StreetRaceUnlock::updateDrivingSchoolBlip();
 

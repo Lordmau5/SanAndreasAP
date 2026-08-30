@@ -25,6 +25,7 @@
 #include "AmmuNationShop.h"
 #include "ShopMenuText.h"
 #include "StreetRaceUnlock.h"
+#include "SubmissionResumeLevel.h"
 #include "CityUnlock.h"
 #include "FastTravel.h"
 #include "BranchControllers.h"

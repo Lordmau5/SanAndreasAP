@@ -37,6 +37,7 @@
     <ClInclude Include="header\Checks\Submissions\RaceTracker.h" />
     <ClInclude Include="header\Checks\Submissions\ShootingRangeTracker.h" />
     <ClInclude Include="header\Gameplay\StreetRaceUnlock.h" />
+    <ClInclude Include="header\Gameplay\SubmissionResumeLevel.h" />
     <ClInclude Include="header\Gameplay\CityUnlock.h" />
     <ClInclude Include="header\Gameplay\FastTravel.h" />
     <ClInclude Include="header\Gameplay\BranchControllers.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="source\Checks\Submissions\RaceTracker.cpp" />
     <ClCompile Include="source\Checks\Submissions\ShootingRangeTracker.cpp" />
     <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp" />
+    <ClCompile Include="source\Gameplay\SubmissionResumeLevel.cpp" />
     <ClCompile Include="source\Gameplay\CityUnlock.cpp" />
     <ClCompile Include="source\Gameplay\FastTravel.cpp" />
     <ClCompile Include="source\Gameplay\BranchControllers.cpp" />
