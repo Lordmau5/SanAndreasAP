@@ -74,6 +74,9 @@ inline constexpr int COURIER_SF_PASSED_GLOBAL = 1994;
 inline constexpr int TRAIN_LEVEL_GLOBAL = 163;
 inline constexpr int TRAIN_COMPLETED_GLOBAL = 8239;
 
+inline constexpr int COMPLETION_ID = 160;
+inline constexpr int COMPLETION_AWARDED_GLOBAL = 802;
+
 inline constexpr int OPTIONAL_MISSION_IDS[] = {
 	67, 68, 69, 70,   // Wang Cars: Zeroing In, Test Drive, Customs Fast Track, Puncture Wounds
 
