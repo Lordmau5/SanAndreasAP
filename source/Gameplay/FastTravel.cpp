@@ -3,7 +3,6 @@
 #include "PlayerControl.h"
 #include "EdgeTriggeredKey.h"
 #include "ScreenScale.h"
-#include "ModSettings.h"
 #include "common.h"
 #include <C3dMarkers.h>
 #include <CTheScripts.h>
@@ -44,6 +43,8 @@ namespace
 		   2027.043f,   996.058f,   10.820f, 0, -1.475f },
 	};
 	constexpr int POINT_COUNT = static_cast<int>(std::size(TRAVEL_POINTS));
+
+	const CRGBA MARKER_COLOUR(175, 153, 239, 255);
 
 	constexpr unsigned int MARKER_ID_BASE = 0xAF990000;
 	constexpr float MARKER_SIZE = 1.4f;
@@ -196,7 +197,6 @@ void FastTravel::placeMarkers()
 {
 	if (g_phase != TravelPhase::None) return;
 
-	const CRGBA& colour = ModSettings::itemColour(ModSettings::ItemColour::Progression);
 	for (int i = 0; i < POINT_COUNT; ++i)
 	{
 		if (TRAVEL_POINTS[i].areaCode != CGame::currArea) continue;
@@ -204,7 +204,8 @@ void FastTravel::placeMarkers()
 
 		CVector position = positionOf(TRAVEL_POINTS[i]);
 		C3dMarker* marker = C3dMarkers::PlaceMarker(MARKER_ID_BASE + i,
-			MARKER3D_CYLINDER, position, MARKER_SIZE, colour.r, colour.g, colour.b, MARKER_ALPHA,
+			MARKER3D_CYLINDER, position, MARKER_SIZE,
+			MARKER_COLOUR.r, MARKER_COLOUR.g, MARKER_COLOUR.b, MARKER_ALPHA,
 			MARKER_PULSE_PERIOD, MARKER_PULSE_FRACTION, MARKER_ROTATE_RATE,
 			0.0f, 0.0f, 1.0f, false);
 		if (!marker) continue;
@@ -335,10 +336,9 @@ void FastTravel::draw()
 		bool selected = i == g_selected;
 		if (selected)
 		{
-			const CRGBA& highlight = ModSettings::itemColour(ModSettings::ItemColour::Progression);
 			CSprite2d::DrawRect(CRect(left + padding * 0.5f, rowY,
 				left + width - padding * 0.5f, rowY + rowHeight),
-				CRGBA(highlight.r, highlight.g, highlight.b, 90));
+				CRGBA(MARKER_COLOUR.r, MARKER_COLOUR.g, MARKER_COLOUR.b, 90));
 		}
 		CFont::SetColor(selected ? CRGBA(255, 255, 255, 255) : CRGBA(190, 190, 190, 255));
 		CFont::PrintString(left + padding, rowY + ScreenScale::of(4.0f), TRAVEL_POINTS[list[i]].name);
