@@ -1,4 +1,6 @@
-# GTA San Andreas Archipelago
+# GTA: San Andreas - Archipelago
+
+<img width="1200" height="287" alt="sanandreasap short" src="https://github.com/user-attachments/assets/798c85bf-3415-4400-b931-c2777475073a" />
 
 An [Archipelago](https://archipelago.gg) multiworld randomizer for Grand Theft
 Auto: San Andreas (PC, v1.0). Story missions are gated behind Progressive
@@ -26,21 +28,28 @@ the C++ mod.
     - **End of the Line** (Los Santos → Return to Los Santos)
 - 100 story missions across all regions
   gated by Progressive Mission items
-- Spray tags, snapshots, horseshoes and oysters as individual locations (toggleable)
-- Side activities, paying out **per level** rather than once at the end:
-  Paramedic, Firefighter and Vigilante (12 levels each), Taxi Driver (one per fare), Burglary (one per $1000 stolen), Trucking (8 levels, Badlands) etc.
-  The number of checks each activity sends is adjustable in the options.
-- 8 Ammu-Nation shop slots that sell checks (the menu shows what each
-  purchase contains)
-- Taking over gang territories in RTLS sends checks per 5%
-- BMX, NRG-500 and Chiliad Challenges send checks on completion
-- Stadium Events, Courier missions and Street Races send checks.
-- Traps (wanted level, fat CJ, flat tires, car fire, bad weather) and filler items
-  (21 weapons, money, full armor, car repair, weapon mastery, driving skill)
-- Autosave to slot 8 after every story mission and side-activity completion
-- Deathlink
 - Choosing a starting point (Badlands, San Fierro, Las Venturas)
+- Spray tags, snapshots, horseshoes and oysters as individual locations (toggleable)
+- Submissions sending checks per level (tunable):
+    - Paramedic, Firefighter and Vigilante (12 levels each)
+    - Taxi Driver (one per fare)
+    - Burglary (one per $1000 stolen) etc.
+- Ammu-Nation sells multiworld items.
+- Taking over gang territories in RTLS sends checks per 5%
+- Bike Challenges, Stadium Events, Courier missions, Street Races send checks.
+- Traps:
+    - Wanted Level
+    - Fat CJ
+    - Flat Tires
+    - Car Fire etc.
+- Filler items:
+    - Weapons
+    - Full Armor
+    - Car Repair
+    - Weapon Skill etc.
+- Autosaving to slot 8 after every story mission.
 - Universal Tracker tab in `GTA SA Client`
+- Deathlink support
 
 ## Setup
 
@@ -107,7 +116,7 @@ Not required, but they improve the experience:
 - Collectible locations appear on the radar and map. Press **F8** in the pause menu to toggle them off
 - Client commands `/tag <1-100>`, `/snapshot <1-50>` etc. highlight a specific collectible on the radar so you
   can find it from anywhere.
-- A respawning spray can with plenty of paint sits outside CJ's house.
+- A respawning spray can sits outside CJ's house.
 - A respawning camera sits outside Doherty Garage.
 - The game autosaves to **slot 8** ("Autosave: [mission]") after every story
   mission and side-activity completion.
@@ -131,9 +140,6 @@ Not required, but they improve the experience:
 - Archipelago progress is stored next to your GTA save files as
   `<savename>_ap.dat`. If you move or back up saves, keep those files
   together.
-- Because that progress lives with the save, loading an older save correctly
-  re-grants the items it never received, and restarting the client does not
-  hand you everything a second time.
 - The client must be running before checks can be sent; anything you complete
   while it is disconnected is sent automatically once it reconnects.
 - Connect the client to the room for the **same seed** as the save you load.
@@ -146,18 +152,17 @@ repo. It's completely optional and not required for the mod's development.
 ## Roadmap
 
 - Remaining checks for a 100% goal
-- More options for customizing seeds
-- Native support with Rainbomizer
+- All missions startable from `In The Beginning`
 
 ## Credits
 
-- The [Archipelago](https://archipelago.gg) project and contributors
+- [Archipelago](https://archipelago.gg) project and contributors
 - [plugin-sdk](https://github.com/DK22Pac/plugin-sdk) — the modding SDK this
   mod is built on
-- [Rainbomizer](https://github.com/Parik27/SA.Rainbomizer) — mission ID
-  numbering and the autosave approach
+- [Rainbomizer](https://github.com/Parik27/SA.Rainbomizer) — mission starting positions and autosave approach
 - [gta-reversed](https://github.com/gta-reversed/gta-reversed) and the
   [GTAMods wiki](https://gtamods.com) — save format and memory research
 - [Sanny Builder's map tool](https://gtag.sannybuilder.com/maps/gtasa/) —
   spray tag coordinates
 - Wafflejunkie — starting point save files
+- Lordmau5 — help with various parts of the project
