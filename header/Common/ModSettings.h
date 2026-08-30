@@ -18,4 +18,5 @@ namespace ModSettings
 	float missionCounterScale();
 	const CRGBA& itemColour(ItemColour t_which);
 	int unselectedDimPercent();
+	bool fastTravelEnabled();
 }

@@ -9,11 +9,13 @@ namespace
 {
 	constexpr char DISPLAY_SECTION[] = "Display";
 	constexpr char COLOURS_SECTION[] = "Colors";
+	constexpr char GAMEPLAY_SECTION[] = "Gameplay";
 
 	constexpr char NOTIFICATION_KEY[] = "NotificationSeconds";
 	constexpr char NUMBER_SCALE_KEY[] = "CollectibleNumberScale";
 	constexpr char COUNTER_SCALE_KEY[] = "MissionCounterScale";
 	constexpr char DIM_KEY[] = "UnselectedDim";
+	constexpr char FAST_TRAVEL_KEY[] = "FastTravel";
 
 	constexpr float NOTIFICATION_DEFAULT = 8.0f;
 	constexpr float NOTIFICATION_MIN = 1.0f;
@@ -22,6 +24,8 @@ namespace
 	constexpr float SCALE_DEFAULT = 0.3f;
 	constexpr float SCALE_MIN = 0.1f;
 	constexpr float SCALE_MAX = 2.0f;
+
+	constexpr int FAST_TRAVEL_DEFAULT = 1;
 
 	constexpr int DIM_DEFAULT = 60;
 	constexpr int DIM_MIN = 10;
@@ -33,7 +37,7 @@ namespace
 	constexpr unsigned long COLOUR_DEFAULTS[COLOUR_COUNT] = { 0xAF99EF, 0x6D8BE8, 0xFA8072, 0x00EEEE };
 
 	constexpr char TEMPLATE_TEXT[] =
-		"; GTA: San Andreas Archipelago - display settings.\r\n"
+		"; GTA: San Andreas Archipelago - mod settings.\r\n"
 		"; Delete the file to regenerate it.\r\n"
 		"\r\n"
 		"[Display]\r\n"
@@ -59,12 +63,18 @@ namespace
 		"\r\n"
 		"; How dim an unselected row is, as a percentage of its colour (10 - 100). The selected row\r\n"
 		"; always draws at full strength, so a lower number makes the selection stand out more.\r\n"
-		"UnselectedDim=60\r\n";
+		"UnselectedDim=60\r\n"
+		"\r\n"
+		"[Gameplay]\r\n"
+		"; Fast travel markers at Johnson's House, Badlands trailer, Doherty\r\n"
+		"; garage and Four Dragons casino (1 = on, 0 = off, default = 1).\r\n"
+		"FastTravel=1\r\n";
 
 	float g_notificationSeconds = NOTIFICATION_DEFAULT;
 	float g_collectibleNumberScale = SCALE_DEFAULT;
 	float g_missionCounterScale = SCALE_DEFAULT;
 	int g_unselectedDimPercent = DIM_DEFAULT;
+	bool g_fastTravelEnabled = FAST_TRAVEL_DEFAULT != 0;
 	CRGBA g_itemColours[COLOUR_COUNT];
 
 	std::string settingsPath()
@@ -167,6 +177,8 @@ void ModSettings::load()
 		g_itemColours[i] = readColour(path, COLOUR_KEYS[i], COLOUR_DEFAULTS[i]);
 	}
 	g_unselectedDimPercent = readInt(path, COLOURS_SECTION, DIM_KEY, DIM_DEFAULT, DIM_MIN, DIM_MAX);
+
+	g_fastTravelEnabled = readInt(path, GAMEPLAY_SECTION, FAST_TRAVEL_KEY, FAST_TRAVEL_DEFAULT, 0, 1) != 0;
 }
 
 float ModSettings::notificationSeconds()
@@ -192,4 +204,9 @@ const CRGBA& ModSettings::itemColour(ItemColour t_which)
 int ModSettings::unselectedDimPercent()
 {
 	return g_unselectedDimPercent;
+}
+
+bool ModSettings::fastTravelEnabled()
+{
+	return g_fastTravelEnabled;
 }

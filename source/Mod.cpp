@@ -113,7 +113,7 @@ void Mod::updateGameplaySystems()
     m_trapHandler.update();
     m_checkGiver.update();
     CityUnlock::update();
-    FastTravel::update();
+    if (ModSettings::fastTravelEnabled()) FastTravel::update();
     //BranchControllers::update(m_branchProgress);
 
     if (m_autoSaveManager.update())
@@ -370,8 +370,11 @@ void Mod::drawOverlay()
     m_blipManager.drawNumbers();
     drawMissionCounts();
     m_trapHandler.drawTimers();
-    FastTravel::placeMarkers();
-    FastTravel::draw();
+    if (ModSettings::fastTravelEnabled())
+    {
+        FastTravel::placeMarkers();
+        FastTravel::draw();
+    }
 }
 
 const char* Mod::branchAtBlip(const CVector& t_pos) const
