@@ -142,6 +142,8 @@ void Mod::updateGameplaySystems()
     }
 }
 
+constexpr const char* MOD_VERSION = "0.8.0";
+
 static std::string collectibleLabel(const std::string& t_type)
 {
     if (t_type == "TAG") return "LS Tag";
@@ -496,6 +498,8 @@ void Mod::drawCollectiblesOnMap()
 
 void Mod::drawMenuOverlay()
 {
+    drawVersionLabel();
+
     if (m_tagBlipToggleKey.justPressed())
     {
         m_blipManager.toggleBlips();
@@ -541,6 +545,21 @@ void Mod::drawMenuOverlay()
 
     CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(55.0f),
         m_blipManager.areBlipsEnabled() ? "F8 - Collectible blips on map: ON" : "F8 - Collectible blips on map: OFF");
+}
+
+void Mod::drawVersionLabel()
+{
+    CFont::SetFontStyle(FONT_SUBTITLES);
+    CFont::SetScale(ScreenScale::of(0.65f), ScreenScale::of(1.3f));
+    CFont::SetColor(CRGBA(255, 255, 255, 90));
+    CFont::SetProportional(true);
+    CFont::SetOrientation(ALIGN_LEFT);
+    CFont::SetDropShadowPosition(0);
+    CFont::SetBackground(false, false);
+    CFont::SetWrapx(static_cast<float>(RsGlobal.maximumWidth));
+
+    CFont::PrintString(ScreenScale::of(20.0f), ScreenScale::of(20.0f),
+        ("Archipelago v" + std::string(MOD_VERSION)).c_str());
 }
 
 void Mod::spawnCollectiblePickups()

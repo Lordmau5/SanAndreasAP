@@ -96,6 +96,7 @@ private:
 	void spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo);
 	void sendChecksToAP(CheckEvent t_event);
 
+	void drawVersionLabel();
 	void drawMissionCounts();
 	void drawMissionCountsImpl(bool t_menuMap);
 	const char* branchAtBlip(const CVector& t_pos) const;
