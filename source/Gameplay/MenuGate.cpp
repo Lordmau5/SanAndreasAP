@@ -14,6 +14,7 @@ namespace
 
 	unsigned char g_openAction[2] = {};
 	bool g_captured = false;
+	bool g_applied = false;
 	bool g_open = true;
 
 	EdgeTriggeredKey g_confirmKey{ VK_RETURN };
@@ -59,7 +60,8 @@ void MenuGate::update(bool t_worldKnown)
 		watchForBlockedConfirm();
 	}
 
-	if (t_worldKnown == g_open) return;
+	if (g_applied && t_worldKnown == g_open) return;
+	g_applied = true;
 	g_open = t_worldKnown;
 
 	entries[NEW_GAME_ENTRY].m_nAction = t_worldKnown ? g_openAction[0] : MENUACTION_SKIP;
