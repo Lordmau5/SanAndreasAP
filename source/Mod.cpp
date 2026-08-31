@@ -21,7 +21,7 @@ Mod::Mod()
 {
 	ModSettings::load();
 
-	m_apSocket.connectToServer("127.0.0.1", 12345);
+	m_apSocket.connectToServer(APProtocol::CLIENT_HOST, APProtocol::CLIENT_PORT);
 
 	m_persistentSubsystems = { &m_checkListener, &m_branchProgress, &m_blipManager, &m_receivedItemLog, &m_trapHandler };
 

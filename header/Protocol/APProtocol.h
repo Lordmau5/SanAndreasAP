@@ -4,6 +4,10 @@
 
 namespace APProtocol
 {
+	// ---- Endpoint ----------------------------------------------------------------------------
+	constexpr char CLIENT_HOST[] = "127.0.0.1";
+	constexpr int CLIENT_PORT = 41992;
+
 	// ---- Inbound -----------------------------------------------------------------------------
 
 	enum class MessageKind
