@@ -547,6 +547,7 @@ void Mod::spawnCollectiblePickups()
 {
 	spawnPickupOnce(SPRAYCAN_PICKUP_POS, MODEL_SPRAYCAN, SPRAYCAN_PICKUP_AMMO);
 	spawnPickupOnce(CAMERA_PICKUP_POS, MODEL_CAMERA, CAMERA_PICKUP_AMMO);
+	spawnPickupOnce(JETPACK_PICKUP_POS, MODEL_JETPACK, 0);
 }
 
 void Mod::spawnPickupOnce(const CVector& t_position, int t_modelId, unsigned int t_ammo)

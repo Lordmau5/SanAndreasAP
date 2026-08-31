@@ -52,6 +52,8 @@ private:
 	const CVector CAMERA_PICKUP_POS{ -2026.0f, 164.0f, 28.6f };
 	static constexpr unsigned int CAMERA_PICKUP_AMMO = 5000;
 
+	const CVector JETPACK_PICKUP_POS{ 2030.0f, 1007.7f, 10.6f };
+
 	static constexpr float MISSION_BLIP_TOLERANCE_SQ = 25.0f;
 
 	CheckListener m_checkListener;
