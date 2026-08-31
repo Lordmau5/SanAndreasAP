@@ -43,6 +43,8 @@ public:
 	void drawMissionCountsOnMap();
 	void drawCollectiblesOnMap();
 
+	void updateMenuState();
+
 private:
 	const CVector SPRAYCAN_PICKUP_POS{ 2493.5f, -1671.0f, 13.3f };
 	static constexpr unsigned int SPRAYCAN_PICKUP_AMMO = 5000;
@@ -78,7 +80,10 @@ private:
 
 	EdgeTriggeredKey m_tagBlipToggleKey{ VK_F8 };
 
+	std::vector<std::string> m_deferredLines;
+
 	void parseIncomingMessages();
+	void handleMessage(const std::string& t_rawLine);
 
 	void pollDeathLink();
 	bool updateWorldState(bool t_loadHooked);

@@ -1,4 +1,4 @@
-#include <winsock2.h>
+﻿#include <winsock2.h>
 #include <ws2tcpip.h>
 #include <plugin.h> // Plugin-SDK version 1004 from 2026-04-18 13:03:53
 #include <CMessages.h>
@@ -22,6 +22,7 @@ struct Main
         // register event callbacks
         Events::gameProcessEvent += []{ gInstance.OnGameProcess(); };
         Events::drawHudEvent += []{ gInstance.mod.drawOverlay(); };
+        Events::drawMenuBackgroundEvent += []{ gInstance.mod.updateMenuState(); };
         Events::drawMenuBackgroundEvent += []{ gInstance.mod.drawMenuOverlay(); };
         Events::drawBlipsEvent += []{ gInstance.mod.drawMissionCountsOnMap(); };
         Events::drawBlipsEvent += []{ gInstance.mod.drawCollectiblesOnMap(); };

@@ -6,6 +6,7 @@
 #include "MissionBranches.h"
 #include "MenuMap.h"
 #include "SaveRedirect.h"
+#include "MenuGate.h"
 #include "CStreaming.h"
 #include "CPools.h"
 #include "CPickups.h"
@@ -206,58 +207,90 @@ void Mod::sendChecksToAP(CheckEvent t_event)
     }
 }
 
-void Mod::parseIncomingMessages()
+void Mod::updateMenuState()
 {
+    m_apSocket.update();
+
     std::string rawLine;
     while (m_apSocket.tryGetMessage(rawLine))
     {
         APProtocol::Message message = APProtocol::parse(rawLine);
-
-        switch (message.kind)
+        if (message.kind == APProtocol::MessageKind::Control)
         {
-        case APProtocol::MessageKind::Status:
-            m_notificationOverlay.show(message.text);
-            break;
-
-        case APProtocol::MessageKind::ItemSent:
-            m_notificationOverlay.show(message.text, NotificationIcon::ItemSent);
-            break;
-
-        case APProtocol::MessageKind::Locate:
-            m_checkListener.locateCollectible(message.effect, message.index);
-            if (message.index >= 0)
-            {
-                m_notificationOverlay.show("Locating " + collectibleLabel(message.effect)
-                    + " #" + std::to_string(message.index + 1));
-            }
-            break;
-
-        case APProtocol::MessageKind::ShopItem:
-            m_ammuNationShop.setSlotContents(message.index, message.text);
-            break;
-
-        case APProtocol::MessageKind::ShopSold:
-            m_ammuNationShop.setSlotSold(message.index, message.text == "1");
-            break;
-
-        case APProtocol::MessageKind::ShopFlags:
-            m_ammuNationShop.setSlotFlags(message.index, parseIntOr(message.text, 0));
-            break;
-
-        case APProtocol::MessageKind::Give:
-            m_receivedItemLog.recordDelivered(message.index, message.effect, message.text);
-            break;
-
-        case APProtocol::MessageKind::Control:
             applyControlMessage(message.effect, message.text);
-            break;
-
-        case APProtocol::MessageKind::Unknown:
-            break;
+        }
+        else
+        {
+            m_deferredLines.push_back(rawLine);
         }
     }
 
+    MenuGate::update(SaveRedirect::isActive());
+}
+
+void Mod::parseIncomingMessages()
+{
+    for (const std::string& line : m_deferredLines)
+    {
+        handleMessage(line);
+    }
+    m_deferredLines.clear();
+
+    std::string rawLine;
+    while (m_apSocket.tryGetMessage(rawLine))
+    {
+        handleMessage(rawLine);
+    }
+
     applyPendingItems();
+}
+
+void Mod::handleMessage(const std::string& t_rawLine)
+{
+    APProtocol::Message message = APProtocol::parse(t_rawLine);
+
+    switch (message.kind)
+    {
+    case APProtocol::MessageKind::Status:
+        m_notificationOverlay.show(message.text);
+        break;
+
+    case APProtocol::MessageKind::ItemSent:
+        m_notificationOverlay.show(message.text, NotificationIcon::ItemSent);
+        break;
+
+    case APProtocol::MessageKind::Locate:
+        m_checkListener.locateCollectible(message.effect, message.index);
+        if (message.index >= 0)
+        {
+            m_notificationOverlay.show("Locating " + collectibleLabel(message.effect)
+                + " #" + std::to_string(message.index + 1));
+        }
+        break;
+
+    case APProtocol::MessageKind::ShopItem:
+        m_ammuNationShop.setSlotContents(message.index, message.text);
+        break;
+
+    case APProtocol::MessageKind::ShopSold:
+        m_ammuNationShop.setSlotSold(message.index, message.text == "1");
+        break;
+
+    case APProtocol::MessageKind::ShopFlags:
+        m_ammuNationShop.setSlotFlags(message.index, parseIntOr(message.text, 0));
+        break;
+
+    case APProtocol::MessageKind::Give:
+        m_receivedItemLog.recordDelivered(message.index, message.effect, message.text);
+        break;
+
+    case APProtocol::MessageKind::Control:
+        applyControlMessage(message.effect, message.text);
+        break;
+
+    case APProtocol::MessageKind::Unknown:
+        break;
+    }
 }
 
 void Mod::applyControlMessage(const std::string& t_name, const std::string& t_value)
@@ -475,6 +508,13 @@ void Mod::drawMenuOverlay()
 
     CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(100.0f),
         connected ? "Archipelago: Connected" : "Archipelago: Disconnected");
+
+    if (MenuGate::shouldExplainBlock())
+    {
+        CFont::SetColor(CRGBA(220, 180, 60, 255));
+        CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(145.0f),
+            "Connect the Archipelago client before starting or loading a game");
+    }
 
     CFont::SetFontStyle(FONT_SUBTITLES);
     CFont::SetScale(ScreenScale::of(0.55f), ScreenScale::of(1.1f));

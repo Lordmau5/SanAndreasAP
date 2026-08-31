@@ -186,6 +186,9 @@
     <ClInclude Include="header\Checks\Submissions\ShootingRangeTracker.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
+    <ClInclude Include="header\Gameplay\MenuGate.h">
+      <Filter>Header\Gameplay</Filter>
+    </ClInclude>
     <ClInclude Include="header\Gameplay\StreetRaceUnlock.h">
       <Filter>Header\Gameplay</Filter>
     </ClInclude>
@@ -418,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="source\Checks\Submissions\ShootingRangeTracker.cpp">
       <Filter>Source\Checks\Submissions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\MenuGate.cpp">
+      <Filter>Source\Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="source\Gameplay\StreetRaceUnlock.cpp">
       <Filter>Source\Gameplay</Filter>
