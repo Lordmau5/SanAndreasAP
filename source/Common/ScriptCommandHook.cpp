@@ -7,6 +7,8 @@ namespace
 {
 	constexpr size_t COMMANDS_PER_HANDLER = 100;
 	constexpr size_t HANDLER_COUNT = 27;
+	constexpr uintptr_t HANDLER_TABLE_REF_A = 0x469EF0;
+	constexpr uintptr_t HANDLER_TABLE_REF_B = 0x469FEE;
 
 	using CommandHandler = unsigned char(__thiscall*)(CRunningScript*, unsigned short);
 
@@ -58,15 +60,25 @@ namespace
 		return result;
 	}
 
+	CommandHandler* liveHandlerTable()
+	{
+		CommandHandler* tableA = *reinterpret_cast<CommandHandler**>(HANDLER_TABLE_REF_A);
+		CommandHandler* tableB = *reinterpret_cast<CommandHandler**>(HANDLER_TABLE_REF_B);
+		return tableA == tableB ? tableA : nullptr;
+	}
+
 	void installHandler(unsigned short t_commandId)
 	{
 		size_t handler = t_commandId / COMMANDS_PER_HANDLER;
 		if (handler >= HANDLER_COUNT || g_originalHandlers[handler]) return;
 
-		g_originalHandlers[handler] = CRunningScript::CommandHandlerTable[handler];
+		CommandHandler* table = liveHandlerTable();
+		if (!table) return;
+
+		g_originalHandlers[handler] = table[handler];
 
 		plugin::patch::SetPointer(
-			reinterpret_cast<uintptr_t>(&CRunningScript::CommandHandlerTable[handler]),
+			reinterpret_cast<uintptr_t>(&table[handler]),
 			reinterpret_cast<void*>(&onCommand));
 	}
 }
