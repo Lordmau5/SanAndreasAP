@@ -267,6 +267,9 @@
     <ClInclude Include="header\Persistence\PersistentState.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
+    <ClInclude Include="header\Persistence\StartingSaves.h">
+      <Filter>Header\Persistence</Filter>
+    </ClInclude>
     <ClInclude Include="header\Persistence\SaveRedirect.h">
       <Filter>Header\Persistence</Filter>
     </ClInclude>
@@ -484,6 +487,9 @@
     </ClCompile>
     <ClCompile Include="source\Tags\OysterTracker.cpp">
       <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Persistence\StartingSaves.cpp">
+      <Filter>Source\Persistence</Filter>
     </ClCompile>
     <ClCompile Include="source\Persistence\SaveRedirect.cpp">
       <Filter>Source\Persistence</Filter>

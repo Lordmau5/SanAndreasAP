@@ -75,6 +75,7 @@
     <ClInclude Include="header\Common\Position.h" />
     <ClInclude Include="header\Persistence\SaveDataManager.h" />
     <ClInclude Include="header\Persistence\SaveRedirect.h" />
+    <ClInclude Include="header\Persistence\StartingSaves.h" />
     <ClInclude Include="header\HUD\ScreenScale.h" />
     <ClInclude Include="header\HUD\MenuMap.h" />
     <ClInclude Include="header\Checks\Submissions\SubmissionTracker.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="source\Protocol\ReceivedItemLog.cpp" />
     <ClCompile Include="source\Persistence\SaveDataManager.cpp" />
     <ClCompile Include="source\Persistence\SaveRedirect.cpp" />
+    <ClCompile Include="source\Persistence\StartingSaves.cpp" />
     <ClCompile Include="source\Checks\Submissions\SubmissionTracker.cpp" />
     <ClCompile Include="source\Tags\CollectibleBlipsManager.cpp" />
     <ClCompile Include="source\Tags\BlipTarget.cpp" />

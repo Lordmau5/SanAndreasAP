@@ -7,6 +7,7 @@
 #include "MenuMap.h"
 #include "SaveRedirect.h"
 #include "MenuGate.h"
+#include "StartingSaves.h"
 #include "CStreaming.h"
 #include "CPools.h"
 #include "CPickups.h"
@@ -314,6 +315,12 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
     else if (t_name == "world")
     {
         SaveRedirect::setWorld(t_value);
+        StartingSaves::seedIfNeeded();
+    }
+    else if (t_name == "start")
+    {
+        StartingSaves::setStartingPoint(t_value);
+        StartingSaves::seedIfNeeded();
     }
     else if (t_name == "street_races" && t_value == "1")
     {
@@ -514,6 +521,14 @@ void Mod::drawMenuOverlay()
         CFont::SetColor(CRGBA(220, 180, 60, 255));
         CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(145.0f),
             "Connect the Archipelago client before starting or loading a game");
+    }
+    else if (!StartingSaves::missingSaveName().empty())
+    {
+        std::string warning = "Missing scripts\\Archipelago\\" + StartingSaves::missingSaveName()
+            + " - reinstall the starting saves";
+
+        CFont::SetColor(CRGBA(220, 180, 60, 255));
+        CFont::PrintString(ScreenScale::of(20.0f), bottom - ScreenScale::of(145.0f), warning.c_str());
     }
 
     CFont::SetFontStyle(FONT_SUBTITLES);

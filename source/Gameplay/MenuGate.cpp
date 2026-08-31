@@ -65,10 +65,12 @@ void MenuGate::update(bool t_worldKnown)
 	entries[NEW_GAME_ENTRY].m_nAction = t_worldKnown ? g_openAction[0] : MENUACTION_SKIP;
 	entries[LOAD_GAME_ENTRY].m_nAction = t_worldKnown ? g_openAction[1] : MENUACTION_SKIP;
 
-	if (t_worldKnown)
-	{
-		reinterpret_cast<void(__cdecl*)()>(REFRESH_SAVE_SLOT_LIST)();
-	}
+	if (t_worldKnown) refreshSaveSlotList();
+}
+
+void MenuGate::refreshSaveSlotList()
+{
+	reinterpret_cast<void(__cdecl*)()>(REFRESH_SAVE_SLOT_LIST)();
 }
 
 bool MenuGate::shouldExplainBlock()
