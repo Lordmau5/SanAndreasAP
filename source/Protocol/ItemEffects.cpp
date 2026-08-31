@@ -27,7 +27,7 @@ namespace
 		{ "armor_refill",        ItemEffect::ArmorRefill,        -1,                  nullptr,     "Archipelago: Received Full Armor",          NotificationIcon::ArmorUpgrade },
 		{ "car_repair",          ItemEffect::CarRepair,          -1,                  nullptr,     "Archipelago: Received Car Repair",          NotificationIcon::Taxi },
 		{ "weapon_mastery",      ItemEffect::WeaponMastery,      -1,                  nullptr,     "Archipelago: Received {} Mastery",          NotificationIcon::Weapon },
-		{ "street_races",        ItemEffect::StreetRaces,        -1,                  nullptr,     "Archipelago: Received Street Races Unlock", NotificationIcon::StreetRaces },
+		{ "street_races",        ItemEffect::StreetRaces,        -1,                  nullptr,       "Archipelago: Unlocked Street Races",         NotificationIcon::StreetRaces },
 		{ "unlock_tags",           ItemEffect::CollectibleUnlock,  -1,                  "TAG",       "Archipelago: Unlocked Tags",                 NotificationIcon::Spray },
 		{ "unlock_oysters",        ItemEffect::CollectibleUnlock,  -1,                  "OYSTER",    "Archipelago: Unlocked Oysters",              NotificationIcon::Oyster },
 		{ "unlock_horseshoes",     ItemEffect::CollectibleUnlock,  -1,                  "HORSESHOE", "Archipelago: Unlocked Horseshoes",           NotificationIcon::Horseshoe },

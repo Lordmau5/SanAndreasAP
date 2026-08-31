@@ -5,6 +5,7 @@
 #include "CStreaming.h"
 #include "Mod.h"
 #include "GameStorageHook.h"
+#include "SaveRedirect.h"
 
 using namespace plugin;
 
@@ -16,6 +17,7 @@ struct Main
     Main()
     {
         GameStorageHook::install();
+        SaveRedirect::install();
 
         // register event callbacks
         Events::gameProcessEvent += []{ gInstance.OnGameProcess(); };

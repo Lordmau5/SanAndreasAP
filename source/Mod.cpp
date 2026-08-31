@@ -5,6 +5,7 @@
 #include "ItemEffects.h"
 #include "MissionBranches.h"
 #include "MenuMap.h"
+#include "SaveRedirect.h"
 #include "CStreaming.h"
 #include "CPools.h"
 #include "CPickups.h"
@@ -276,6 +277,10 @@ void Mod::applyControlMessage(const std::string& t_name, const std::string& t_va
     else if (t_name == "gated")
     {
         m_checkListener.setGatedContent(t_value);
+    }
+    else if (t_name == "world")
+    {
+        SaveRedirect::setWorld(t_value);
     }
     else if (t_name == "street_races" && t_value == "1")
     {

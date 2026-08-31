@@ -11,6 +11,12 @@ static std::string extractFileName(const std::string& pathOrName)
 	return pos == std::string::npos ? pathOrName : pathOrName.substr(pos + 1);
 }
 
+static std::string extractDirectory(const std::string& pathOrName)
+{
+	size_t pos = pathOrName.find_last_of("\\/");
+	return pos == std::string::npos ? std::string() : pathOrName.substr(0, pos + 1);
+}
+
 void SaveDataManager::recordValuesAtSave()
 {
 	m_valuesAtSave = m_values;
@@ -19,23 +25,25 @@ void SaveDataManager::recordValuesAtSave()
 
 void SaveDataManager::poll()
 {
-	std::string saveName = extractFileName(CGenericGameStorage::ms_SaveFileNameJustSaved);
+	std::string savePath = CGenericGameStorage::ms_SaveFileNameJustSaved;
+	std::string saveName = extractFileName(savePath);
 
-	// Keyed off our own record rather than the name changing: saving twice to the same slot
-	// leaves the name identical, and that save still has to reach the companion file.
 	if (!m_hasValuesAtSave || saveName.empty()) return;
 
 	m_hasValuesAtSave = false;
 	m_currentSaveKey = saveName;
+	m_currentSaveDirectory = extractDirectory(savePath);
 	writeToDisk(m_valuesAtSave);
 }
 
 bool SaveDataManager::restoreFromCurrentLoadName()
 {
-	std::string loadName = extractFileName(CGenericGameStorage::ms_LoadFileName);
+	std::string loadPath = CGenericGameStorage::ms_LoadFileName;
+	std::string loadName = extractFileName(loadPath);
 	if (loadName.empty()) return false;
 
 	m_currentSaveKey = loadName;
+	m_currentSaveDirectory = extractDirectory(loadPath);
 	loadFromDisk();
 	return true;
 }
@@ -61,6 +69,8 @@ std::string SaveDataManager::getValue(const std::string& key, const std::string&
 
 std::string SaveDataManager::getFilePath() const
 {
+	if (!m_currentSaveDirectory.empty()) return m_currentSaveDirectory + m_currentSaveKey + "_ap.dat";
+
 	char documentsPath[MAX_PATH] = {};
 	SHGetFolderPathA(nullptr, CSIDL_PERSONAL, nullptr, 0, documentsPath);
 	return std::string(documentsPath) + "\\GTA San Andreas User Files\\" + m_currentSaveKey + "_ap.dat";

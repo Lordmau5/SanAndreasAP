@@ -1,5 +1,6 @@
 #include "AutoSaveManager.h"
 #include "GameStorageHook.h"
+#include "SaveRedirect.h"
 #include "common.h"
 #include "CTheScripts.h"
 #include <CGenericGameStorage.h>
@@ -12,9 +13,6 @@ void AutoSaveManager::requestSave()
 	m_savePending = true;
 }
 
-// A mission script is still running through its cleanup for a while after the mission is
-// actually passed. Saving in that window is the documented way to produce a save that won't
-// load, so wait for every mission script to go away first.
 bool AutoSaveManager::isMissionScriptActive() const
 {
 	for (CRunningScript* script = CTheScripts::pActiveScripts; script; script = script->m_pNext)
@@ -39,14 +37,13 @@ bool AutoSaveManager::performSave()
 	CPlayerPed* player = FindPlayerPed();
 	if (!player) return false;
 
-	// Saving while the player is flagged as being in a vehicle is a known save-corruption
-	// source, so clear the flag across the write and put it straight back.
 	bool wasInVehicle = player->bInVehicle;
 	player->bInVehicle = false;
 
 	GameStorageHook::notifyBeforeSave();
 
-	CGenericGameStorage::MakeValidSaveName(AUTOSAVE_SLOT - 1);
+	std::string path = SaveRedirect::saveFileName(AUTOSAVE_SLOT - 1);
+	strncpy_s(CGenericGameStorage::ms_ValidSaveName, VALID_SAVE_NAME_SIZE, path.c_str(), _TRUNCATE);
 	bool saved = CGenericGameStorage::GenericSave(0);
 
 	player->bInVehicle = wasInVehicle;
@@ -58,12 +55,6 @@ bool AutoSaveManager::performSave()
 	return saved;
 }
 
-// The game titles every save with the resolved "last mission passed" text, which would make
-// the autosave indistinguishable from a manual save in the load menu. The header stores that
-// title as plain text, so rewrite it in place after the save completes. The file ends with a
-// 4-byte additive checksum of every preceding byte (the scheme save editors rely on), fixed up
-// incrementally from the bytes swapped. If the file doesn't start with the expected "BLOCK"
-// tag, it is left untouched - a default title beats a corrupted save.
 void AutoSaveManager::patchSaveTitle() const
 {
 	FILE* file = nullptr;
@@ -84,9 +75,6 @@ void AutoSaveManager::patchSaveTitle() const
 		return;
 	}
 
-	// The game just resolved the mission name itself and wrote it as the title - reuse those
-	// bytes rather than doing our own GXT lookup (which proved unreliable here). Strip any
-	// existing prefix first so repeated autosaves don't stack "Autosave: Autosave: ...".
 	const std::string prefix = "Autosave: ";
 	std::string existing(oldTitle, strnlen(oldTitle, TITLE_SIZE));
 	if (existing.rfind(prefix, 0) == 0)
