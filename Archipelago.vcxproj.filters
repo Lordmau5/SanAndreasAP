@@ -237,6 +237,9 @@
     <ClInclude Include="header\Tags\Collectible.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
+    <ClInclude Include="header\Tags\PickupLock.h">
+      <Filter>Header\Tags</Filter>
+    </ClInclude>
     <ClInclude Include="header\Tags\TagTracker.h">
       <Filter>Header\Tags</Filter>
     </ClInclude>
@@ -459,6 +462,9 @@
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\Tags\TagTracker.cpp">
+      <Filter>Source\Tags</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Tags\PickupLock.cpp">
       <Filter>Source\Tags</Filter>
     </ClCompile>
     <ClCompile Include="source\Tags\SnapshotTracker.cpp">

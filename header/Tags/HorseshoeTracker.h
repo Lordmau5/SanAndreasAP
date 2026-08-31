@@ -8,6 +8,8 @@ class HorseshoeTracker : public Collectible<50>
 public:
 	HorseshoeTracker();
 
+	bool update() override;
+
 protected:
 	float readCount() const override;
 	int identifyCollected() const override;

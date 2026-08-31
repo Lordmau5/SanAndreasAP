@@ -1,8 +1,10 @@
 #include "HorseshoeTracker.h"
 #include "HorseshoePositions.h"
+#include "PickupLock.h"
 #include "common.h"
 #include <CRadar.h>
 #include <CStats.h>
+#include <eModelID.h>
 
 HorseshoeTracker::HorseshoeTracker()
 	: Collectible<50>(horseshoePositions, RADAR_SPRITE_CASH, "horseshoes_claimed", "HORSESHOE")
@@ -35,4 +37,11 @@ int HorseshoeTracker::identifyCollected() const
 		}
 	}
 	return best;
+}
+
+bool HorseshoeTracker::update()
+{
+	PickupLock::setModelLocked(MODEL_CJ_HORSE_SHOE, !isUnlocked());
+
+	return Collectible<50>::update();
 }

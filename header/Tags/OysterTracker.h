@@ -7,6 +7,8 @@ class OysterTracker : public Collectible<50>
 public:
 	OysterTracker();
 
+	bool update() override;
+
 protected:
 	float readCount() const override;
 	int identifyCollected() const override;

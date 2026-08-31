@@ -1,8 +1,10 @@
 #include "OysterTracker.h"
 #include "OysterPositions.h"
+#include "PickupLock.h"
 #include "common.h"
 #include <CRadar.h>
 #include <CStats.h>
+#include <eModelID.h>
 
 OysterTracker::OysterTracker()
 	: Collectible<50>(oysterPositions, RADAR_SPRITE_BOATYARD, "oysters_claimed", "OYSTER")
@@ -35,4 +37,11 @@ int OysterTracker::identifyCollected() const
 		}
 	}
 	return best;
+}
+
+bool OysterTracker::update()
+{
+	PickupLock::setModelLocked(MODEL_CJ_OYSTER, !isUnlocked());
+
+	return Collectible<50>::update();
 }

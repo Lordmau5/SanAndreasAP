@@ -11,6 +11,8 @@ enum class NotificationIcon
 	HealthUpgrade,
 	Hospital,
 	Spray,
+	Oyster,
+	Horseshoe,
 	ArmorUpgrade,
 	Taxi,
 	Stamina,
