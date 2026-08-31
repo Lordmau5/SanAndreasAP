@@ -12,11 +12,10 @@
 #include <cstring>
 #include <map>
 
-CheckListener::CheckListener() : m_pickUpCounter(CPickups::aPickUpsCollected)
+CheckListener::CheckListener()
 {
 	currentMission = CStats::LastMissionPassedName;
 	lastMission = CStats::LastMissionPassedName;
-	m_lastValuePickUpCounter = *m_pickUpCounter;
 	initializeMissionList();
 
 	submissionTrackers.push_back(std::make_unique<ParamedicTracker>(PARAMEDIC_ID));
@@ -111,21 +110,6 @@ void CheckListener::load(const SaveDataManager& t_saveData)
 	{
 		tracker->load(t_saveData);
 	}
-}
-
-bool CheckListener::pickUpChecker()
-{
-	if (m_lastValuePickUpCounter < *m_pickUpCounter)
-	{
-		m_lastValuePickUpCounter = *m_pickUpCounter;
-		m_pendingPickUps.push(0);
-	}
-	return m_pendingPickUps.hasPending();
-}
-
-void CheckListener::confirmPickUpSent()
-{
-	m_pendingPickUps.confirm();
 }
 
 bool CheckListener::isEndingCutscenePlaying() const
@@ -352,10 +336,6 @@ CheckEvent CheckListener::update()
 	}
 
 	CheckEvent event = CheckEvent::None;
-	if (pickUpChecker())
-	{
-		event = CheckEvent::PickUp;
-	}
 	if (missionChecker())
 	{
 		event = CheckEvent::Mission;
@@ -525,8 +505,6 @@ void CheckListener::resyncBaselines()
 {
 	currentMission = CStats::LastMissionPassedName;
 	lastMission = currentMission;
-
-	m_lastValuePickUpCounter = *m_pickUpCounter;
 
 	for (CollectibleTracker* collectible : m_collectibles)
 	{

@@ -4,7 +4,6 @@
 #include <memory>
 #include "plugin.h"
 #include "PendingChecks.h"
-#include "CPickups.h"
 #include "CMessages.h"
 #include <CStats.h>
 #include <CWorld.h>
@@ -43,7 +42,6 @@ enum class CheckEvent
 {
 	None,
 	Mission,
-	PickUp,
 	Submission
 };
 
@@ -62,7 +60,6 @@ public:
 	void collectibleUnlockWasReceived(const std::string& t_checkType);
 	void setGatedContent(const std::string& t_effectNames);
 
-	void confirmPickUpSent();
 	void confirmMissionSent();
 
 	static bool isStoryMission(int missionId);
@@ -80,9 +77,6 @@ public:
 	int getPendingSubmissionLevelSlot() const;
 	void confirmSubmissionLevelSent();
 private:
-	int* m_pickUpCounter;
-	int m_lastValuePickUpCounter;
-
 	std::vector<std::string> missions;
 	std::string currentMission;
 	std::string lastMission;
@@ -106,7 +100,6 @@ private:
 		&m_tagTracker, &m_snapshotTracker, &m_horseshoeTracker, &m_exportTracker,
 		&m_oysterTracker };
 
-	PendingChecks<int> m_pendingPickUps;
 	PendingChecks<std::string> m_pendingMissions;
 	PendingChecks<int> m_pendingSubmissions;
 	PendingChecks<int> m_pendingSubmissionLevels;
@@ -114,7 +107,6 @@ private:
 	void resyncBaselines();
 
 	SubmissionTracker* findTracker(int t_submissionID);
-	bool pickUpChecker();
 	bool missionChecker();
 	bool submissionLevelChecker();
 	void initializeMissionList();

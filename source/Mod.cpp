@@ -7,6 +7,7 @@
 #include "MenuMap.h"
 #include "CStreaming.h"
 #include "CPools.h"
+#include "CPickups.h"
 #include <CRadar.h>
 #include <CTimer.h>
 #include <CFont.h>
@@ -167,12 +168,6 @@ void Mod::sendChecksToAP(CheckEvent t_event)
         }
         break;
     }
-    case CheckEvent::PickUp:
-        if (m_apSocket.sendToServer(APProtocol::pickUpCheck()))
-        {
-            m_checkListener.confirmPickUpSent();
-        }
-        break;
     case CheckEvent::Submission:
         if (m_apSocket.sendToServer(APProtocol::missionCheck(m_checkListener.getPendingSubmissionId())))
         {

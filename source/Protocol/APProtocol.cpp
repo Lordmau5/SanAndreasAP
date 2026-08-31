@@ -138,11 +138,6 @@ std::string APProtocol::missionCheck(int t_missionId)
 	return missionCheck(std::to_string(t_missionId));
 }
 
-std::string APProtocol::pickUpCheck()
-{
-	return "CHECK:PICKUP:0\n";
-}
-
 std::string APProtocol::collectibleCheck(const char* t_type, int t_index)
 {
 	return "CHECK:" + std::string(t_type) + ":" + std::to_string(t_index) + "\n";
