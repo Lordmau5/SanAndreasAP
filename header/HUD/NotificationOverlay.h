@@ -12,6 +12,7 @@ enum class NotificationIcon
 	Hospital,
 	Spray,
 	Oyster,
+	Snapshot,
 	Horseshoe,
 	ArmorUpgrade,
 	Taxi,

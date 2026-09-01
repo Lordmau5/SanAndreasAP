@@ -6,6 +6,7 @@
 #include "Mod.h"
 #include "GameStorageHook.h"
 #include "SaveRedirect.h"
+#include "SnapshotLock.h"
 
 using namespace plugin;
 
@@ -18,6 +19,7 @@ struct Main
     {
         GameStorageHook::install();
         SaveRedirect::install();
+        SnapshotLock::install();
 
         // register event callbacks
         Events::gameProcessEvent += []{ gInstance.OnGameProcess(); };

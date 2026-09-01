@@ -85,6 +85,7 @@
     <ClInclude Include="header\Tags\TagPositions.h" />
     <ClInclude Include="header\Tags\Collectible.h" />
     <ClInclude Include="header\Tags\PickupLock.h" />
+    <ClInclude Include="header\Tags\SnapshotLock.h" />
     <ClInclude Include="header\Tags\TagTracker.h" />
     <ClInclude Include="header\Tags\SnapshotTracker.h" />
     <ClInclude Include="header\Tags\HorseshoeTracker.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="source\Tags\BlipTarget.cpp" />
     <ClCompile Include="source\Tags\TagTracker.cpp" />
     <ClCompile Include="source\Tags\PickupLock.cpp" />
+    <ClCompile Include="source\Tags\SnapshotLock.cpp" />
     <ClCompile Include="source\Tags\SnapshotTracker.cpp" />
     <ClCompile Include="source\Tags\HorseshoeTracker.cpp" />
     <ClCompile Include="source\Gameplay\TrapHandler.cpp" />

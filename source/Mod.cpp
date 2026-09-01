@@ -142,8 +142,6 @@ void Mod::updateGameplaySystems()
     }
 }
 
-constexpr const char* MOD_VERSION = "0.8.0";
-
 static std::string collectibleLabel(const std::string& t_type)
 {
     if (t_type == "TAG") return "LS Tag";
