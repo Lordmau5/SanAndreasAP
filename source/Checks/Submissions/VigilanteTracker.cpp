@@ -2,20 +2,7 @@
 #include <eModelID.h>
 
 VigilanteTracker::VigilanteTracker(int t_submissionID)
-	: TieredSubmissionTracker(
-		t_submissionID,
-		{
-			MODEL_COPCARLA,
-			MODEL_COPCARSF,
-			MODEL_COPCARVG,
-			MODEL_COPCARRU,
-			MODEL_ENFORCER,
-			MODEL_FBIRANCH,
-			MODEL_SWATVAN,
-			MODEL_COPBIKE
-		},
-		VIGILANTE_TIERS
-	)
+	: TieredSubmissionTracker(t_submissionID, VIGILANTE_TIERS)
 {
 }
 
@@ -37,6 +24,18 @@ float VigilanteTracker::getProgress() const
 }
 
 bool VigilanteTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_COPCARLA
+		|| t_modelId == MODEL_COPCARSF
+		|| t_modelId == MODEL_COPCARVG
+		|| t_modelId == MODEL_COPCARRU
+		|| t_modelId == MODEL_ENFORCER
+		|| t_modelId == MODEL_FBIRANCH
+		|| t_modelId == MODEL_SWATVAN
+		|| t_modelId == MODEL_COPBIKE;
+}
+
+bool VigilanteTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_COPCARLA
 		|| t_modelId == MODEL_COPCARSF

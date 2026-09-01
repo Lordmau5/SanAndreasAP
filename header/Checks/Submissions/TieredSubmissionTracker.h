@@ -7,7 +7,6 @@ class TieredSubmissionTracker : public SubmissionTracker
 {
 public:
 	TieredSubmissionTracker(int t_submissionID, const SubmissionTierSpec& t_spec);
-	TieredSubmissionTracker(int t_submissionID, const std::vector<int> t_submissionValidVehicles, const SubmissionTierSpec& t_spec);
 
 	void pollNewTierSlots(std::vector<int>& t_outSlots) override;
 

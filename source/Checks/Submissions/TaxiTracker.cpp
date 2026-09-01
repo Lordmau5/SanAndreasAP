@@ -8,7 +8,7 @@ namespace
 }
 
 TaxiTracker::TaxiTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, {MODEL_TAXI, MODEL_CABBIE}, TAXI_TIERS)
+	: TieredSubmissionTracker(t_submissionID, TAXI_TIERS)
 {
 }
 
@@ -30,6 +30,12 @@ float TaxiTracker::getProgress() const
 }
 
 bool TaxiTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_TAXI
+		|| t_modelId == MODEL_CABBIE;
+}
+
+bool TaxiTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_TAXI
 		|| t_modelId == MODEL_CABBIE;

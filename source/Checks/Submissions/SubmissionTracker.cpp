@@ -6,11 +6,6 @@ SubmissionTracker::SubmissionTracker(int t_submissionID)
 {
 }
 
-SubmissionTracker::SubmissionTracker(int t_submissionID, const std::vector<int> t_submissionValidVehicles)
-	: SUBMISSION_ID(t_submissionID), SUBMISSION_VALID_VEHICLES(t_submissionValidVehicles)
-{
-}
-
 void SubmissionTracker::checkWasReceived()
 {
 	checkReceived = true;
@@ -24,11 +19,6 @@ void SubmissionTracker::submissionWasCompleted()
 int SubmissionTracker::getSubmissionID()
 {
 	return SUBMISSION_ID;
-}
-
-const std::vector<int> SubmissionTracker::getSubmissionValidVehicles()
-{
-	return SUBMISSION_VALID_VEHICLES;
 }
 
 bool SubmissionTracker::getSubmissionCompleted() const

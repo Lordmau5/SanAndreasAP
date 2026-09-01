@@ -6,7 +6,7 @@ namespace
 }
 
 TrainTracker::TrainTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, {MODEL_FREIGHT, MODEL_STREAK}, TRAIN_TIERS)
+	: TieredSubmissionTracker(t_submissionID, TRAIN_TIERS)
 {
 }
 
@@ -24,4 +24,10 @@ int TrainTracker::currentTier() const
 	if (ScriptGlobals::read(TRAIN_COMPLETED_GLOBAL) != 0) return 2;
 
 	return static_cast<int>(getProgress()) >= LEVEL_ONE_PASSED ? 1 : 0;
+}
+
+bool TrainTracker::isVehicleValid(int t_modelId) const
+{
+	return t_modelId == MODEL_FREIGHT
+		|| t_modelId == MODEL_STREAK;
 }

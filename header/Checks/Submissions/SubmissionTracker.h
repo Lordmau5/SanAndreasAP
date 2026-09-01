@@ -9,13 +9,12 @@ class SubmissionTracker : public Lockable
 {
 public:
 	SubmissionTracker(int t_submissionID);
-	SubmissionTracker(int t_submissionID, const std::vector<int> t_submissionValidVehicles);
 	virtual ~SubmissionTracker() = default;
 	virtual void enforceSubmissionReward() = 0;
 	void checkWasReceived();
 	void submissionWasCompleted();
 	int getSubmissionID();
-	const std::vector<int> getSubmissionValidVehicles();
+	virtual bool isVehicleValid(int t_modelId) const { return false; };
 
 	bool getSubmissionCompleted() const;
 	void restoreState(bool t_checkReceived, bool t_submissionCompleted);
@@ -33,7 +32,6 @@ protected:
 	std::string keyPrefix() const;
 
 	const int SUBMISSION_ID;
-	const std::vector<int> SUBMISSION_VALID_VEHICLES;
 	bool checkReceived = false;
 	bool submissionCompleted = false;
 };

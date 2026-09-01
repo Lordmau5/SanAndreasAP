@@ -12,55 +12,37 @@ namespace
 {
 	const std::vector<std::unique_ptr<SubmissionTracker>>* g_trackers = nullptr;
 
-	bool preventSubmissionStart(CRunningScript* t_script, int submissionID = -1, int vehicleID = -1)
+bool preventSubmissionStart(CRunningScript* t_script)
+{
+	if (_strnicmp(t_script->m_szName, "R3", 10) != 0) return false;
+	if (!g_trackers) return false;
+
+	CPlayerPed* player = FindPlayerPed();
+	if (!player) return false;
+	if (!player->bInVehicle || !player->m_pVehicle) return false;
+
+	int vehicleModelId = player->m_pVehicle->m_nModelIndex;
+
+	for (const auto& tracker : *g_trackers)
 	{
-		if (_strnicmp(t_script->m_szName, "R3", 10) != 0) return false;
-		if (!g_trackers) return false;
-
-		for (const auto& tracker : *g_trackers)
-		{
-			if (submissionID != -1)
-			{
-				if (tracker->getSubmissionID() != submissionID) continue;
-			}
-			else if (vehicleID != -1)
-			{
-				auto vehicles = tracker->getSubmissionValidVehicles();
-				if (std::find(vehicles.begin(), vehicles.end(), ScriptParams[1]) == vehicles.end()) continue;
-			}
-
-			t_script->UpdateCompareFlag(tracker->vehiclesUnlocked());
-			return true;
-		}
-
-		return false;
+		if (!tracker->isVehicleValid(vehicleModelId)) continue;
+		if (tracker->vehiclesUnlocked()) continue;
+			
+		t_script->UpdateCompareFlag(false);
+		return true;
 	}
 
-	bool preventSubmissionStart_Generic(CRunningScript* t_script)
-	{
-		t_script->CollectParameters(2);
-
-		return preventSubmissionStart(t_script, -1, ScriptParams[1]);
-	}
-
-	bool preventSubmissionStart_Taxi(CRunningScript* t_script)
-	{
-		return preventSubmissionStart(t_script, TAXI_ID, -1);
-	}
-
-	bool preventSubmissionStart_Police(CRunningScript* t_script)
-	{
-		return preventSubmissionStart(t_script, VIGILANTE_ID, -1);
-	}
+	return false;
+}
 }
 
 void SubmissionStartBlocked::update(const std::vector<std::unique_ptr<SubmissionTracker>>& t_trackers)
 {
 	g_trackers = &t_trackers;
 
-	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_MODEL, &preventSubmissionStart_Generic);
-	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_TAXI, &preventSubmissionStart_Taxi);
-	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_ANY_POLICE_VEHICLE, &preventSubmissionStart_Police);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_MODEL, &preventSubmissionStart);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_TAXI, &preventSubmissionStart);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_ANY_POLICE_VEHICLE, &preventSubmissionStart);
 
 	keyHandler();
 }
@@ -76,17 +58,16 @@ void SubmissionStartBlocked::keyHandler()
 
 	if (CHud::HelpMessageDisplayed()) return;
 
-	int playerVehicleModel = player->m_pVehicle->m_nModelIndex;
+	int vehicleModelId = player->m_pVehicle->m_nModelIndex;
 
 	for (const auto& tracker : *g_trackers)
 	{
-		auto vehicles = tracker->getSubmissionValidVehicles();
-		if (std::find(vehicles.begin(), vehicles.end(), playerVehicleModel) == vehicles.end()) continue;
+		if (!tracker->isVehicleValid(vehicleModelId)) continue;
 
 		// Submission unlocked
 		if (tracker->vehiclesUnlocked()) return;
 
-		CHud::SetHelpMessage("You have not unlocked this submission yet.", true, false, false);
+		CHud::SetHelpMessage("You have not unlocked this submission yet.", false, false, false);
 		CHud::m_nHelpMessageTimer = 5; // Force set it to 5 seconds in case we show it while another help message is already shown
 	}
 }

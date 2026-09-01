@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 BurglaryTracker::BurglaryTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, {MODEL_BOXBURG}, BURGLARY_TIERS)
+	: TieredSubmissionTracker(t_submissionID, BURGLARY_TIERS)
 {
 }
 
@@ -24,6 +24,11 @@ float BurglaryTracker::getProgress() const
 }
 
 bool BurglaryTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_BOXBURG;
+}
+
+bool BurglaryTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_BOXBURG;
 }

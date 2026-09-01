@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 ParamedicTracker::ParamedicTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, {MODEL_AMBULAN}, PARAMEDIC_TIERS)
+	: TieredSubmissionTracker(t_submissionID, PARAMEDIC_TIERS)
 {
 }
 
@@ -24,6 +24,11 @@ float ParamedicTracker::getProgress() const
 }
 
 bool ParamedicTracker::locksVehicleModel(int t_modelId) const
+{
+	return t_modelId == MODEL_AMBULAN;
+}
+
+bool ParamedicTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_AMBULAN;
 }
