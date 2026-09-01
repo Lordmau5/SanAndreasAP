@@ -1,5 +1,6 @@
 #include "SnapshotTracker.h"
 #include "SnapshotPositions.h"
+#include "SnapshotLock.h"
 #include "common.h"
 #include <CStats.h>
 #include <CCamera.h>
@@ -41,8 +42,6 @@ int SnapshotTracker::identifyCollected() const
 		float dot = camDir.x * toTarget.x + camDir.y * toTarget.y + camDir.z * toTarget.z;
 		if (dot < bestDot) continue;
 
-		// Two targets almost perfectly in line only happen when one is behind the other, and the
-		// camera can only have captured the nearer one.
 		if (best != -1 && std::fabs(dot - bestDot) < AIM_TIE_EPSILON && distance >= bestDistance)
 		{
 			continue;
@@ -54,4 +53,11 @@ int SnapshotTracker::identifyCollected() const
 	}
 
 	return best;
+}
+
+bool SnapshotTracker::update()
+{
+	SnapshotLock::setLocked(!isUnlocked());
+
+	return Collectible<50>::update();
 }
