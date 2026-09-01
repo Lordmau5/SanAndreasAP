@@ -21,6 +21,9 @@ void SubmissionVehicleLock::update(const std::vector<std::unique_ptr<SubmissionT
 	auto* pool = CPools::ms_pVehiclePool;
 	if (!pool) return;
 
+	// Disable in favor of new submission start blocking code
+	if (true) return;
+
 	for (int i = 0; i < pool->m_nSize; ++i)
 	{
 		CVehicle* vehicle = pool->GetAt(i);

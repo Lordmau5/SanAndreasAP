@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 PimpingTracker::PimpingTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, PIMPING_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_BROADWAY}, PIMPING_TIERS)
 {
 }
 

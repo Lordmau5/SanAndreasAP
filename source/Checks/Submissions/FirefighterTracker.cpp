@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 FirefighterTracker::FirefighterTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, FIREFIGHTER_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_FIRETRUK}, FIREFIGHTER_TIERS)
 {
 }
 

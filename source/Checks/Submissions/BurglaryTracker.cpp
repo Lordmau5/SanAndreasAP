@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 BurglaryTracker::BurglaryTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, BURGLARY_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_BOXBURG}, BURGLARY_TIERS)
 {
 }
 

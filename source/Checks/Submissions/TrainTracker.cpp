@@ -6,7 +6,7 @@ namespace
 }
 
 TrainTracker::TrainTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, TRAIN_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_FREIGHT, MODEL_STREAK}, TRAIN_TIERS)
 {
 }
 

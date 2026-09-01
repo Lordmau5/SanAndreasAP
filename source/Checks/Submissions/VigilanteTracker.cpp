@@ -2,7 +2,20 @@
 #include <eModelID.h>
 
 VigilanteTracker::VigilanteTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, VIGILANTE_TIERS)
+	: TieredSubmissionTracker(
+		t_submissionID,
+		{
+			MODEL_COPCARLA,
+			MODEL_COPCARSF,
+			MODEL_COPCARVG,
+			MODEL_COPCARRU,
+			MODEL_ENFORCER,
+			MODEL_FBIRANCH,
+			MODEL_SWATVAN,
+			MODEL_COPBIKE
+		},
+		VIGILANTE_TIERS
+	)
 {
 }
 

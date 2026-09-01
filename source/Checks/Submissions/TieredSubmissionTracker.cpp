@@ -6,6 +6,11 @@ TieredSubmissionTracker::TieredSubmissionTracker(int t_submissionID, const Submi
 {
 }
 
+TieredSubmissionTracker::TieredSubmissionTracker(int t_submissionID, const std::vector<int> t_submissionValidVehicles, const SubmissionTierSpec& t_spec)
+	: SubmissionTracker(t_submissionID, t_submissionValidVehicles), SPEC(t_spec)
+{
+}
+
 void TieredSubmissionTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 {
 	int tier = currentTier();

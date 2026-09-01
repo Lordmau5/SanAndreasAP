@@ -325,7 +325,7 @@ void CheckListener::enforceSubmissionRewards()
 
 CheckEvent CheckListener::update()
 {
-	SubmissionStartBlocked::install(submissionTrackers);
+	SubmissionStartBlocked::update(submissionTrackers);
 	SubmissionVehicleLock::update(submissionTrackers);
 
 	if (!m_baselinesInitialized)

@@ -8,7 +8,7 @@ namespace
 }
 
 TaxiTracker::TaxiTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, TAXI_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_TAXI, MODEL_CABBIE}, TAXI_TIERS)
 {
 }
 

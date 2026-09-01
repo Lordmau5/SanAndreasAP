@@ -2,7 +2,7 @@
 #include <eModelID.h>
 
 ParamedicTracker::ParamedicTracker(int t_submissionID)
-	: TieredSubmissionTracker(t_submissionID, PARAMEDIC_TIERS)
+	: TieredSubmissionTracker(t_submissionID, {MODEL_AMBULAN}, PARAMEDIC_TIERS)
 {
 }
 
