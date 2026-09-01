@@ -16,6 +16,7 @@
 #include <CFont.h>
 #include <CRGBA.h>
 #include <CMenuManager.h>
+#include "TagSprayBlocker.h"
 
 Mod::Mod()
 {
@@ -41,6 +42,7 @@ void Mod::start()
     BlockedMarkerTint::install(m_branchProgress);
     ShopMenuText::install(m_ammuNationShop);
     SubmissionResumeLevel::install();
+    TagSprayBlocker::install();
     StreetRaceUnlock::update(m_streetRacesUnlocked);
     StreetRaceUnlock::updateDrivingSchoolBlip();
 
