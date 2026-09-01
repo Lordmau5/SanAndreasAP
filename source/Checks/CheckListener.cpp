@@ -325,8 +325,7 @@ void CheckListener::enforceSubmissionRewards()
 
 CheckEvent CheckListener::update()
 {
-	SubmissionStartBlocked::install(submissionTrackers);
-	SubmissionVehicleLock::update(submissionTrackers);
+	SubmissionStartBlocked::update(submissionTrackers);
 
 	if (!m_baselinesInitialized)
 	{
@@ -439,7 +438,7 @@ void CheckListener::setGatedContent(const std::string& t_effectNames)
 	}
 	for (const auto& tracker : submissionTrackers)
 	{
-		tracker->setVehiclesGated(false);
+		tracker->setGated(false);
 	}
 
 	for (const std::string& name : APProtocol::splitList(t_effectNames, ';'))
@@ -449,7 +448,7 @@ void CheckListener::setGatedContent(const std::string& t_effectNames)
 
 		if (spec->effect == ItemEffect::SubmissionUnlock)
 		{
-			if (SubmissionTracker* st = findTracker(spec->submissionId)) st->setVehiclesGated(true);
+			if (SubmissionTracker* st = findTracker(spec->submissionId)) st->setGated(true);
 		}
 		else if (spec->effect == ItemEffect::CollectibleUnlock && spec->trapName)
 		{
@@ -465,7 +464,7 @@ void CheckListener::submissionUnlockWasReceived(int t_submissionID)
 {
 	if (SubmissionTracker* st = findTracker(t_submissionID))
 	{
-		st->unlockVehicles();
+		st->unlock();
 	}
 }
 

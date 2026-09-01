@@ -210,9 +210,6 @@
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h">
       <Filter>Header\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="header\Checks\SubmissionVehicleLock.h">
-      <Filter>Header\Checks</Filter>
-    </ClInclude>
     <ClInclude Include="header\Checks\Submissions\Lockable.h">
       <Filter>Header\Checks\Submissions</Filter>
     </ClInclude>
@@ -453,9 +450,6 @@
       <Filter>Source\Common</Filter>
     </ClCompile>
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp">
-      <Filter>Source\Checks</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Checks\SubmissionVehicleLock.cpp">
       <Filter>Source\Checks</Filter>
     </ClCompile>
     <ClCompile Include="source\Checks\Submissions\Lockable.cpp">

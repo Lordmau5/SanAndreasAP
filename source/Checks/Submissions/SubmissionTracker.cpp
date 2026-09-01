@@ -43,7 +43,7 @@ void SubmissionTracker::save(SaveDataManager& t_saveData)
 	t_saveData.setValue(prefix + "received", checkReceived ? "1" : "0");
 	t_saveData.setValue(prefix + "completed", submissionCompleted ? "1" : "0");
 	t_saveData.setValue(prefix + "tier", getSentState());
-	t_saveData.setValue(prefix + "unlocked", vehiclesUnlocked() ? "1" : "0");
+	t_saveData.setValue(prefix + "unlocked", isUnlocked() ? "1" : "0");
 }
 
 void SubmissionTracker::load(const SaveDataManager& t_saveData)
@@ -52,5 +52,5 @@ void SubmissionTracker::load(const SaveDataManager& t_saveData)
 	restoreState(t_saveData.getValue(prefix + "received", "0") == "1",
 		t_saveData.getValue(prefix + "completed", "0") == "1");
 	restoreSentState(t_saveData.getValue(prefix + "tier", ""));
-	m_vehiclesUnlocked = t_saveData.getValue(prefix + "unlocked", "0") == "1";
+	m_isUnlocked = t_saveData.getValue(prefix + "unlocked", "0") == "1";
 }

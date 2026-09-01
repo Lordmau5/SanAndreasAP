@@ -44,7 +44,6 @@
     <ClInclude Include="header\Gameplay\BranchControllers.h" />
     <ClInclude Include="header\Common\Teleport.h" />
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h" />
-    <ClInclude Include="header\Checks\SubmissionVehicleLock.h" />
     <ClInclude Include="header\Checks\Submissions\Lockable.h" />
     <ClInclude Include="header\Gameplay\ShopMenuText.h" />
     <ClInclude Include="header\Dev\WaypointTeleport.h" />
@@ -132,7 +131,6 @@
     <ClCompile Include="source\Gameplay\BranchControllers.cpp" />
     <ClCompile Include="source\Common\Teleport.cpp" />
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp" />
-    <ClCompile Include="source\Checks\SubmissionVehicleLock.cpp" />
     <ClCompile Include="source\Checks\Submissions\Lockable.cpp" />
     <ClCompile Include="source\Gameplay\ShopMenuText.cpp" />
     <ClCompile Include="source\Dev\WaypointTeleport.cpp" />

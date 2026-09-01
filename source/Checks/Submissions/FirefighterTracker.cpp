@@ -23,7 +23,7 @@ float FirefighterTracker::getProgress() const
 	return CStats::GetStatValue(STAT_HIGHEST_FIREFIGHTER_MISSION_LEVEL);
 }
 
-bool FirefighterTracker::locksVehicleModel(int t_modelId) const
+bool FirefighterTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_FIRETRUK;
 }

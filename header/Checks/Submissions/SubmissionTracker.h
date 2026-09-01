@@ -14,6 +14,7 @@ public:
 	void checkWasReceived();
 	void submissionWasCompleted();
 	int getSubmissionID();
+	virtual bool isVehicleValid(int t_modelId) const { return false; };
 
 	bool getSubmissionCompleted() const;
 	void restoreState(bool t_checkReceived, bool t_submissionCompleted);

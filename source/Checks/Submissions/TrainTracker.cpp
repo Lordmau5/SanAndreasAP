@@ -25,3 +25,9 @@ int TrainTracker::currentTier() const
 
 	return static_cast<int>(getProgress()) >= LEVEL_ONE_PASSED ? 1 : 0;
 }
+
+bool TrainTracker::isVehicleValid(int t_modelId) const
+{
+	return t_modelId == MODEL_FREIGHT
+		|| t_modelId == MODEL_STREAK;
+}

@@ -5,49 +5,69 @@
 #include <CRunningScript.h>
 #include <CTheScripts.h>
 #include <eScriptCommands.h>
+#include "common.h"
+#include <CHud.h>
 
 namespace
 {
-	constexpr int R3_SCRIPT_BASE_OFFSET = 76402;
-	constexpr int R3_VIGILANTE_POLICE_TEST_OFFSET = 1607;
-	constexpr int R3_VIGILANTE_HUNTER_TEST_OFFSET = 1612;
-	constexpr int OPCODE_SIZE = 2;
-
 	const std::vector<std::unique_ptr<SubmissionTracker>>* g_trackers = nullptr;
 
-	bool vigilanteLocked()
-	{
-		if (!g_trackers) return false;
+bool preventSubmissionStart(CRunningScript* t_script)
+{
+	if (_strnicmp(t_script->m_szName, "R3", 10) != 0) return false;
+	if (!g_trackers) return false;
 
-		for (const auto& tracker : *g_trackers)
-		{
-			if (tracker->getSubmissionID() != VIGILANTE_ID) continue;
-			return !tracker->vehiclesUnlocked();
-		}
-		return false;
+	CPlayerPed* player = FindPlayerPed();
+	if (!player) return false;
+	if (!player->bInVehicle || !player->m_pVehicle) return false;
+
+	int vehicleModelId = player->m_pVehicle->m_nModelIndex;
+
+	for (const auto& tracker : *g_trackers)
+	{
+		if (!tracker->isVehicleValid(vehicleModelId)) continue;
+		if (tracker->isUnlocked()) break;
+
+		t_script->UpdateCompareFlag(false);
+		return true;
 	}
 
-	bool isAtInstruction(CRunningScript* t_script, int t_offset)
-	{
-		unsigned char* instruction = reinterpret_cast<unsigned char*>(CTheScripts::ScriptSpace)
-			+ R3_SCRIPT_BASE_OFFSET + t_offset + OPCODE_SIZE;
-
-		return t_script->m_pCurrentIP == instruction;
-	}
-
-	bool blockVigilanteGate(CRunningScript* t_script)
-	{
-		if (!vigilanteLocked()) return false;
-
-		return isAtInstruction(t_script, R3_VIGILANTE_POLICE_TEST_OFFSET)
-			|| isAtInstruction(t_script, R3_VIGILANTE_HUNTER_TEST_OFFSET);
-	}
+	return false;
+}
 }
 
-void SubmissionStartBlocked::install(const std::vector<std::unique_ptr<SubmissionTracker>>& t_trackers)
+void SubmissionStartBlocked::update(const std::vector<std::unique_ptr<SubmissionTracker>>& t_trackers)
 {
 	g_trackers = &t_trackers;
 
-	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_ANY_POLICE_VEHICLE, &blockVigilanteGate);
-	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_MODEL, &blockVigilanteGate);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_MODEL, &preventSubmissionStart);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_TAXI, &preventSubmissionStart);
+	ScriptCommandHook::blockCommand(COMMAND_IS_CHAR_IN_ANY_POLICE_VEHICLE, &preventSubmissionStart);
+
+	keyHandler();
+}
+
+void SubmissionStartBlocked::keyHandler()
+{
+	CPlayerPed* player = FindPlayerPed();
+	if (!player) return;
+	if (!player->bInVehicle || !player->m_pVehicle) return;
+
+	auto pad = CPad::GetPad(0);
+	if (!pad || !pad->GetLookBehindForPed()) return;
+
+	if (CHud::HelpMessageDisplayed()) return;
+
+	int vehicleModelId = player->m_pVehicle->m_nModelIndex;
+
+	for (const auto& tracker : *g_trackers)
+	{
+		if (!tracker->isVehicleValid(vehicleModelId)) continue;
+
+		// Submission unlocked
+		if (tracker->isUnlocked()) return;
+
+		CHud::SetHelpMessage("You have not unlocked this submission yet.", false, false, false);
+		CHud::m_nHelpMessageTimer = 5; // Force set it to 5 seconds in case we show it while another help message is already shown
+	}
 }

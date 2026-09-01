@@ -23,7 +23,7 @@ float VigilanteTracker::getProgress() const
 	return CStats::GetStatValue(STAT_HIGHEST_VIGILANTE_MISSION_LEVEL);
 }
 
-bool VigilanteTracker::locksVehicleModel(int t_modelId) const
+bool VigilanteTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_COPCARLA
 		|| t_modelId == MODEL_COPCARSF

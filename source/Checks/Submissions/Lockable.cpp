@@ -1,16 +1,16 @@
 #include "Lockable.h"
 
-void Lockable::unlockVehicles()
+void Lockable::unlock()
 {
-	m_vehiclesUnlocked = true;
+	m_isUnlocked = true;
 }
 
-void Lockable::setVehiclesGated(bool t_gated)
+void Lockable::setGated(bool t_gated)
 {
-	m_vehiclesGated = t_gated;
+	m_isGated = t_gated;
 }
 
-bool Lockable::vehiclesUnlocked() const
+bool Lockable::isUnlocked() const
 {
-	return !m_vehiclesGated || m_vehiclesUnlocked;
+	return !m_isGated || m_isUnlocked;
 }

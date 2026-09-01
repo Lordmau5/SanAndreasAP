@@ -29,7 +29,7 @@ float TaxiTracker::getProgress() const
 	return static_cast<float>(*reinterpret_cast<int32_t*>(TAXI_FARES_ADDR));
 }
 
-bool TaxiTracker::locksVehicleModel(int t_modelId) const
+bool TaxiTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_TAXI
 		|| t_modelId == MODEL_CABBIE;

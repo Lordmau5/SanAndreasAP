@@ -6,5 +6,6 @@ class SubmissionTracker;
 
 namespace SubmissionStartBlocked
 {
-	void install(const std::vector<std::unique_ptr<SubmissionTracker>>& t_trackers);
+	void update(const std::vector<std::unique_ptr<SubmissionTracker>>& t_trackers);
+	void keyHandler();
 }

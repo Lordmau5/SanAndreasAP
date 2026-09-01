@@ -15,7 +15,7 @@ float PimpingTracker::getProgress() const
 	return CStats::GetStatValue(STAT_PIMPING_LEVEL);
 }
 
-bool PimpingTracker::locksVehicleModel(int t_modelId) const
+bool PimpingTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_BROADWAY;
 }
