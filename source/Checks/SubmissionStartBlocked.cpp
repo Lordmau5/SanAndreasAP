@@ -26,8 +26,8 @@ bool preventSubmissionStart(CRunningScript* t_script)
 	for (const auto& tracker : *g_trackers)
 	{
 		if (!tracker->isVehicleValid(vehicleModelId)) continue;
-		if (tracker->vehiclesUnlocked()) continue;
-			
+		if (tracker->vehiclesUnlocked()) break;
+
 		t_script->UpdateCompareFlag(false);
 		return true;
 	}
