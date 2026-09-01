@@ -8,7 +8,6 @@ class ParamedicTracker : public TieredSubmissionTracker
 public:
 	ParamedicTracker(int t_submissionID);
 	void enforceSubmissionReward() override;
-	bool locksVehicleModel(int t_modelId) const override;
 	bool isVehicleValid(int t_modelId) const override;
 
 protected:

@@ -26,7 +26,6 @@
 #include "BikeSchoolTracker.h"
 #include "CourierTracker.h"
 #include "RaceTracker.h"
-#include "SubmissionVehicleLock.h"
 #include "SubmissionStartBlocked.h"
 #include "ShootingRangeTracker.h"
 #include "DrivingSchoolTracker.h"

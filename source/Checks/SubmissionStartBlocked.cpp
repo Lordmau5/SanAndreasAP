@@ -26,7 +26,7 @@ bool preventSubmissionStart(CRunningScript* t_script)
 	for (const auto& tracker : *g_trackers)
 	{
 		if (!tracker->isVehicleValid(vehicleModelId)) continue;
-		if (tracker->vehiclesUnlocked()) break;
+		if (tracker->isUnlocked()) break;
 
 		t_script->UpdateCompareFlag(false);
 		return true;
@@ -65,7 +65,7 @@ void SubmissionStartBlocked::keyHandler()
 		if (!tracker->isVehicleValid(vehicleModelId)) continue;
 
 		// Submission unlocked
-		if (tracker->vehiclesUnlocked()) return;
+		if (tracker->isUnlocked()) return;
 
 		CHud::SetHelpMessage("You have not unlocked this submission yet.", false, false, false);
 		CHud::m_nHelpMessageTimer = 5; // Force set it to 5 seconds in case we show it while another help message is already shown

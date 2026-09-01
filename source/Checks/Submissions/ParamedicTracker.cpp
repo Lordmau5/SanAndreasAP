@@ -23,11 +23,6 @@ float ParamedicTracker::getProgress() const
 	return CStats::GetStatValue(STAT_HIGHEST_PARAMEDIC_MISSION_LEVEL);
 }
 
-bool ParamedicTracker::locksVehicleModel(int t_modelId) const
-{
-	return t_modelId == MODEL_AMBULAN;
-}
-
 bool ParamedicTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_AMBULAN;

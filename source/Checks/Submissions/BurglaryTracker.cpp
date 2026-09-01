@@ -23,11 +23,6 @@ float BurglaryTracker::getProgress() const
 	return CStats::GetStatValue(STAT_MONEY_MADE_FROM_BURGLARY);
 }
 
-bool BurglaryTracker::locksVehicleModel(int t_modelId) const
-{
-	return t_modelId == MODEL_BOXBURG;
-}
-
 bool BurglaryTracker::isVehicleValid(int t_modelId) const
 {
 	return t_modelId == MODEL_BOXBURG;

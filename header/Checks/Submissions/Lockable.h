@@ -5,13 +5,13 @@ class Lockable
 public:
 	virtual ~Lockable() = default;
 
-	virtual bool locksVehicleModel(int t_modelId) const { return false; }
+	virtual bool isVehicleValid(int t_modelId) const { return false; }
 
-	void unlockVehicles();
-	void setVehiclesGated(bool t_gated);
-	bool vehiclesUnlocked() const;
+	void unlock();
+	void setGated(bool t_gated);
+	bool isUnlocked() const;
 
 protected:
-	bool m_vehiclesUnlocked = false;
-	bool m_vehiclesGated = false;
+	bool m_isUnlocked = false;
+	bool m_isGated = false;
 };
