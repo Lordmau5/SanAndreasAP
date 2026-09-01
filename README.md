@@ -14,11 +14,11 @@ checks to the multiworld.
 ## Related repositories
 
 The randomizer logic (locations, items, rules) is developed in my
-[Archipelago fork](https://github.com/awakenbad/ArchipelagoSA) under
+[Archipelago fork](https://github.com/awakenbad/Archipelago) under
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.7.0)
+## Current scope (v0.8.0)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
@@ -26,6 +26,7 @@ the C++ mod.
     - **Yay Ka-Boom-Boom** (Los Santos → San Fierro)
     - **A Home in the Hills** (Los Santos → Las Venturas)
     - **End of the Line** (Los Santos → Return to Los Santos)
+    - **100%** (All story missions and side-activities)
 - 100 story missions across all regions
   gated by Progressive Mission items
 - Choosing a starting point (Badlands, San Fierro, Las Venturas)
@@ -36,7 +37,7 @@ the C++ mod.
     - Burglary (one per $1000 stolen) etc.
 - Ammu-Nation sells multiworld items.
 - Taking over gang territories in RTLS sends checks per 5%
-- Bike Challenges, Stadium Events, Courier missions, Street Races send checks.
+- Bike Challenges, Stadium Events, Courier missions, Street Races, Gun Challenges send checks.
 - Traps:
     - Wanted Level
     - Fat CJ
@@ -50,6 +51,7 @@ the C++ mod.
 - Autosaving to slot 8 after every story mission.
 - Universal Tracker tab in `GTA SA Client`
 - Deathlink support
+- Fast Travel markers
 
 ## Setup
 
@@ -60,17 +62,16 @@ the C++ mod.
   (2:39–8:27) to downpatch
 - An ASI Loader — any should work; tested with
   [Silent's ASI Loader](https://github.com/GTAmodding/ASI-Loader/releases/tag/v1.3.0)
-- [ThirteenAG's Widescreen Fix](https://gtaforums.com/topic/547841-gtanfsmpother-widescreen-fixes-pack/)
-  (some text does not scale correctly without it)
+- ~~[ThirteenAG's Widescreen Fix](https://gtaforums.com/topic/547841-gtanfsmpother-widescreen-fixes-pack/)~~ (not required anymore)
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases) 0.6.7+
 
 ### Install
 
-1. Download the `Archipelago.SA.asi` and `gta_sa.apworld` from the latest
+1. Download the `SanAndreasAP-vX.X.X.zip` and `gta_sa.apworld` from the latest
    [release](https://github.com/awakenbad/SanAndreasAP/releases).
 2. Install `gta_sa.apworld` by double-clicking it (a popup should appear confirming the
    install), then restart the Archipelago Launcher.
-3. Copy `Archipelago.SA.asi` into the `scripts` folder inside your GTA San
+3. Extract contents of `SanAndreasAP-vX.X.X.zip` into the `scripts` folder inside your GTA San
    Andreas installation directory. Create the folder if it doesn't exist.
 4. If you haven't already, create a `.yaml` file:
    - In the Archipelago Launcher, open **Options Creator**
@@ -95,17 +96,7 @@ Not required, but they improve the experience:
   modes, which makes alt-tabbing to the Archipelago client much less painful.
 
 ### Using Starting point save files
-1. Download the `StartingPointSaves-vX.X.X.zip` from the latest
-   [release](https://github.com/awakenbad/SanAndreasAP/releases)
-2. There are three folders: *Badlands*, *San Fierro*, *Las Venturas*
-3. Place both files from one of the folders inside:
-   `Documents/GTA San Andreas User Files`
-4. Launch the game and load into the save
-
-> **Note:** these use save slots 2, 3 and 4. If you have your own saves there,
-> back them up first or rename the files to a free slot. If you rename one,
-> rename **both** to match (`GTASAsf5.b` needs `GTASAsf5.b_ap.dat`), otherwise
-> the game save and its Archipelago data won't be paired up.
+Starting point saves now live inside `scripts/Archipelago`, leave them there. On a non Los Santos start they will appear in the load list.
 
 ## How does this mod work?
 
@@ -118,6 +109,7 @@ Not required, but they improve the experience:
   can find it from anywhere.
 - A respawning spray can sits outside CJ's house.
 - A respawning camera sits outside Doherty Garage.
+- A respawning jetpack sits outside Four Dragons Casino.
 - The game autosaves to **slot 8** ("Autosave: [mission]") after every story
   mission and side-activity completion.
 - On-screen notifications show items you receive and checks you send to other
@@ -137,21 +129,15 @@ Not required, but they improve the experience:
 
 ## Notes
 
-- Archipelago progress is stored next to your GTA save files as
-  `<savename>_ap.dat`. If you move or back up saves, keep those files
-  together.
+- Save files and archipelago progress are stored in `GTA San Andreas User Files/archipelago`.
 - The client must be running before checks can be sent; anything you complete
   while it is disconnected is sent automatically once it reconnects.
-- Connect the client to the room for the **same seed** as the save you load.
-  Loading a save that belongs to a different seed will misapply items.
 
 ## Support
 If you ever feel like supporting the project, there's a Sponsor button at the top of the
 repo. It's completely optional and not required for the mod's development.
 
 ## Roadmap
-
-- Remaining checks for a 100% goal
 - All missions startable from `In The Beginning`
 
 ## Credits
