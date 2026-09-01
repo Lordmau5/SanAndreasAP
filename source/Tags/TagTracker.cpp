@@ -41,7 +41,7 @@ int TagTracker::identifyCollected() const
 
 bool TagTracker::update()
 {
-	TagSprayBlocker::locked = !isUnlocked();
+	TagSprayBlocker::setLocked(!isUnlocked());
 
 	return Collectible<100>::update();
 }

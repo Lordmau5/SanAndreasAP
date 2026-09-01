@@ -11,6 +11,8 @@ namespace
 	constexpr uintptr_t SPRAY_PAINT_WORLD_CALL = 0x73A0FF;
 	constexpr uintptr_t SPRAY_PAINT_WORLD_FUNCTION = 0x565B70;
 
+	bool g_locked = false;
+
 	bool isNextToTaggingUpTurfTags()
 	{
 		CPlayerPed* player = FindPlayerPed();
@@ -30,7 +32,7 @@ namespace
 
 	int sprayPaintWorld(CVector* point, CVector* outDir, float radius, char processTagAlphaState)
 	{
-		if (TagSprayBlocker::locked)
+		if (g_locked)
 		{
 			if (!RunningScripts::isActive("SWEET1")) return 0;
 			if (!isNextToTaggingUpTurfTags()) return 0;
@@ -43,4 +45,9 @@ namespace
 void TagSprayBlocker::install()
 {
 	plugin::patch::RedirectCall(SPRAY_PAINT_WORLD_CALL, &sprayPaintWorld);
+}
+
+void TagSprayBlocker::setLocked(bool t_locked)
+{
+	g_locked = t_locked;
 }

@@ -3,7 +3,6 @@
 
 namespace TagSprayBlocker
 {
-	static bool locked = true;
-
 	void install();
+	void setLocked(bool t_locked);
 };
