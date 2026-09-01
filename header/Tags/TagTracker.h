@@ -7,10 +7,6 @@ public:
 	TagTracker();
 
 	bool update() override;
-	const char* consumeLockedNotice() override;
-
-private:
-	bool m_noticePending = false;
 
 protected:
 	float readCount() const override;

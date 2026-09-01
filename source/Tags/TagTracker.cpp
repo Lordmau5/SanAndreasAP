@@ -6,6 +6,7 @@
 #include "common.h"
 #include <CRadar.h>
 #include <cstdint>
+#include "TagSprayBlocker.h"
 
 TagTracker::TagTracker()
 	: Collectible<100>(tagPositions, RADAR_SPRITE_SPRAY, "tags_claimed", "TAG")
@@ -40,26 +41,7 @@ int TagTracker::identifyCollected() const
 
 bool TagTracker::update()
 {
-	if (!isUnlocked() && !CTheScripts::IsPlayerOnAMission())
-	{
-		if (CPlayerPed* player = FindPlayerPed())
-		{
-			int slot = player->GetWeaponSlot(WEAPONTYPE_SPRAYCAN);
-			if (slot >= 0 && player->m_aWeapons[slot].m_eWeaponType == WEAPONTYPE_SPRAYCAN)
-			{
-				player->ClearWeapon(WEAPONTYPE_SPRAYCAN);
-				m_noticePending = true;
-			}
-		}
-	}
+	TagSprayBlocker::locked = !isUnlocked();
 
 	return Collectible<100>::update();
-}
-
-const char* TagTracker::consumeLockedNotice()
-{
-	if (!m_noticePending) return nullptr;
-
-	m_noticePending = false;
-	return "Archipelago: Spray can removed - Tags are locked";
 }
