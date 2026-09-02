@@ -18,7 +18,7 @@ The randomizer logic (locations, items, rules) is developed in my
 `worlds/gta_sa` — that's where `gta_sa.apworld` comes from. This repo only has
 the C++ mod.
 
-## Current scope (v0.8.0)
+## Current scope (v0.8.1)
 
 - **Goal:**
     - **The Green Sabre** (Los Santos only)
