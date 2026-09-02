@@ -19,11 +19,6 @@ namespace
 	constexpr char SHOW_BLIPS_KEY[] = "show_tag_blips";
 
 	constexpr float POSITION_TOLERANCE_SQ = 0.0001f;
-
-	bool isPauseMapOpen()
-	{
-		return FrontEndMenuManager.m_bMenuActive && FrontEndMenuManager.m_nCurrentMenuPage == MENUPAGE_MAP;
-	}
 }
 
 void CollectibleBlipsManager::save(SaveDataManager& t_saveData)
@@ -136,7 +131,7 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 	m_targets = std::move(t_targets);
 	m_handles.resize(m_targets.size(), -1);
 
-	if (isPauseMapOpen())
+	if (MenuMap::isOpen())
 	{
 		clearAllBlips();
 		return false;
@@ -232,8 +227,9 @@ bool CollectibleBlipsManager::render(std::vector<BlipTarget> t_targets)
 	return worldWiped;
 }
 
-void CollectibleBlipsManager::drawNumbers() const
+void CollectibleBlipsManager::drawRadarNumbers() const
 {
+	if (MenuMap::isOpen()) return;
 	if (!m_blipsEnabled) return;
 
 	CFont::SetFontStyle(FONT_SUBTITLES);
@@ -277,7 +273,7 @@ void CollectibleBlipsManager::clearAllBlips()
 
 void CollectibleBlipsManager::drawMapOverlay()
 {
-	if (!isPauseMapOpen()) return;
+	if (!MenuMap::isOpen()) return;
 	if (!m_blipsEnabled) return;
 
 	clearAllBlips();

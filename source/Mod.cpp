@@ -416,8 +416,6 @@ bool Mod::applyItemEffect(const std::string& t_effectName, const std::string& t_
 void Mod::drawOverlay()
 {
     m_notificationOverlay.draw();
-    m_blipManager.drawNumbers();
-    drawMissionCounts();
     m_trapHandler.drawTimers();
     if (ModSettings::fastTravelEnabled())
     {
@@ -440,14 +438,15 @@ const char* Mod::branchAtBlip(const CVector& t_pos) const
     return nullptr;
 }
 
-void Mod::drawMissionCounts()
+void Mod::drawMissionCountsOnRadar()
 {
+    if (MenuMap::isOpen()) return;
     drawMissionCountsImpl(false);
 }
 
 void Mod::drawMissionCountsOnMap()
 {
-    if (!FrontEndMenuManager.m_bMenuActive || FrontEndMenuManager.m_nCurrentMenuPage != MENUPAGE_MAP) return;
+    if (!MenuMap::isOpen()) return;
     drawMissionCountsImpl(true);
 }
 
@@ -495,6 +494,11 @@ void Mod::drawMissionCountsImpl(bool t_menuMap)
         CFont::SetColor(pending > 0 ? CRGBA(120, 255, 120, 255) : CRGBA(255, 70, 70, 255));
         CFont::PrintString(screenPos.x, screenPos.y, std::to_string(pending).c_str());
     }
+}
+
+void Mod::drawCollectiblesOnRadar()
+{
+    m_blipManager.drawRadarNumbers();
 }
 
 void Mod::drawCollectiblesOnMap()

@@ -9,6 +9,11 @@ namespace MenuMap
 {
 	constexpr float MAP_RANGE = 2990.0f;
 
+	inline bool isOpen()
+	{
+		return FrontEndMenuManager.m_bMenuActive && FrontEndMenuManager.m_nCurrentMenuPage == MENUPAGE_MAP;
+	}
+
 	inline CVector2D project(const CVector& t_worldPos)
 	{
 		float virtualX = FrontEndMenuManager.m_fMapBaseX + FrontEndMenuManager.m_fMapZoom * (t_worldPos.x / MAP_RANGE);

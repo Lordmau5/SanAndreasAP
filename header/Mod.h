@@ -41,6 +41,8 @@ public:
 	void start();
 	void drawOverlay();
 	void drawMenuOverlay();
+	void drawMissionCountsOnRadar();
+	void drawCollectiblesOnRadar();
 	void drawMissionCountsOnMap();
 	void drawCollectiblesOnMap();
 
@@ -101,7 +103,6 @@ private:
 	void sendChecksToAP(CheckEvent t_event);
 
 	void drawVersionLabel();
-	void drawMissionCounts();
 	void drawMissionCountsImpl(bool t_menuMap);
 	const char* branchAtBlip(const CVector& t_pos) const;
 

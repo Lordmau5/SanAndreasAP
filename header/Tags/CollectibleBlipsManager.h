@@ -12,7 +12,7 @@ public:
 	void load(const SaveDataManager& t_saveData) override;
 
 	bool render(std::vector<BlipTarget> t_targets);
-	void drawNumbers() const;
+	void drawRadarNumbers() const;
 	void drawMapOverlay();
 	void onWorldWiped();
 	void toggleBlips();
