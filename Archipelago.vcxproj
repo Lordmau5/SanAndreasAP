@@ -43,6 +43,8 @@
     <ClInclude Include="header\Gameplay\CityUnlock.h" />
     <ClInclude Include="header\Gameplay\FastTravel.h" />
     <ClInclude Include="header\Gameplay\BranchControllers.h" />
+    <ClInclude Include="header\Gameplay\Branches\BranchController.h" />
+    <ClInclude Include="header\Gameplay\Branches\EdgeCases.h" />
     <ClInclude Include="header\Common\Teleport.h" />
     <ClInclude Include="header\Checks\SubmissionStartBlocked.h" />
     <ClInclude Include="header\Checks\Submissions\Lockable.h" />
@@ -133,6 +135,8 @@
     <ClCompile Include="source\Gameplay\CityUnlock.cpp" />
     <ClCompile Include="source\Gameplay\FastTravel.cpp" />
     <ClCompile Include="source\Gameplay\BranchControllers.cpp" />
+    <ClCompile Include="source\Gameplay\Branches\BranchController.cpp" />
+    <ClCompile Include="source\Gameplay\Branches\EdgeCases.cpp" />
     <ClCompile Include="source\Common\Teleport.cpp" />
     <ClCompile Include="source\Checks\SubmissionStartBlocked.cpp" />
     <ClCompile Include="source\Checks\Submissions\Lockable.cpp" />
@@ -211,7 +215,7 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Release\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Dev;$(ProjectDir)header\Gameplay;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Dev;$(ProjectDir)header\Gameplay;$(ProjectDir)header\Gameplay\Branches;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug GTA-SA|Win32'">
@@ -221,7 +225,7 @@
     <IntDir>$(ProjectDir)obj\GTA-SA\Debug\</IntDir>
     <TargetName>Archipelago.SA</TargetName>
     <TargetExt>.asi</TargetExt>
-    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Dev;$(ProjectDir)header\Gameplay;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)header;$(ProjectDir)header\Checks;$(ProjectDir)header\Checks\Submissions;$(ProjectDir)header\Common;$(ProjectDir)header\Dev;$(ProjectDir)header\Gameplay;$(ProjectDir)header\Gameplay\Branches;$(ProjectDir)header\HUD;$(ProjectDir)header\Persistence;$(ProjectDir)header\Protocol;$(ProjectDir)header\Tags;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release GTA-SA|Win32'">

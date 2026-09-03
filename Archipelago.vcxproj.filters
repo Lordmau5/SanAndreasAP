@@ -19,6 +19,9 @@
     <Filter Include="Header\Gameplay">
       <UniqueIdentifier>{c3d2e5f4-6d70-4c73-7e5f-2a3b4c5d6e72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header\Gameplay\Branches">
+      <UniqueIdentifier>{2c7f9a10-4b33-4d61-9f28-71a0c5e4b802}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header\Tags">
       <UniqueIdentifier>{d4c3f6a5-7e81-4d64-6f4a-3b4c5d6e7f83}</UniqueIdentifier>
     </Filter>
@@ -48,6 +51,9 @@
     </Filter>
     <Filter Include="Source\Gameplay">
       <UniqueIdentifier>{dae9fc0b-de47-4d6a-0f20-9b0c1d2e3f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Gameplay\Branches">
+      <UniqueIdentifier>{5e81b3c4-6d09-4a52-8c17-3f9d2e6a4b15}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Tags">
       <UniqueIdentifier>{ebfa0d1c-ef58-4e7b-a031-0c1d2e3f4a5a}</UniqueIdentifier>
@@ -200,6 +206,12 @@
     </ClInclude>
     <ClInclude Include="header\Gameplay\FastTravel.h">
       <Filter>Header\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Gameplay\Branches\BranchController.h">
+      <Filter>Header\Gameplay\Branches</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Gameplay\Branches\EdgeCases.h">
+      <Filter>Header\Gameplay\Branches</Filter>
     </ClInclude>
     <ClInclude Include="header\Gameplay\BranchControllers.h">
       <Filter>Header\Gameplay</Filter>
@@ -451,6 +463,12 @@
     </ClCompile>
     <ClCompile Include="source\Gameplay\FastTravel.cpp">
       <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Branches\BranchController.cpp">
+      <Filter>Source\Gameplay\Branches</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Gameplay\Branches\EdgeCases.cpp">
+      <Filter>Source\Gameplay\Branches</Filter>
     </ClCompile>
     <ClCompile Include="source\Gameplay\BranchControllers.cpp">
       <Filter>Source\Gameplay</Filter>

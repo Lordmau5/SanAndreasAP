@@ -122,7 +122,7 @@ void Mod::updateGameplaySystems()
     m_checkGiver.update();
     CityUnlock::update();
     if (ModSettings::fastTravelEnabled()) FastTravel::update();
-    //BranchControllers::update(m_branchProgress);
+    BranchControllers::update(m_branchProgress);
 
     if (m_autoSaveManager.update())
     {
