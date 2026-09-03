@@ -95,6 +95,11 @@ Not required, but they improve the experience:
 - [WindowedMode](https://github.com/ThirteenAG/III.VC.SA.WindowedMode) - windowed and borderless
   modes, which makes alt-tabbing to the Archipelago client much less painful.
 
+> [!WARNING]
+> **CLEO 4** completely breaks the mod.
+>
+> If you already run CLEO for other mods, it has to be [CLEO 5](https://cleo.li/) (tested with 5.4.0)
+
 ### Using Starting point save files
 Starting point saves now live inside `scripts/Archipelago`, leave them there. On a non Los Santos start they will appear in the load list.
 
@@ -117,9 +122,9 @@ Starting point saves now live inside `scripts/Archipelago`, leave them there. On
 
 ## Known issues
 
-- Some text may not scale correctly without Widescreen Fix installed.
 - Autosave titles longer than ~22 characters are truncated.
 - The Caligula's Casino Progressive Mission counter is misaligned.
+- CLEO 4 or older breaking most features of the mod.
 
 ## Troubleshooting
 
