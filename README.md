@@ -96,7 +96,7 @@ Not required, but they improve the experience:
   modes, which makes alt-tabbing to the Archipelago client much less painful.
 
 > [!WARNING]
-> **CLEO 4** completely breaks the mod.
+> **CLEO 4** and older completely breaks the mod.
 >
 > If you already run CLEO for other mods, it has to be [CLEO 5](https://cleo.li/) (tested with 5.4.0)
 
