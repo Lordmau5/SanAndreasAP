@@ -441,12 +441,14 @@ const char* Mod::branchAtBlip(const CVector& t_pos) const
 void Mod::drawMissionCountsOnRadar()
 {
     if (MenuMap::isOpen()) return;
+    if (!CTheScripts::IsPlayerOnAMission())
     drawMissionCountsImpl(false);
 }
 
 void Mod::drawMissionCountsOnMap()
 {
     if (!MenuMap::isOpen()) return;
+    if (!CTheScripts::IsPlayerOnAMission())
     drawMissionCountsImpl(true);
 }
 
