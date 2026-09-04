@@ -3,7 +3,7 @@
 
 namespace
 {
-	constexpr int WON_POSITION = 1;
+	constexpr int PASSED = 1;
 }
 
 RaceTracker::RaceTracker(int t_submissionID, const SubmissionTierSpec& t_spec, int t_firstRaceIndex)
@@ -17,8 +17,8 @@ void RaceTracker::pollNewTierSlots(std::vector<int>& t_outSlots)
 	{
 		if (m_sent[tier]) continue;
 
-		int global = RACE_BEST_POSITION_GLOBALS_BASE + FIRST_RACE_INDEX + tier;
-		if (ScriptGlobals::read(global) != WON_POSITION) continue;
+		int global = RACE_PASSED_GLOBALS_BASE + FIRST_RACE_INDEX + tier;
+		if (ScriptGlobals::read(global) != PASSED) continue;
 
 		m_sent[tier] = true;
 		t_outSlots.push_back(SPEC.baseSlot + tier);
