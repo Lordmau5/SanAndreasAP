@@ -2,5 +2,6 @@
 
 namespace CityUnlock
 {
+	void install();
 	void update();
 }

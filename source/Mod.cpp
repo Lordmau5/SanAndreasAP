@@ -43,6 +43,7 @@ void Mod::start()
     ShopMenuText::install(m_ammuNationShop);
     SubmissionResumeLevel::install();
     TagSprayBlocker::install();
+    CityUnlock::install();
     StreetRaceUnlock::update(m_streetRacesUnlocked);
     StreetRaceUnlock::updateDrivingSchoolBlip();
     WangCarsUnlock::update(m_wangCarsUnlocked);
