@@ -32,13 +32,13 @@ inline constexpr int COURIER_SF_ID = 146;
 inline constexpr int COURIER_LV_ID = 147;
 
 inline constexpr int DRIVING_SCHOOL_SCORE_GLOBALS[] = {
-	91, 92, 94, 96, 97, 98, 100, 101, 102, 103, 105, 107,
+	107, 105, 98, 96, 94, 103, 91, 101, 92, 102, 100, 97,
 };
 inline constexpr int FLYING_SCHOOL_SCORE_GLOBALS[] = {
 	1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951,
 };
 inline constexpr int BIKE_SCHOOL_SCORE_GLOBALS[] = {
-	2164, 2165, 2166, 2167, 2168, 2169,
+	2166, 2167, 2164, 2168, 2165, 2169,
 };
 inline constexpr int BOAT_SCHOOL_SCORE_GLOBALS[] = {
 	1963, 1964, 1965, 1966, 1967,
