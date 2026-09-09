@@ -56,6 +56,7 @@ inline constexpr int DRIVING_SCHOOL_UNLOCKED_GLOBAL = 1397;
 inline constexpr int STREET_RACES_UNLOCKED_GLOBAL = 1398;
 inline constexpr int WANG_CARS_AVAILABLE_ID = 1399;
 inline constexpr int RACE_PASSED_GLOBALS_BASE = 2300;
+inline constexpr int CESAR_MISSION_COUNTER_GLOBAL = 457;
 
 inline constexpr int RACES_LS_ID = 150;
 inline constexpr int RACES_SF_ID = 151;

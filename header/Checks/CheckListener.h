@@ -89,6 +89,12 @@ private:
 	FightingStyleArbiter m_styleArbiter;
 	std::vector<std::unique_ptr<SubmissionTracker>> submissionTrackers;
 
+	static constexpr int HIGH_STAKES_ID = 36;
+	static constexpr int HIGH_STAKES_PASSED = 1;
+	static constexpr char HIGH_STAKES_SENT_KEY[] = "high_stakes_sent";
+	bool m_highStakesFired = false;
+	bool highStakesPassed();
+
 	bool m_baselinesInitialized = false;
 
 	TagTracker m_tagTracker;

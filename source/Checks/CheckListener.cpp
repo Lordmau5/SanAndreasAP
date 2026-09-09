@@ -7,6 +7,7 @@
 #include "CTheScripts.h"
 #include "CCutsceneMgr.h"
 #include "CZone.h"
+#include "ScriptGlobals.h"
 #include <algorithm>
 #include <cctype>
 #include <cstring>
@@ -85,6 +86,8 @@ void CheckListener::setIncludedCollectibles(const std::string& t_config)
 
 void CheckListener::save(SaveDataManager& t_saveData)
 {
+	t_saveData.setValue(HIGH_STAKES_SENT_KEY, m_highStakesFired ? "1" : "0");
+
 	for (const CollectibleTracker* collectible : m_collectibles)
 	{
 		collectible->save(t_saveData);
@@ -100,6 +103,7 @@ void CheckListener::load(const SaveDataManager& t_saveData)
 {
 	resyncBaselines();
 	m_endingFired = false;
+	m_highStakesFired = t_saveData.getValue(HIGH_STAKES_SENT_KEY, "0") == "1";
 
 	for (CollectibleTracker* collectible : m_collectibles)
 	{
@@ -118,6 +122,15 @@ bool CheckListener::isEndingCutscenePlaying() const
 
 	const char* name = CCutsceneMgr::ms_cutsceneName;
 	return name && std::strncmp(name, ENDING_CUTSCENE_NAME, 8) == 0;
+}
+
+bool CheckListener::highStakesPassed()
+{
+	if (m_highStakesFired) return false;
+	if (ScriptGlobals::read(CESAR_MISSION_COUNTER_GLOBAL) != HIGH_STAKES_PASSED) return false;
+
+	m_highStakesFired = true;
+	return true;
 }
 
 bool CheckListener::missionChecker()
@@ -150,6 +163,8 @@ bool CheckListener::missionChecker()
 
 		if (!alreadySent && missionIDcounter < static_cast<int>(missions.size()))
 		{
+			if (missionIDcounter == HIGH_STAKES_ID) m_highStakesFired = true;
+
 			if (SubmissionTracker* st = findTracker(missionIDcounter))
 			{
 				st->submissionWasCompleted();
@@ -158,6 +173,12 @@ bool CheckListener::missionChecker()
 			m_pendingMissions.push(currentMission);
 		}
 	}
+
+	if (highStakesPassed())
+	{
+		m_pendingMissions.push(missions[HIGH_STAKES_ID]);
+	}
+
 	return m_pendingMissions.hasPending();
 }
 
