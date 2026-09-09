@@ -34,6 +34,7 @@ namespace
 
     constexpr size_t ANGEL_PINE_TRAILER_MARKER = 9;
     constexpr size_t DOHERTY_GARAGE_MARKER = 15;
+    constexpr size_t FLIGHT_SCHOOL_MARKER = 24;
     constexpr size_t MADD_DOGG_MANSION_MARKER = 31;
     constexpr size_t JOHNSON_HOUSE_MARKER = 33;
 
@@ -66,6 +67,12 @@ namespace
         if (!t_progress.missionCompleted(104)) return nullptr;   // Home Coming
         if (!t_progress.missionCompleted(106)) return "Sweet";   // Beat Down on B Dup
         return nullptr;
+    }
+
+    const char* activeBranchAtFlightSchool(const BranchProgress& t_progress)
+    {
+        if (t_progress.completed("Toreno") >= 5) return nullptr;
+        return "Toreno";
     }
 
     constexpr float MARKER_TOLERANCE_SQ = 9.0f;
@@ -111,6 +118,7 @@ const char* activeBranchAtMarker(size_t t_markerIndex, const BranchProgress& t_p
     if (t_markerIndex == DOHERTY_GARAGE_MARKER) return activeBranchAtDohertyGarage(t_progress);
     if (t_markerIndex == MADD_DOGG_MANSION_MARKER) return activeBranchAtMaddDoggMansion(t_progress);
     if (t_markerIndex == JOHNSON_HOUSE_MARKER) return activeBranchAtJohnsonHouse(t_progress);
+    if (t_markerIndex == FLIGHT_SCHOOL_MARKER) return activeBranchAtFlightSchool(t_progress);
 
     return t_markerIndex < MISSION_START_POS_BRANCH_COUNT ? missionStartPosBranch[t_markerIndex]
                                                           : nullptr;
