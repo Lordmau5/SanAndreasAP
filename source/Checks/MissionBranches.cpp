@@ -71,8 +71,8 @@ namespace
 
     const char* activeBranchAtFlightSchool(const BranchProgress& t_progress)
     {
-        if (t_progress.completed("Toreno") >= 5) return nullptr;
-        return "Toreno";
+        if (t_progress.completed("Toreno") < 5) return "Toreno";
+        return nullptr;
     }
 
     constexpr float MARKER_TOLERANCE_SQ = 9.0f;
