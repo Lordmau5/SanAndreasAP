@@ -40,6 +40,7 @@ namespace
 		{ "unlock_taxi",            ItemEffect::SubmissionUnlock,   TAXI_ID,             nullptr,     "Archipelago: Unlocked Taxi",                 NotificationIcon::Taxi },
 		{ "unlock_pimping",         ItemEffect::SubmissionUnlock,   PIMPING_ID,          nullptr,     "Archipelago: Unlocked Pimping",              NotificationIcon::Stamina },
 		{ "unlock_burglary",        ItemEffect::SubmissionUnlock,   BURGLARY_ID,         nullptr,     "Archipelago: Unlocked Burglary",             NotificationIcon::Stamina },
+		{ "unlock_courier",         ItemEffect::SubmissionUnlock,   COURIER_LS_ID,       nullptr,     "Archipelago: Unlocked Courier",              NotificationIcon::Stamina },
 
 		{ "trap_tires",          ItemEffect::Trap,               -1,                  "tires",     "Archipelago: Flat Tires Trap!",             NotificationIcon::Trap },
 		{ "trap_fat",            ItemEffect::Trap,               -1,                  "fat",       "Archipelago: Fat CJ Trap!",                 NotificationIcon::Trap },

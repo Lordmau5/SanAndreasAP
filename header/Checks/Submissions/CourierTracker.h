@@ -7,6 +7,7 @@ public:
 	CourierTracker(int t_submissionID, const SubmissionTierSpec& t_spec, int t_cityId, int t_passedGlobal);
 
 	void enforceSubmissionReward() override;
+	bool isVehicleValid(int t_modelId) const override;
 
 protected:
 	float getProgress() const override;

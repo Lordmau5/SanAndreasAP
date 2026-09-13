@@ -72,6 +72,7 @@ inline constexpr int GARAGE_MISSIONS_GLOBAL = 541;
 inline constexpr int COURIER_LS_PASSED_GLOBAL = 1992;
 inline constexpr int COURIER_LV_PASSED_GLOBAL = 1993;
 inline constexpr int COURIER_SF_PASSED_GLOBAL = 1994;
+inline constexpr int COURIER_TRIGGER_GLOBAL = 189;
 
 inline constexpr int TRAIN_LEVEL_GLOBAL = 163;
 inline constexpr int TRAIN_COMPLETED_GLOBAL = 8239;

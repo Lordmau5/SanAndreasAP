@@ -1,6 +1,7 @@
 ﻿#include "CourierTracker.h"
 #include "ScriptGlobals.h"
 #include "RunningScripts.h"
+#include <eModelID.h>
 
 namespace
 {
@@ -22,6 +23,15 @@ CourierTracker::CourierTracker(int t_submissionID, const SubmissionTierSpec& t_s
 
 void CourierTracker::enforceSubmissionReward()
 {
+}
+
+bool CourierTracker::isVehicleValid(int t_modelId) const
+{
+	if (SUBMISSION_ID != COURIER_LS_ID) return false;
+
+	return t_modelId == MODEL_BMX
+		|| t_modelId == MODEL_FREEWAY
+		|| t_modelId == MODEL_FAGGIO;
 }
 
 bool CourierTracker::isCourierScriptActive() const
